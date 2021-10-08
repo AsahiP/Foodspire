@@ -53,7 +53,7 @@ class Recipes(db.Model):
     calories = db.Column(db.Integer)
     description = db.Column(db.String)
     protein = db.Column(db.Integer)
-    rating = db.Column(db.float)
+    rating = db.Column(db.Float)
     recipe_title = db.Column(db.String, Nullable = False)
     ingredients_list = db.Column(db.String, Nullable = False)
     sodium = db.Column(db.Integer)
