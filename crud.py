@@ -40,7 +40,7 @@ def create_recipe_categories(recipe_id, category_id):
 
     recipe_category=RecipeCategories(recipe_id=recipe_id, category_id=category_id)
 
-    db.session.add(fav_recipe)
+    db.session.add(recipe_category)
     db.session.commit()
 
     return recipe_category
@@ -49,3 +49,8 @@ def create_categories(category_name):
     """create categories of user preferences"""
 
     category=Categories(category_name=category_name)
+
+    db.session.add(category)
+    db.session.commit()
+
+    return category
