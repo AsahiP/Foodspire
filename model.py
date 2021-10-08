@@ -1,4 +1,4 @@
-"""DB Models for pastry business order tracking app"""
+"""foodspire db tables"""
 
 from flask_sqlalchemy import SQLAlchemy
 
@@ -14,7 +14,7 @@ class User(db.Model):
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     fname = db.Column(db.String(20), Nullable=False)
     lname = db.Column(db.String(20), Nullable=False)
-    user_name = db.Column(db.String(15), unique = True, Nullable=False)
+    username = db.Column(db.String(15), unique = True, Nullable=False)
     email = db.Column(db.String(30), unique = True, Nullable = False)
     password = db.Column(db.String(12), Nullable=False)
 
@@ -33,7 +33,6 @@ class FavRecipes(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.recipe_id'))
 
-    recipe = db.relationship('Recipes', back_ref="fav_recipes")
     
     user = db.relationship('Users', back_populates="fav_recipes")
     recipe = db.relationship('Recipes', back_ref='fav_recipes')
@@ -48,15 +47,17 @@ class Recipes(db.Model):
     __tablename__ = "recipes"
 
     recipe_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    directions = db.Column(db.text, Nullable = False)
+    directions = db.Column(db.String, Nullable = False)
     fat = db.Column(db.Integer)
+    categories = db.Column(db.String)
     calories = db.Column(db.Integer)
+    description = db.Column(db.String)
     protein = db.Column(db.Integer)
     rating = db.Column(db.float)
-    recipe_title = db.Column(db.String(40), Nullable = False)
-    sodium = db.Column(db.Integer)
+    recipe_title = db.Column(db.String, Nullable = False)
     ingredients_list = db.Column(db.String, Nullable = False)
-    description = db.Column(db.String)
+    sodium = db.Column(db.Integer)
+
 
     def __reper__(self):
         return f'<Recipes recipe_id={self.recipe_id} recipe_title={self.recipe_title} ingredients_list={self.ingredients_list}>' 
