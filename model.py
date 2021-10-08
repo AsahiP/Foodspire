@@ -49,7 +49,7 @@ class Recipes(db.Model):
     recipe_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     directions = db.Column(db.String, Nullable = False)
     fat = db.Column(db.Integer)
-    categories = db.Column(db.String)
+    categories = db.Column(db.String, Nullable = False)
     calories = db.Column(db.Integer)
     description = db.Column(db.String)
     protein = db.Column(db.Integer)

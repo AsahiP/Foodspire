@@ -36,7 +36,7 @@ def create_recipes(directions, fat=None, categories, calories=None, protein=None
     return recipe
 
 def create_recipe_categories(recipe_id, category_id):
-    """"""
+    """create categories of user preferences"""
 
     recipe_category=RecipeCategories(recipe_id=recipe_id, category_id=category_id)
 
@@ -46,6 +46,6 @@ def create_recipe_categories(recipe_id, category_id):
     return recipe_category
 
 def create_categories(category_name):
+    """create categories of user preferences"""
 
     category=Categories(category_name=category_name)
-
