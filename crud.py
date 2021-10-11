@@ -1,6 +1,7 @@
 """CRUD operations
 Create Read Update Delete"""
 
+from flask.templating import render_template
 from model import db, User, FavRecipes, Recipes, RecipeCategories, Categories, connect_to_db
 
 def create_user(fname, lname, email, username, password):
@@ -55,6 +56,18 @@ def create_categories(category_name):
 
     return category
 
+
+def get_username(username):
+    """return username if it exists"""
+    
+    return User.query.filter_by(User.username).all()
+
+def get_password(password):
+    """return password in database to check if it is correct upon login"""
+
+    return User.query.filer_by(User.password).all()
+
+    
 if __name__ == '__main__':
     from server import app
     connect_to_db(app)
