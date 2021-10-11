@@ -12,14 +12,16 @@ class User(db.Model):
     __tablename__ = "users"
 
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    fname = db.Column(db.String(20), Nullable=False)
-    lname = db.Column(db.String(20), Nullable=False)
-    username = db.Column(db.String(15), unique = True, Nullable=False)
-    email = db.Column(db.String(30), unique = True, Nullable = False)
-    password = db.Column(db.String(12), Nullable=False)
+    fname = db.Column(db.String(20), nullable=False)
+    lname = db.Column(db.String(20), nullable=False)
+    username = db.Column(db.String(15), unique=True, nullable=False)
+    email = db.Column(db.String(30), unique=True, nullable=False)
+    password = db.Column(db.String(12), nullable=False)
+
+    recipes = db.relationship('Recipes', secondary='fav_recipes', backref='users')
 
 
-    def __reper__(self):
+    def __repr__(self):
         return f'<User user_id={self.user_id} user_name={self.user_name} email={self.email}>' 
 
 
@@ -34,10 +36,10 @@ class FavRecipes(db.Model):
     recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.recipe_id'))
 
     
-    user = db.relationship('Users', back_populates="fav_recipes")
-    recipe = db.relationship('Recipes', back_ref='fav_recipes')
+    # user = db.relationship('Users', back_populates="fav_recipes")
+    # recipe = db.relationship('Recipes', back_populates='fav_recipes')
     
-    def __reper__(self):
+    def __repr__(self):
         return f'<FavRecipes fav_id={self.fav_id} user_id={self.user_id} recipe_id={self.recipe_id}>' 
 
 
@@ -47,19 +49,21 @@ class Recipes(db.Model):
     __tablename__ = "recipes"
 
     recipe_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    directions = db.Column(db.String, Nullable = False)
+    directions = db.Column(db.String, nullable=False)
     fat = db.Column(db.Integer)
-    categories = db.Column(db.String, Nullable = False)
+    categories = db.Column(db.String, nullable=False)
     calories = db.Column(db.Integer)
     description = db.Column(db.String)
     protein = db.Column(db.Integer)
     rating = db.Column(db.Float)
-    recipe_title = db.Column(db.String, Nullable = False)
-    ingredients_list = db.Column(db.String, Nullable = False)
+    recipe_title = db.Column(db.String, nullable=False)
+    ingredients_list = db.Column(db.String, nullable=False)
     sodium = db.Column(db.Integer)
 
 
-    def __reper__(self):
+    # users = list of users who favorited this recipe ?
+
+    def __repr__(self):
         return f'<Recipes recipe_id={self.recipe_id} recipe_title={self.recipe_title} ingredients_list={self.ingredients_list}>' 
 
 
@@ -71,11 +75,11 @@ class RecipeCategories(db.Model):
     recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.recipe_id'))
     category_id = db.Column(db.Integer, db.ForeignKey('categories.category_id'))
 
-    recipe = db.relationship('Recipes', back_ref='recipe_categories')
-    category = db.relationship('Categories', back_ref='recipe_categories')
+    recipe = db.relationship('Recipes', backref='recipe_categories')
+    category = db.relationship('Categories', backref='recipe_categories')
 
 
-    def __reper__(self):
+    def __repr__(self):
         return f'<RecipeCategories recipe_category_id={self.recipe_category_id} recipe_id={self.recipe_id} category_id={self.category_id}>'
 
 
@@ -84,9 +88,9 @@ class Categories(db.Model):
     __tablename__ = "categories"
 
     category_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    category_name = db.Column(db.String(15), Nullable=False)
+    category_name = db.Column(db.String(15), nullable=False)
 
-    def __reper__(self):
+    def __repr__(self):
         return f'<Categories category_id={self.category_id} category_name={self.category_name}>'
 
 

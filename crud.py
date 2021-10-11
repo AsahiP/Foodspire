@@ -25,7 +25,7 @@ def create_fav_recipes(user_id, recipe_id):
     return fav_recipe
 
 
-def create_recipes(directions, fat=None, categories, calories=None, protein=None, rating=None, recipe_title, ingredients_list):
+def create_recipes(recipe_title, directions, ingredients_list, categories=None, fat=None, calories=None, protein=None, rating=None):
     """creating information for all the recipes"""
 
     recipe=Recipes(directions=directions, fat=fat, categories=categories, protein=protein, rating=rating, recipe_title=recipe_title, ingredients_list=ingredients_list)
@@ -54,3 +54,7 @@ def create_categories(category_name):
     db.session.commit()
 
     return category
+
+if __name__ == '__main__':
+    from server import app
+    connect_to_db(app)
