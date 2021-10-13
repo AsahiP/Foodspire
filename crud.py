@@ -4,10 +4,10 @@ Create Read Update Delete"""
 from flask.templating import render_template
 from model import db, User, FavRecipes, Recipes, RecipeCategories, Categories, connect_to_db
 
-def create_user(fname, lname, email, username, password):
+def create_user(fname, lname, email, username, passwordd):
     """Create and return a new user"""
 
-    user = User(fname=fname, lname=lname, email=email, username=username, password=password)
+    user = User(fname=fname, lname=lname, email=email, username=username, passwordd=passwordd)
 
     db.session.add(user)
     db.session.commit()
@@ -57,17 +57,30 @@ def create_categories(category_name):
     return category
 
 
-def get_username(username):
+
+def get_user_by_user_id(user_id):
+    """return user_id if it exists"""
+    
+    return User.query.filter_by(user_id=user_id).first() #this is an object
+
+
+def get_user_by_username(username):
     """return username if it exists"""
     
-    return User.query.filter_by(User.username).all()
+    return User.query.filter_by(username=username).first() #this is an object
+    # return User.query.filter(User.username==username).first()
 
-def get_password(password):
-    """return password in database to check if it is correct upon login"""
+def get_user_by_email(email):
+    """return email if it exists"""
 
-    return User.query.filer_by(User.password).all()
+    return User.query.filter_by(email=email).first()
+def get_password(passwordd):
+    """return passwordd in database to check if it is correct upon login"""
 
-    
+    return User.query.filter(passwordd=passwordd).first()
+    # return User.query.filter_by(User.passwordd==passwordd).first()
+
+
 if __name__ == '__main__':
     from server import app
     connect_to_db(app)

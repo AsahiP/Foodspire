@@ -8,3 +8,13 @@ If your database schema has a column which cannot be NULL, you must put somethin
 All string columns are not nullable by default.
 
 questions: if column input is nullable in the db, does it matter how info is passed into crud? do i have to include the info for the function?
+
+
+
+can't hit back to login:
+
+flask decorator login_required
+@login.required.app.route()
+sessions, how long you want it to exist for
+
+google syntax for sessions lifetime

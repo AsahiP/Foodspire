@@ -4,9 +4,7 @@ import os
 import json
 
 
-import crud
-import model
-import server
+import crud, model, server
 
 os.system('dropdb foodspire')
 os.system('createdb foodspire')
@@ -28,5 +26,7 @@ for recipe in recipe_data:
         recipe['categories']
     }
 
-    db_recipe = crud.create_recipes(recipe_title, directions, ingredients_list, categories)
-    recipes_in_db.append(db_recipe)
+    db_recipe = crud.create_recipes(recipe_title, directions, ingredients_list, categories=None, fat=None, calories=None, protein=None, rating=None)
+    print("*******************")
+    print("recipe put into db")
+    print("*******************")

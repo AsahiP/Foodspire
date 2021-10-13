@@ -16,13 +16,13 @@ class User(db.Model):
     lname = db.Column(db.String(20), nullable=False)
     username = db.Column(db.String(15), unique=True, nullable=False)
     email = db.Column(db.String(30), unique=True, nullable=False)
-    password = db.Column(db.String(12), nullable=False)
+    passwordd = db.Column(db.String(20), nullable=False)
 
     recipes = db.relationship('Recipes', secondary='fav_recipes', backref='users')
 
 
     def __repr__(self):
-        return f'<User user_id={self.user_id} user_name={self.user_name} email={self.email}>' 
+        return f'<User user_id={self.user_id} user_name={self.username}>' 
 
 
 
@@ -108,7 +108,8 @@ def connect_to_db(app):
 
 if __name__ == "__main__":
     from flask import Flask
-
+    # from server import app
     app = Flask(__name__)
     connect_to_db(app)
+    db.create_all()
 
