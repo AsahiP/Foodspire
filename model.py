@@ -88,7 +88,7 @@ class Categories(db.Model):
     __tablename__ = "categories"
 
     category_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    category_name = db.Column(db.String(15), nullable=False)
+    category_name = db.Column(db.String, nullable=False)
 
     def __repr__(self):
         return f'<Categories category_id={self.category_id} category_name={self.category_name}>'

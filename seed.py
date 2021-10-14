@@ -20,6 +20,7 @@ print("created db from model")
 
 with open('data/five_test_recipes.json') as f:
     recipe_data = json.loads(f.read())
+
 print("*********")
 print("opened/read json file")
 
@@ -28,37 +29,49 @@ print("opened/read json file")
 categories_in_db=set()
 for recipe in recipe_data:
     categories = recipe["categories"]
-    categories_in_db.add(categories)
+    for category in categories:
+        categories_in_db.add(category)
 
-    db_categories = crud.create_categories(categories)
 
-print("*******************")
-print("categories put into db")    
+categories_dict = {} #KEY: cateogry_name VALUE: category_id
 
+for category in categories_in_db:
+    category_obj = crud.create_categories(category) #this funct returning an object, utilizing object by assigning to var
+    categories_dict[category_obj.category_name]=category_obj.category_id
+# print("!!!!!!!!!!!!!!!!")
+# print(categories_dict)
 
 recipes_in_db =[]
-for recipe in recipe_data:
-    recipe_title, recipe_directions, ingredients_list, fat, calories, protein, rating  = ( #doesn't HAVE to coincide with json data
-        recipe['recipe_title'],
-        recipe['recipe_directions'],
-        recipe['ingredients_list'],
-        # recipe['categories'], # delete to normalize data
+#unpacking
+for recipe in recipe_data: # 3 recipes, but each recipe has its own list of categories
+    title, directions, ingredients, fat, calories, desc, protein, rating, sodium  = ( #doesn't HAVE to coincide with json data
+        recipe['title'], #accessing keys in --jason--, not model
+        recipe['directions'],
+        recipe['ingredients'],
         recipe['fat'],
         recipe['calories'],
+        recipe['desc'],
         recipe['protein'],
         recipe['rating'],
+        recipe['sodium']
     )
-
-    db_recipe = crud.create_recipes(recipe_title, recipe_directions, ingredients_list, fat, calories, protein, rating)
-
+    # recipe obj
+    db_recipe = crud.create_recipes(directions, ingredients, title, fat, calories, desc, protein, rating, sodium) #exact order for crud function params
     recipes_in_db.append(db_recipe)
+
+    category_lst = recipe['categories']    #example: ["Cheese", "Dairy", "Pasta"]
+        #key to access dict
+    for category in category_lst:
+        category_id = categories_dict[category]
+        crud.create_recipe_categories(db_recipe.recipe_id, category_id)
     
-    print("*******************")
-    print("recipe put into db") #test
+print("*******************")
+print("recipe put into db") #test
 
 
-recipe_categories = []
-# recipe_id_in_db = model.db.query.filter(Recipes.recipe_id)
+
+
+
 
 
 

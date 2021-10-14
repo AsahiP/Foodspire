@@ -26,10 +26,10 @@ def create_fav_recipes(user_id, recipe_id):
     return fav_recipe
 
 
-def create_recipes(recipe_title, directions, ingredients_list, fat=None, calories=None, protein=None, rating=None):
+def create_recipes(directions, ingredients_list, recipe_title, fat=7, calories=100, description='no description',  protein=10, rating=3, sodium=80): # defaults if NO value
     """creating information for all the recipes"""
 
-    recipe=Recipes(directions=directions, fat=fat, protein=protein, rating=rating, recipe_title=recipe_title, ingredients_list=ingredients_list)
+    recipe=Recipes(directions=directions, fat=fat, calories=calories, description=description, protein=protein, rating=rating, recipe_title=recipe_title, ingredients_list=ingredients_list, sodium=sodium)
 
     db.session.add(recipe)
     db.session.commit()
