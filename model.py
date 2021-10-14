@@ -51,7 +51,7 @@ class Recipes(db.Model):
     recipe_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     directions = db.Column(db.String, nullable=False)
     fat = db.Column(db.Integer)
-    categories = db.Column(db.String, nullable=False)
+    # categories = db.Column(db.String, nullable=False) #removing to normalize data
     calories = db.Column(db.Integer)
     description = db.Column(db.String)
     protein = db.Column(db.Integer)
@@ -64,7 +64,7 @@ class Recipes(db.Model):
     # users = list of users who favorited this recipe ?
 
     def __repr__(self):
-        return f'<Recipes recipe_id={self.recipe_id} recipe_title={self.recipe_title} ingredients_list={self.ingredients_list}>' 
+        return f'<Recipes recipe_id={self.recipe_id} recipe_title={self.recipe_title}>' 
 
 
 class RecipeCategories(db.Model):
@@ -97,10 +97,10 @@ class Categories(db.Model):
 def connect_to_db(app):
     """Connect the database to our Flask app."""
 
-    app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///foodspire"
-    app.config["SQLALCHEMY_ECHO"] = False
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-    db.app = app
+    app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///foodspire" #configure app: point to db
+    app.config["SQLALCHEMY_ECHO"] = False # lets you know what sequel is running behind scenes
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False # omit warning, depricating soon
+    db.app = app # start/initialize app
     db.init_app(app)
     print("Connected to db!")
 

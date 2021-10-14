@@ -18,3 +18,5 @@ flask decorator login_required
 sessions, how long you want it to exist for
 
 google syntax for sessions lifetime
+
+authentication hashing with sql alchemy

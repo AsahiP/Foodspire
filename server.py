@@ -61,10 +61,16 @@ def validate_login():
         print("****")
         print("user in db")
         if passwordd == db_user.passwordd:
+            print("***************")
             print("checking password")
             session["user_id"]=db_user.user_id
             print (session)
-            return redirect("/dashboard") 
+            return redirect("/dashboard")
+        else:
+            print("**********")
+            print("incorrect password")
+            flash("that is the incorrect password")
+            return redirect ("/loginpage")
     else:
         print("*****")
         print("user not in db")
@@ -125,11 +131,13 @@ def register_new_acct():
     else:
         print("******")
         print("running crud create_user")
-        crud.create_user(create_fname, 
+        new_user=crud.create_user(create_fname, 
                         create_lname, 
                         create_email, 
                         create_username, 
                         create_passwordd)
+
+        session['user_id']=new_user.user_id
         print("****************")
         print("account created")
         print("****************")
@@ -147,31 +155,69 @@ def show_dashboard():
     
     if "user_id" in session:
         session_user= crud.get_user_by_user_id(session["user_id"])
+        return render_template("dashboard.html", session_user=session_user)
 
-    return render_template("dashboard.html", session_user=session_user)
-   
+    else: 
+        return redirect("/login")
 
+    
 
-
-@app.route("/questionnaire")
-def show_questionnaire():
-    """display the questionnaire page"""
+@app.route("/questions")
+def show_questions():
+    """display the questions page"""
     print("***********")
-    print("displaying the questionnaire page")
+    print("displaying the questions page")
 
-    return render_template("questionnaire.html")
+    return render_template("questions.html")
 
 
-@app.route("/questionnaire_answers")
-def intake_questionnaire_answers():
-    """organizing questionnaire info to select recipes from db"""
+
+@app.route("/questions_answers", methods=["POST"])
+def intake_questions_answers():
+    """organizing questions info to select recipes from db"""
     print("***********")
-    print("running questionnaire answers page")
+    print("running questions function")
 
-    nut_allergy=request.form.get("nuts")
+    allergies = request.form.getlist('allergy')
+    print("***************")
+    print(f"allergies: {allergies}")
 
-    if nut_allergy == True:
-        print("nut allergy")
+    dietary_preference = request.form.get("dietary-pref")
+    print("***************")
+    print(f"dietary_pref: {dietary_preference}")
+
+    meal_time = request.form.get("meal-time")
+    print("***************")
+    print(f"meal time: {meal_time}")
+
+    additional_preference = request.form.get("additional-pref")
+    print("***************")
+    print(f"additional pref: {additional_preference}")
+
+
+
+
+
+    # nut_allergy=request.args.get("nuts")
+
+    # if nut_allergy == True:
+    #     print("*********")
+    #     print("nuts true")
+    #     print("you are allergic to nuts")
+    # else:
+    #     print("*********")
+    #     print("nuts false")
+    #     print("you are not allergic to nuts")
+    
+    return redirect("/recipe_answers")
+
+@app.route("/recipe_answers")
+def show_answers():
+    """Show the answers for recipe questionnaire"""
+
+    return render_template("recipe_answers.html")
+
+
 
 
 @app.route("/favorites")
