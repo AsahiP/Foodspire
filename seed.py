@@ -64,6 +64,7 @@ for recipe in recipe_data: # 3 recipes, but each recipe has its own list of cate
     for category in category_lst:
         category_id = categories_dict[category]
         crud.create_recipe_categories(db_recipe.recipe_id, category_id)
+        #
     
 print("*******************")
 print("recipe put into db") #test
