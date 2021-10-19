@@ -174,51 +174,68 @@ def show_questions():
 
 @app.route("/questions_answers", methods=["POST"])
 def intake_questions_answers():
-    """organizing questions info to select recipes from db"""
+    """organizing questions from questions.html info to select recipes from db"""
     print("***********")
     print("running questions function")
 
-    allergies = request.form.getlist('allergy')
-    print("***************")
-    print(f"allergies: {allergies}")
+    # allergies = request.form.getlist('allergy')
+    # print("***************")
+    # print(f"allergies: {allergies}")
 
     dietary_preference = request.form.get("dietary-pref")
+    dietary_pref_recipes=crud.get_recipes_by_diet_pref(dietary_preference)
+
     print("***************")
     print(f"dietary_pref: {dietary_preference}")
 
+    # dietary_preference_recipes=crud.get_recipes_by_diet_pref(dietary_preference)
+    
+
+
+    # instruction_step = 
+
     meal_time = request.form.get("meal-time")
+    print("***************")
+    print(f"retrieved meal-time from questions")
+    meal_time_recipes=crud.get_recipes_by_meal_time(meal_time)
     print("***************")
     print(f"meal time: {meal_time}")
 
-    additional_preference = request.form.get("additional-pref")
-    print("***************")
-    print(f"additional pref: {additional_preference}")
+
+    # additional_preference = request.form.get("add-pref")
+    # print("***************")
+    # print(f"additional pref: {additional_preference}")
+    # print(request.form)
+
+    #query in this function
+    # diet_preference = 
+    # print("********************")
+    # print(dietary_pref_recipes[0].ingredients_list)
+    # print(type(dietary_pref_recipes[0].ingredients_list))
+    return render_template("display_recipes.html", dietary_pref_recipes=dietary_pref_recipes, meal_time_recipes=meal_time_recipes)
 
 
+# @app.route("/recipe_answers")
+# def show_answers():
+#     """Show the answers for recipe questionnaire"""
+
+     
+#     # take form info from prev route (user preferences)
+#     # bring here to display 
+#     #user confirms to generate recipes
+#     #flash message easier
+
+#     return render_template("recipe_answers.html")
 
 
+# @app.route('/generated_recipes')
+# def show_preferred_recipes():
+#     """Show the recipes stored in database congruent with user questionnaire"""
 
-    # nut_allergy=request.args.get("nuts")
+#     # query from database and display in html
+#     # allow users to save favorites
 
-    # if nut_allergy == True:
-    #     print("*********")
-    #     print("nuts true")
-    #     print("you are allergic to nuts")
-    # else:
-    #     print("*********")
-    #     print("nuts false")
-    #     print("you are not allergic to nuts")
-    
-    return redirect("/recipe_answers")
-
-@app.route("/recipe_answers")
-def show_answers():
-    """Show the answers for recipe questionnaire"""
-
-    return render_template("recipe_answers.html")
-
-
-
+#     return render_template("display_recipes.html")
 
 @app.route("/favorites")
 def show_favrecipes():
@@ -227,8 +244,21 @@ def show_favrecipes():
     print("directed to favorites")
     print("****************")
 
+    
+    chosen_recipe_titles = request.form.getlist("recipe-title")
+    chosen_recipe_instructions = request.form.getlist("instructions")
+    print("*******chosen recipe titles*********")
+    print(chosen_recipe_titles)
+    print("*******chosen recipe instructions*********")
+    print(chosen_recipe_instructions)
+    
+    
 
-    return render_template("favorites.html")
+    #display user favorites
+    #allow to remove
+
+
+    return render_template("favorites.html", chosen_recipe_titles=chosen_recipe_titles, chosen_recipe_instructions= chosen_recipe_instructions)
 
 
 

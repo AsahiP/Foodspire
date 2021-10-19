@@ -2,7 +2,7 @@
 
 import os
 import json
-
+import requests
 
 import crud 
 import model 
@@ -11,26 +11,48 @@ import server
 os.system('dropdb foodspire')
 os.system('createdb foodspire')
 
+# response = requests.get("https://www.kaggle.com/hugodarwood/epirecipes?select=full_format_recipes.json")
+# print("*************************")
+# print(response)
+
+
 
 model.connect_to_db(server.app)
 model.db.create_all()
 print("*********")
 print("created db from model")
 
+crud.create_user('Mona', 'Bones', 'iamadog@aol.com', 'immona', 'bones4me')
 
-with open('data/five_test_recipes.json') as f:
+
+with open('data/full_recipes.json') as f:
     recipe_data = json.loads(f.read())
+#debug history for full_recipes.json in /secret/debug.txt
 
 print("*********")
 print("opened/read json file")
 
 
 #eliminate the duplicate categories in json
+
 categories_in_db=set()
+print("********************")
+print("created empty set")
+
 for recipe in recipe_data:
-    categories = recipe["categories"]
+    categories = recipe['categories']
+
     for category in categories:
         categories_in_db.add(category)
+
+
+# attempt to fix the 'categories key does not exist error'
+# categories_in_db=set()
+# for i in range(0, len(recipe_data)):
+#     categories=recipe_data[i]['categories']
+#     for category in categories:
+#         categories_in_db.add(category)
+
 
 
 categories_dict = {} #KEY: cateogry_name VALUE: category_id
@@ -43,9 +65,11 @@ for category in categories_in_db:
 # print("!!!!!!!!!!!!!!!!")
 # print(categories_dict)
 
-recipes_in_db =[]
+# recipes_in_db =[]
 #unpacking
 for recipe in recipe_data: # 3 recipes, but each recipe has its own list of categories
+    print("************************")
+    print(f"new recipe:{recipe}")
     title, directions, ingredients, fat, calories, desc, protein, rating, sodium  = ( #doesn't HAVE to coincide with json data
         recipe['title'], #accessing keys in --jason--, not model
         recipe['directions'],
@@ -59,7 +83,7 @@ for recipe in recipe_data: # 3 recipes, but each recipe has its own list of cate
     )
     # recipe obj
     db_recipe = crud.create_recipes(directions, ingredients, title, fat, calories, desc, protein, rating, sodium) #exact order for crud function params
-    recipes_in_db.append(db_recipe)
+    # recipes_in_db.append(db_recipe)
 
     category_lst = recipe['categories']    #example: ["Cheese", "Dairy", "Pasta"]
         #key to access dict
@@ -68,6 +92,8 @@ for recipe in recipe_data: # 3 recipes, but each recipe has its own list of cate
         print(categories_dict[category])
         category_id = categories_dict[category]
         crud.create_recipe_categories(db_recipe.recipe_id, category_id)
+
+
         #db_recipe.recipe_id iterates through the first for loop, 
         # 1. unpacking the json file 
         # 2. db_recipe is an object bc it was created from the crud function that returns an object 
