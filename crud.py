@@ -15,13 +15,28 @@ def create_user(fname, lname, email, username, passwordd):
     return user
 
 
+# def create_fav_recipes(user_id, recipe_id): #original
+#     """Create and return a favorite recipe"""
+
+#     fav_recipe = FavRecipe(user_id=user_id, recipe_id=recipe_id)
+
+#     db.session.add(fav_recipe)
+#     db.session.commit()
+
+#     return fav_recipe
 
 
 
-def create_fav_recipes(user_id, recipe_id):
+def create_fav_recipes(chosen_recipe): #test
     """Create and return a favorite recipe"""
 
-    fav_recipe = FavRecipe(user_id=user_id, recipe_id=recipe_id)
+    qrd_recipe = Recipe.query.filter_by(recipe_title=chosen_recipe).first()
+    qrd_recipe_id = qrd_recipe.recipe_id
+    # qrd_recipe_user_id = qrd_recipe.user_id
+
+    # fav_recipe = FavRecipe(user_id=qrd_recipe_user_id, recipe_id=qrd_recipe_id)
+
+    fav_recipe = FavRecipe(recipe_id=qrd_recipe_id)
 
     db.session.add(fav_recipe)
     db.session.commit()
@@ -85,40 +100,39 @@ def get_password(passwordd):
     return User.query.filter(passwordd=passwordd).first()
     # return User.query.filter_by(User.passwordd==passwordd).first()
 
-# category_obj = Category.query.filter_by(category_name=dietary_preference).first()
 
-
-def get_recipes_by_diet_pref(dietary_preference):
-    """return recipes from dietary preferences chosen in questions.html"""
-
-    category_obj = Category.query.filter_by(category_name=dietary_preference).first()
-    return category_obj.recipes
-
-def get_recipes_by_meal_time(meal_time):
-    """return recipes from meal time preference in questions.html"""
-
-    category_obj = Category.query.filter_by(category_name=meal_time).first()
-    return category_obj.recipes
-
-    # return category object
-
-# def get_instructions_by_recipe(category_obj):
-
-#     category_obj.recipes
-
-#     recipe_category_obj = RecipeCategory.query.filter_by(recipe_id=category_obj).first()
-
-#     return recipe_category_obj.directions
-    # instructions= category_obj.recipes
-
-# def get_instructions_for_recipe(dietary_preference):
-# get instructions to iterate through and display as a list in dispay_recipes
+# def get_recipes_by_preference(answer):
+#     """return recipes from meal time preference in questions.html"""
+#     print("*"*50)
+#     print(f"\n\nanswer = {answer}")
+#     #currently displays all recipes if user does not choose a preference
+#     if answer is None:
+#         return Recipe.query.all()
+#     category_obj = Category.query.filter_by(category_name=answer).first()
     
-#     category_obj = Category.query.filter_by(category_name=dietary_preference).first()
-#     return category_obj.directions
-    # return category object
+#     return category_obj.recipes
+
+def get_recipes_by_preference(answers): ## in testing
+    """return recipes from meal time preference in questions_test.html"""
+    ### testing if can iterate through list of inputs to include all of the inputs###
+    ## ended up refractoring the original code
+    print("*"*50)
+    print(f"\n\nanswers = {answers}")
+    #currently displays all recipes if user does not choose a preference
+    #loop through list of answers, and query recipe by category
+    for pref in answers:
+        category_obj = Category.query.filter_by(category_name=pref).first()
+        # if category_obj.recipes != pref:
+        #     return None
+        return category_obj.recipes
 
 
+#crud function requires dietary preference argument
+#have check in function
+
+### to join all choices:
+#one crud function that can handle what user chooses to have all in one query
+#another option: have displayed as sets, display intersections of recipes
 
 if __name__ == '__main__':
     from server import app

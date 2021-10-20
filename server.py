@@ -168,7 +168,10 @@ def show_questions():
     print("***********")
     print("displaying the questions page")
 
-    return render_template("questions.html")
+    # return render_template("questions.html") #original
+    print("*"*20) #test
+    print("TEST TEMPLATE") #test
+    return render_template("questions_test.html") #this form is for testing edits
 
 
 
@@ -178,42 +181,44 @@ def intake_questions_answers():
     print("***********")
     print("running questions function")
 
+    ##########
+    #correspond categories in db to allergy values in html
+    #store the allergy choices to a list
+    #iterate through the list
+    #if any of the allergies listed match corresponding categories
+    #do not display those recipes
+    ##########
+
     # allergies = request.form.getlist('allergy')
     # print("***************")
     # print(f"allergies: {allergies}")
-
-    dietary_preference = request.form.get("dietary-pref")
-    dietary_pref_recipes=crud.get_recipes_by_diet_pref(dietary_preference)
-
-    print("***************")
-    print(f"dietary_pref: {dietary_preference}")
-
-    # dietary_preference_recipes=crud.get_recipes_by_diet_pref(dietary_preference)
+    
+    # dietary_preference = request.form.get("dietary-pref")
+    # print("***************")
+    # print(f"dietary_pref: {dietary_preference}")
+    # dietary_pref_recipes=crud.get_recipes_by_preference(dietary_preference)
     
 
-
-    # instruction_step = 
-
-    meal_time = request.form.get("meal-time")
-    print("***************")
-    print(f"retrieved meal-time from questions")
-    meal_time_recipes=crud.get_recipes_by_meal_time(meal_time)
-    print("***************")
-    print(f"meal time: {meal_time}")
-
-
-    # additional_preference = request.form.get("add-pref")
+    # meal_time = request.form.get("meal-time")
+    # meal_time_recipes=crud.get_recipes_by_preference(meal_time)
     # print("***************")
-    # print(f"additional pref: {additional_preference}")
-    # print(request.form)
+    # print(f"meal time: {meal_time}")
 
-    #query in this function
-    # diet_preference = 
-    # print("********************")
-    # print(dietary_pref_recipes[0].ingredients_list)
-    # print(type(dietary_pref_recipes[0].ingredients_list))
-    return render_template("display_recipes.html", dietary_pref_recipes=dietary_pref_recipes, meal_time_recipes=meal_time_recipes)
 
+    # additional_pref = request.form.get("add-pref")
+    # additional_pref_recipes = crud.get_recipes_by_preference(additional_pref)
+    # print("***************")
+    # print(f"additional pref: {additional_pref_recipes}")
+
+
+    # return render_template("display_recipes.html", dietary_pref_recipes=dietary_pref_recipes, meal_time_recipes=meal_time_recipes, additional_pref_recipes=additional_pref_recipes) #original
+
+        ## I refractored the original code lol
+    lst_of_preferences = request.form.getlist("dietary-pref") #test
+    recipes_from_lst_pref = crud.get_recipes_by_preference(lst_of_preferences) #test
+
+    return render_template("display_recipes_test.html", recipes_from_lst_pref=recipes_from_lst_pref) #test
+ 
 
 # @app.route("/recipe_answers")
 # def show_answers():
@@ -237,30 +242,55 @@ def intake_questions_answers():
 
 #     return render_template("display_recipes.html")
 
-@app.route("/favorites")
+@app.route("/favorites", methods=["GET", "POST"])
 def show_favrecipes():
     """Display favorite recipes"""
     print("****************")
     print("directed to favorites")
     print("****************")
 
+    ########
+    #store checked recipes in db table: FavRecipes
+    #display db info on page
+    #
+    ######
+
+    if request.method == "POST":
+        print("************************")
+        print("name of input from html")
+        print(request.form.getlist("chosen-recipe-title"))
+
+        chosen_recipe_titles = request.form.getlist("chosen-recipe-title")
+        print("*"*20)
+        print("values (checked boxes) stored in list from html")
+        print(chosen_recipe_titles)
+
+        for recipe in chosen_recipe_titles:
+            print("*"*20)
+            print("starting for loop")
+            crud.create_fav_recipes(recipe)
+            print("****************")
+            print(f"storing recipe {recipe}")
+
+
+
+    return render_template("favorites.html", chosen_recipe_titles=chosen_recipe_titles)
+
+    #1. see if relationships set up correctly in sqlalchemy, check to see if checked recipe shows in database
+    #2. how to query recipe to display in page User.recipes
     
-    chosen_recipe_titles = request.form.getlist("recipe-title")
-    chosen_recipe_instructions = request.form.getlist("instructions")
-    print("*******chosen recipe titles*********")
-    print(chosen_recipe_titles)
-    print("*******chosen recipe instructions*********")
-    print(chosen_recipe_instructions)
-    
-    
+    # run model.py interactively, practice using relationship, once established 
+    # write crd to return recipes, use to populate favorite recipes page
 
-    #display user favorites
-    #allow to remove
+    #after all that, handle input 
+    #sep thang: handling favorited recipe from form 
 
-
-    return render_template("favorites.html", chosen_recipe_titles=chosen_recipe_titles, chosen_recipe_instructions= chosen_recipe_instructions)
-
-
+    # chosen_recipe_titles = request.form.getlist("recipe-title")
+    # chosen_recipe_instructions = request.form.getlist("instructions")
+    # print("*******chosen recipe titles*********")
+    # print(chosen_recipe_titles)
+    # print("*******chosen recipe instructions*********")
+    # print(chosen_recipe_instructions)
 
 
 
