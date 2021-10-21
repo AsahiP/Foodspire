@@ -63,7 +63,7 @@ class Recipe(db.Model):
     
     categories = db.relationship("Category", secondary="recipe_categories", backref="recipes")
 
-    # users = list of users who favorited this recipe ?
+    # users = list of users who favorited this recipe 
 
     def __repr__(self):
         return f'<Recipe recipe_id={self.recipe_id} recipe_title={self.recipe_title}>' 

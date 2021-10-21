@@ -20,7 +20,6 @@ def show_homepage():
 
     login_button = request.args.get("login-button")
 
-    # if login_button == False:
     return render_template("homepage.html")
 
 
@@ -189,6 +188,8 @@ def intake_questions_answers():
     #do not display those recipes
     ##########
 
+    #if recipe has category that is nut-free/egg-free would easiest way
+    #for later, come up with conditionals that retrieve data/categories correctly
     # allergies = request.form.getlist('allergy')
     # print("***************")
     # print(f"allergies: {allergies}")
@@ -215,7 +216,11 @@ def intake_questions_answers():
 
         ## I refractored the original code lol
     lst_of_preferences = request.form.getlist("dietary-pref") #test
+    print(f"\n\n\nlst_of_preferences = {lst_of_preferences}")
+   
+
     recipes_from_lst_pref = crud.get_recipes_by_preference(lst_of_preferences) #test
+     # recipes_from_lst_pref = crud.get_recipes_based_on_prefs(lst_of_preferences) #test
 
     return render_template("display_recipes_test.html", recipes_from_lst_pref=recipes_from_lst_pref) #test
  
@@ -265,12 +270,14 @@ def show_favrecipes():
         print("values (checked boxes) stored in list from html")
         print(chosen_recipe_titles)
 
-        for recipe in chosen_recipe_titles:
+        for recipe_title in chosen_recipe_titles:
             print("*"*20)
+            print("recipe is type:", type(recipe_title))
             print("starting for loop")
-            crud.create_fav_recipes(recipe)
-            print("****************")
-            print(f"storing recipe {recipe}")
+            recipe_obj = crud.get_recipe_by_title(recipe_title)
+            fav_recipe_info = crud.create_fav_recipes(session["user_id"], recipe_obj.recipe_id)
+            print("*"*30)
+            print(f"fav_recipe_info={fav_recipe_info}")
 
 
 
