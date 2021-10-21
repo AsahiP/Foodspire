@@ -98,7 +98,6 @@ def register_new_acct():
     print("running create acct function")
     print("*******************")
 
-    #next step: crud function create user
     
     create_fname=request.form.get("create-fname")
     print("************")
@@ -194,35 +193,22 @@ def intake_questions_answers():
     # print("***************")
     # print(f"allergies: {allergies}")
     
-    # dietary_preference = request.form.get("dietary-pref")
-    # print("***************")
-    # print(f"dietary_pref: {dietary_preference}")
-    # dietary_pref_recipes=crud.get_recipes_by_preference(dietary_preference)
-    
 
-    # meal_time = request.form.get("meal-time")
-    # meal_time_recipes=crud.get_recipes_by_preference(meal_time)
-    # print("***************")
-    # print(f"meal time: {meal_time}")
-
-
-    # additional_pref = request.form.get("add-pref")
-    # additional_pref_recipes = crud.get_recipes_by_preference(additional_pref)
-    # print("***************")
-    # print(f"additional pref: {additional_pref_recipes}")
-
-
-    # return render_template("display_recipes.html", dietary_pref_recipes=dietary_pref_recipes, meal_time_recipes=meal_time_recipes, additional_pref_recipes=additional_pref_recipes) #original
-
-        ## I refractored the original code lol
     lst_of_preferences = request.form.getlist("dietary-pref") #test
-    print(f"\n\n\nlst_of_preferences = {lst_of_preferences}")
-   
+    print(f"\n\nlst_of_preferences = {lst_of_preferences}")
 
-    recipes_from_lst_pref = crud.get_recipes_by_preference(lst_of_preferences) #test
+   
+    #get recipe ids exclusively for recipes containing all chosen preferences
+    recipes_ids_for_chosen_prefs = crud.get_recipe_ids_based_on_prefs(lst_of_preferences) 
+    print(f"\n\nrecipes_ids_for_chosen_prefs type = {type(recipes_ids_for_chosen_prefs)}")
+
+    # ger recipe objects 
+    recipe_obj = crud.get_recipe_by_id(recipes_ids_for_chosen_prefs)
+    print(f"\n\nrecipes_from_ids type = {type(recipe_obj)}")
+
      # recipes_from_lst_pref = crud.get_recipes_based_on_prefs(lst_of_preferences) #test
 
-    return render_template("display_recipes_test.html", recipes_from_lst_pref=recipes_from_lst_pref) #test
+    return render_template("display_recipes.html", recipe_obj=recipe_obj)
  
 
 # @app.route("/recipe_answers")
@@ -238,27 +224,13 @@ def intake_questions_answers():
 #     return render_template("recipe_answers.html")
 
 
-# @app.route('/generated_recipes')
-# def show_preferred_recipes():
-#     """Show the recipes stored in database congruent with user questionnaire"""
-
-#     # query from database and display in html
-#     # allow users to save favorites
-
-#     return render_template("display_recipes.html")
-
 @app.route("/favorites", methods=["GET", "POST"])
 def show_favrecipes():
-    """Display favorite recipes"""
+    """Display favorite recipes/store recipes in db fav_recipes"""
     print("****************")
     print("directed to favorites")
     print("****************")
 
-    ########
-    #store checked recipes in db table: FavRecipes
-    #display db info on page
-    #
-    ######
 
     if request.method == "POST":
         print("************************")
@@ -283,14 +255,10 @@ def show_favrecipes():
 
     return render_template("favorites.html", chosen_recipe_titles=chosen_recipe_titles)
 
-    #1. see if relationships set up correctly in sqlalchemy, check to see if checked recipe shows in database
-    #2. how to query recipe to display in page User.recipes
-    
-    # run model.py interactively, practice using relationship, once established 
-    # write crd to return recipes, use to populate favorite recipes page
 
-    #after all that, handle input 
-    #sep thang: handling favorited recipe from form 
+@app.route("/", methods=["GET", "POST"])
+def show_favrecipe_info():
+    """show entire recipe info"""
 
     # chosen_recipe_titles = request.form.getlist("recipe-title")
     # chosen_recipe_instructions = request.form.getlist("instructions")
