@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %} {% endblock title %}
+
+{% block head %}{% endblock head %}
+
+{% block body %}
+
+    <h1>Welcome to your dashboard {{session_user.username}}</h1>
+
+
+    <a href="/questions">What do you like to eat?</a>
+    <br>
+    <br>
+    <a href="/favorites">Favorite Recipes</a>
+
+
+    <br>
+    <br>
+    <br>
+    <button id="rand-recipe-button">Random Button</button>
+
+    <b><p id="recipe-button-title"></p></b>
+    <ul id="recipe-button-ingredients"></ul>
+    <ol id="recipe-button-directions"></ol>
+
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="/static/get-recipe.js"></script>
+{% endblock body %}
+

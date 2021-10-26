@@ -1,8 +1,8 @@
 """Server for an Foodspire: an app that generates recipes based on user preference"""
 
-from flask import (Flask, render_template, request, flash, session, redirect)
+from flask import (Flask, render_template, request, flash, session, redirect, jsonify)
 from model import connect_to_db
-import crud
+import crud, random
 from jinja2 import StrictUndefined
 
 app = Flask(__name__)
@@ -148,15 +148,78 @@ def register_new_acct():
 def show_dashboard():
     """Display user dashboard"""
     print("****************")
-    print("directed to dashboard")
+    print("route dashboard")
     print("****************")
     
+
     if "user_id" in session:
+        # print("%"*30)
+        # print("executing if user_id in session")
         session_user= crud.get_user_by_user_id(session["user_id"])
+
+        # return redirect("/dashboard_fav_button", session_user=session_user)
         return render_template("dashboard.html", session_user=session_user)
 
     else: 
         return redirect("/login")
+
+@app.route("/generate_rand_recipe.json")
+def generate_rand_recipe_button():
+    print("#"*30)
+    print("route /generate_rand_recipe.json")
+
+    rand_num = random.randint(0,20111)
+    rand_lst = []
+
+    rand_lst.append(rand_num) #would refactoring be creating another crud that doesnt need list?
+    rand_recipe = crud.get_recipe_by_id(rand_lst)[0] #needs list passed in, (rand_lst)[0] to get int
+
+    title= rand_recipe.recipe_title
+    print("&"*30)
+    print("title", title)
+    ingredients= rand_recipe.ingredients_list[2:-2] #remove chars at beginning and end of list
+    directions= rand_recipe.directions[2:-2]
+
+
+    ingredients = ingredients.split('","') #returns back a list
+    # ingredients = ingredients.replace('","', "\n")
+    directions = directions.split('","')
+    
+    recipe_dict = {
+        "title": title,
+        "ingredients": ingredients,
+        "directions": directions
+    }
+    
+    print("$"*30)
+    print(recipe_dict)
+    return jsonify(recipe_dict)
+
+
+
+
+app.route("/dashboard_fav_button", methods=["POST"])
+def use_fav_button():
+    print("\n#"*30)
+    print("route dashboard_fav_button")
+
+    rand_num = random.randint(0,20111)
+    rand_lst = []
+
+    if request.method == "POST":
+        if rand_num:
+            print("%"*30)
+            print("executing if user_id in session")
+            rand_lst.append(rand_num)
+            rand_recipe = crud.get_recipe_by_id(rand_lst)
+            
+            return rand_recipe
+        else:
+            return redirect("/dashboard")
+
+    # return (rand_lst, redirect("/dashboard"))
+    # return redirect("/dashboard")
+   
 
     
 
@@ -200,75 +263,61 @@ def intake_questions_answers():
    
     #get recipe ids exclusively for recipes containing all chosen preferences
     recipes_ids_for_chosen_prefs = crud.get_recipe_ids_based_on_prefs(lst_of_preferences) 
-    print(f"\n\nrecipes_ids_for_chosen_prefs type = {type(recipes_ids_for_chosen_prefs)}")
+    # print(f"\n\nrecipes_ids_for_chosen_prefs type = {recipes_ids_for_chosen_prefs}")
 
-    # ger recipe objects 
+    # get recipe objects 
     recipe_obj = crud.get_recipe_by_id(recipes_ids_for_chosen_prefs)
-    print(f"\n\nrecipes_from_ids type = {type(recipe_obj)}")
+    # print(f"\n\nrecipes_obj type = {recipe_obj}")
 
-     # recipes_from_lst_pref = crud.get_recipes_based_on_prefs(lst_of_preferences) #test
 
     return render_template("display_recipes.html", recipe_obj=recipe_obj)
- 
 
-# @app.route("/recipe_answers")
-# def show_answers():
-#     """Show the answers for recipe questionnaire"""
-
-     
-#     # take form info from prev route (user preferences)
-#     # bring here to display 
-#     #user confirms to generate recipes
-#     #flash message easier
-
-#     return render_template("recipe_answers.html")
+#would like to show answers to the questionnaire for user to confirm
 
 
 @app.route("/favorites", methods=["GET", "POST"])
-def show_favrecipes():
+def get_favrecipes():
     """Display favorite recipes/store recipes in db fav_recipes"""
     print("****************")
-    print("directed to favorites")
+    print("route to favorites")
     print("****************")
 
 
     if request.method == "POST":
-        print("************************")
-        print("name of input from html")
-        print(request.form.getlist("chosen-recipe-title"))
 
         chosen_recipe_titles = request.form.getlist("chosen-recipe-title")
         print("*"*20)
         print("values (checked boxes) stored in list from html")
         print(chosen_recipe_titles)
 
+        #loop storing chosen recipes in db fav_recipes
         for recipe_title in chosen_recipe_titles:
             print("*"*20)
-            print("recipe is type:", type(recipe_title))
+            # print("recipe is type:", type(recipe_title))
             print("starting for loop")
             recipe_obj = crud.get_recipe_by_title(recipe_title)
             fav_recipe_info = crud.create_fav_recipes(session["user_id"], recipe_obj.recipe_id)
             print("*"*30)
-            print(f"fav_recipe_info={fav_recipe_info}")
+            # print(f"fav_recipe_info={fav_recipe_info}")
+
+
+    favs = crud.get_prev_fav_recipes(session["user_id"])
+    rec_ids = []
+    for fav in favs:
+        rec_ids.append(fav.recipe_id)
+
+    recipes = crud.get_recipe_by_id(rec_ids)
+
+    return render_template("favorites.html", favorite_recipe_titles=recipes)
 
 
 
-    return render_template("favorites.html", chosen_recipe_titles=chosen_recipe_titles)
+"""
+JS/AJAX
 
-
-@app.route("/", methods=["GET", "POST"])
-def show_favrecipe_info():
-    """show entire recipe info"""
-
-    # chosen_recipe_titles = request.form.getlist("recipe-title")
-    # chosen_recipe_instructions = request.form.getlist("instructions")
-    # print("*******chosen recipe titles*********")
-    # print(chosen_recipe_titles)
-    # print("*******chosen recipe instructions*********")
-    # print(chosen_recipe_instructions)
-
-
-
+button for recipe, calls route that randomly selects recipe from db
+eventually have random button -> suggest recipe button, take into acct favorited recipe
+"""
 
 if __name__ == "__main__":
     # DebugToolbarExtension(app)

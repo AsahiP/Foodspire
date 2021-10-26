@@ -47,7 +47,7 @@ get_password(passwordd):
 
 
 get_recipe_by_title(chosen_recipe_title):
-    retrieve recipe from db by title
+    retrieve recipe objects from db by title
     
     return Recipe.query.filter_by(recipe_title=chosen_recipe_title).first()
 
@@ -57,7 +57,7 @@ get_recipe_ids_based_on_prefs(lst_of_prefs):
 
 
 get_recipe_by_id(wanted_ids):
-    get recipe from db.recipes via db.recipe_categories
+    get recipe objects from db.recipes via db.recipe_categories
 
 
 ----------------------------------------------------------------------------------
@@ -65,6 +65,8 @@ ADDITIONAL FUNCTIONS IN secret/deleted_code.py:
 
 get_recipe_ids_based_on_prefs(lst_of_prefs)
 same as function here, just lousy with print statements to understand logic
+this was edited in this file to include logic to avoid error when not returning
+anything from the db
 
 get_recipes_by_preference(answers):
 original attempt at returning recipes from form answers. keep for testing
@@ -82,6 +84,14 @@ def create_user(fname, lname, email, username, passwordd):
 
     return user
 
+
+
+def get_prev_fav_recipes(user_id):
+    """Get previous recipes user has selected"""
+
+    # return FavRecipe.query.filter(FavRecipe.user_id==user_id).all()
+    
+    return User.query.filter(User.user_id==user_id).one().recipes
 
 
 def create_fav_recipes(user_id, recipe_id): 
@@ -182,35 +192,43 @@ def get_recipe_ids_based_on_prefs(lst_of_prefs):
         category_obj_lst.append(category_obj)
     
     lst_of_recipe_category_sets = []
-    
+    final_result = set()
+
     for category in category_obj_lst:
-        recipe_category_set = set()
-        recipe_category_lst = RecipeCategory.query.filter(RecipeCategory.category_id == category.category_id).all() #limit for testing
+        if category != None:
+            recipe_category_set = set()
+            recipe_category_lst = RecipeCategory.query.filter(RecipeCategory.category_id == category.category_id).all() #limit for testing
+
+            for recipe_category in recipe_category_lst:
+                recipe_category_set.add(recipe_category.recipe_id) 
+                
+            lst_of_recipe_category_sets.append(recipe_category_set)
         
-        for recipe_category in recipe_category_lst:
-            recipe_category_set.add(recipe_category.recipe_id)
-        
-        lst_of_recipe_category_sets.append(recipe_category_set)
+        else:
+            lst_of_recipe_category_sets.append(set())
+    
+    if lst_of_recipe_category_sets != []:
+        final_result = lst_of_recipe_category_sets[0]
 
+        for recipe_category_set in lst_of_recipe_category_sets[1:]:
+            final_result = final_result.intersection(recipe_category_set)
 
-    final_result = lst_of_recipe_category_sets[0]
+    # print("$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+    # print(lst_of_recipe_category_sets)
+    # print(len(lst_of_recipe_category_sets))
 
-
-    for recipe_category_set in lst_of_recipe_category_sets[1:]:
-        final_result = final_result.intersection(recipe_category_set)
-
-
-  
     return final_result # returns set of recipe ids (can query these recipe ids when needing to display on frontend)
+    
 
 
 def get_recipe_by_id(wanted_ids):
     """get recipe from db.recipes via db.recipe_categories"""
-    print("*"*30)
-    print("executing get_recipe_by_id")
+    # print("*"*30)
+    # print("executing get_recipe_by_id")
+    # print(f"wanted_ids:{wanted_ids}")
 
     qrd_recipes_from_id_lst = []
-    for id in wanted_ids:
+    for id in list(wanted_ids):
         qrd_recipes_from_id = Recipe.query.filter_by(recipe_id=id).first()
         # print("achieved qrd_recipes_from_id")
         # print(f"\nqrd_recipes_from_id:   {qrd_recipes_from_id}") 

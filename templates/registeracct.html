@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}{% endblock title %}
+
+{% block head %}<h1>CREATE AN ACCOUNT</h1>{% endblock head %}
+
+{% block body %}
+<form action="/createacct" method="POST">
+
+    <p>First name  <input type="text" name="create-fname"></p>
+    <p>Last name  <input type="text" name="create-lname"></p>
+    <p>Email address <input type="text" name="create-email"></p>
+    <p>Username  <input type="text" name="create-username"></p>
+    <p>Password  <input type="password" name="create-passwordd"></p>
+    <p><input type="submit"></p>
+</form>
+
+
+{% endblock body %}
+

@@ -1,0 +1,22 @@
+<!-- users "favorited" recipes from display recipes -->
+{% block title %} Favorites{% endblock title %}
+
+{% block head %}
+<!-- <link rel="stylesheet" href="/static/stylesheet.css"> -->
+{% endblock head %}
+
+{% block body %}
+    <h1>Favorite Recipes</h1>
+
+    <br>
+    <a href=dashboard>Return to dashboard</a>
+
+        {% for recipe in favorite_recipe_titles %}
+
+            <p>{{recipe.recipe_title}}</p>
+            <p>{{recipe.ingredients_list}}</p>
+            <p>{{recipe.directions}}</p>
+
+        {% endfor %}
+        
+{% endblock body %}

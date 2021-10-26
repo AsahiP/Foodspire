@@ -1,0 +1,18 @@
+<!-- displaying the home page with link to login/create an acct -->
+{% extends 'base.html' %}
+{% block title %}{% endblock title %}
+
+{% block head %}<h1>Homepage</h1>{% endblock head %}
+
+{% block body %}
+<p>Is eating something you do??</p>
+<p>Well oh boy you're in luck. </p>
+<p>We got foods, and we got even more foods for your imagination</p>
+<br>
+<!-- <h1>Create an Account</h1> -->
+<!-- <a href="/login">LOGIN</a> -->
+<form action="/loginpage">
+    <input type="submit" name="login-button" value="Login/Create Account">
+</form>
+
+{% endblock body %}

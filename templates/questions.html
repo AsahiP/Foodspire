@@ -1,0 +1,74 @@
+<!-- questionnaire to select user recipe preferences -->
+{% extends 'base.html' %}
+{% block title %}Questions{% endblock title %}
+
+{% block head %}<h1>Questions!!!!!!!!!</h1>{% endblock head %}
+
+{% block body %}
+<form action="/questions_answers", method="POST">
+
+    <p>Choose any food allergies:</p>
+
+        <label for="nuts">nuts</label>
+        <input type="checkbox" name="allergy" value='nuts'>
+        <br>
+        <label for="dairy">dairy</label>
+        <input type="checkbox" name="allergy" value='dairy'>
+        <br>
+        <label for="gluten">gluten</label>
+        <input type="checkbox" name="allergy" value='gluten'>
+        <br>allergy 
+        <label for="shellfish">shellfish</label>
+        <input type="checkbox" name="allergy" value='shellfish'>
+        <br>
+    
+    <p>Choose dietary preference:</p>
+
+        <label for="vegetarian">vegetarian</label>
+        <input type="radio" name="dietary-pref" value='Vegetarian'>
+        <br>
+        <label for="vegan">vegan</label>
+        <input type="radio" name="dietary-pref" value='Vegan'>
+        <br>
+        <label for="pescatarian">pescatarian</label>
+        <input type="radio" name="dietary-pref" value='Pescatarian'>
+        <br>
+        <label for="paleo">paleo</label>
+        <input type="radio" name="dietary-pref" value='Paleo'>
+        <br>
+    
+    <p>Choose a meal time:</p>
+
+        <label for="breakfast">breakfast</label>
+        <input type="radio" name="meal-time" value='Breakfast'>
+        <br>
+        <label for="lunch">lunch</label>
+        <input type="radio" name="meal-time" value='Lunch'>
+        <br>
+        <label for="dinner">dinner</label>
+        <input type="radio" name="meal-time" value='Dinner'>
+        <br>
+        <label for="dessert">dessert</label>
+        <input type="radio" name="meal-time" value='Dessert'>
+
+
+    <p>Additional preference:</p>
+
+        <label for="salad">salad</label>
+        <input type="radio" name="add-pref" value='Salad'>
+        <br>
+        <label for="soup">soup</label>
+        <input type="radio" name="add-pref" value='Soup'>
+        <br>
+        <label for="side">side dish</label>
+        <input type="radio" name="add-pref" value='Side'>
+        <br>
+        <label for="kid-friendly">kid-friendly</label>
+        <input type="radio" name="add-pref" value='Kid-Friendly'>
+
+        <br><br>
+        <input type="submit" value="Tell Me What to Make!">
+    
+</form>
+
+{% endblock body %}

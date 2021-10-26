@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}{% endblock title %}
+
+{% block head %}<p>test button page</p>{% endblock head %}
+
+{% block body %}
+
+<p><a href="/dashboard">back to dashboard!</a></p>
+
+<br><button id="test-button">Test Button</button>
+<div id="test-button-div"></div>
+
+
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="/static/get-recipe.js"></script>
+{% endblock body %}
