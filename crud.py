@@ -176,13 +176,14 @@ def get_password(passwordd):
 
 def get_recipe_by_title(chosen_recipe_title):
     """retrieve recipe from db by title"""
-    
+    print("%"*50)
+    print("\nexecuting get_recipe_by_title")
     return Recipe.query.filter_by(recipe_title=chosen_recipe_title).first()
 
 
 def get_recipe_ids_based_on_prefs(lst_of_prefs):
     """get recipes exclusively from categories from recipes passed in to parameter"""
-    print("*"*30)
+    print("%"*50)
     print("\nexecuting get_recipe_ids_based_on_prefs")
     #category is the same as user's pref
     category_obj_lst=[] #veg, salad, lunch --> 1,3,7
@@ -223,6 +224,8 @@ def get_recipe_ids_based_on_prefs(lst_of_prefs):
 
 def get_recipe_by_id(wanted_ids):
     """get recipe from db.recipes via db.recipe_categories"""
+    print("%"*50)
+    print("\nexecuting get_recipe_by_id")
     # print("*"*30)
     # print("executing get_recipe_by_id")
     # print(f"wanted_ids:{wanted_ids}")
@@ -235,6 +238,48 @@ def get_recipe_by_id(wanted_ids):
         qrd_recipes_from_id_lst.append(qrd_recipes_from_id)
 
     return qrd_recipes_from_id_lst
+
+
+# def update_user_fname(user_fname, new_fname):
+
+    # updated_fname = User.query.filter(User.fname == user_fname).update({"fname": new_fname})
+    # # db.session.query.filter(User.fname == user_fname).update({"fname": (User.fname)})
+    # # User.query.filter(User.fname == user_fname).update({"fname": (User.fname)})
+    # db.session.commit()
+def update_user_fname(user_id, changed_fname):
+    """pass in user information to change in db"""
+
+    user_obj = get_user_by_user_id(user_id)
+    print(f"this is the user_obj: {user_obj}")
+    user_obj.fname = changed_fname
+    updated_fname = user_obj.fname
+
+    db.session.commit()
+    return updated_fname
+
+def update_user_lname(user_id, changed_lname):
+    """pass in user information to change in db"""
+
+    user_obj = get_user_by_user_id(user_id)
+    print(f"this is the user_obj: {user_obj}")
+    user_obj.lname = changed_lname
+    updated_lname = user_obj.lname
+
+    db.session.commit()
+
+    return updated_lname
+    
+
+
+#can I make a single crud function for all the edits?
+
+# from what angelica showed:
+# test = get_user_by_id(1)
+# returns object
+# test.fname
+# 'mona'
+# test.fname = "anon"
+# db.session.commit()
 
 
 

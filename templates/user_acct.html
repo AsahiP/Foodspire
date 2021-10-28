@@ -1,0 +1,59 @@
+<!-- account settings page where user can change their information -->
+
+{% extends 'base.html' %}
+{% block title %}Questions{% endblock title %}
+
+{% block head %}<h1>Account info for {{session_user.username}}</h1>{% endblock head %}
+
+{% block body %}
+
+    <table>
+        <tr>
+            <td>Username</td> 
+            <td>{{session_user.username}}</td>
+        </tr>
+        <tr>
+            <td>Email</td> 
+            <td>{{session_user.email}}</td>
+        </tr>
+        <tr>
+            <td>First Name</td> 
+            <td>{{session_user.fname}}</td>
+        </tr>
+        <tr>
+            <td>Last Name</td> 
+            <td>{{session_user.lname}}</td>
+        </tr>
+        <tr>
+            <td>Password</td> 
+            <td>{{session_user.passwordd}}</td>
+        </tr>
+    </table>
+
+    <form action="/edit_account" method="POST">
+        <label for="fname">First Name:</label>
+        <input type="text" id="test_input">
+        <button id="edit-fname-btn" type="submit">Edit name</button>
+
+        </form>
+        
+    <p>I want to hid the password until the user decides to edit</p>
+    
+    <button id="edit-info-btn" type="submit">Edit Info</button>
+
+ 
+    <p>upload a profile photo</p>
+
+    <form action="/image_upload" method="POST">
+        <label for="img">Select image:</label>
+        <input type="file" id="img" name="img" accept="image/*">
+        <input type="submit">
+      </form>
+
+      <script src="http://code.jquery.com/jquery.js"></script>
+<script src="/static/get-recipe.js"></script>
+{% endblock body %}
+
+
+<!-- possible crud function when able to pass data
+from sqlalchemy import update -->

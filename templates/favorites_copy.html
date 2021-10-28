@@ -28,16 +28,16 @@ if I comment showRecipeDetails, it does not effect the problem-->
         {% for recipe in recipe_objs_lst %}
 
             <div class="dropdown">
-                <form action="/show_fav_recipes_deets"> 
-                <input hidden type="text" name="recipe-title" value="{{recipe.recipe_title}}">
-               <br><button class="dropbtn" name="recipe-btn" id="{{recipe.recipe_id}}" type="submit" value="{{recipe.recipe_title}}">{{recipe.recipe_title}}</button>
+                <form action="/show_fav_recipes_deets.json" method="POST"> 
+
+               <br><button class="dropbtn" name="recipe-btn" id="recipe-btn-id" type="submit" value="{{recipe.recipe_title}}">{{recipe.recipe_title}}</button>
             </form>
-            <div class="dropdown-content hide-recipe" id="dropdown-content-id-{{recipe.recipe_id}}">
-                
-                    <p id="recipe-id-{{recipe.recipe_id}}">{{recipe.ingredients_list}}</p>
-                    <p>{{recipe.directions}}</p>
-                
-            </div>
+                <div class="dropdown-content" id="dropdown-content-id">
+                    <div class="dropdown-content">
+                        <p>{{recipe.ingredients_list}}</p>
+                        <p>{{recipe.directions}}</p>
+                    </div>
+                </div>
             
         {% endfor %}
             </div>
@@ -47,3 +47,10 @@ if I comment showRecipeDetails, it does not effect the problem-->
 <script src="/static/get-recipe.js"></script>
 {% endblock body %}
 
+
+<div class="dropdown-content" id="dropdown-content-id">
+    <div class="dropdown-content">
+        <p>{{recipe.ingredients_list}}</p>
+        <p>{{recipe.directions}}</p>
+    </div>
+</div>

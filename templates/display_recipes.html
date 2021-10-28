@@ -4,7 +4,7 @@ assign to buttons, route save to favorites
 further to-do:
 display link to futher recipe info (for now. maybe different way of displaying information later)
 currecntly for ease: submit button on the top of the page, move later-->
-
+{% extends 'base.html' %}
 {% block title %}{% endblock title %}
 
 {% block head %}<h1>Recipes</h1>{% endblock head %}
@@ -17,12 +17,12 @@ currecntly for ease: submit button on the top of the page, move later-->
 
         <p><input type="checkbox" name="chosen-recipe-title" value="{{recipe.recipe_title}}"><label for="recipe-title"><h3>{{recipe.recipe_title}}</h3></label></p> 
         
-        <p><b>Ingredients</b></label></p>
-        <p> {{recipe.ingredients_list}} </p> 
-        <p name="instructions"><b>Instructions</b></p>
-        <p>{{recipe.directions}}</p>
-        <br>
-    
+            <p><b>Ingredients</b></label></p>
+           <p>{{recipe.ingredients_list}}<p>
+               
+            <p><b>Instructions</b></p>
+            <p>{{recipe.directions}}</p>
+            <br>
         {% endfor %}
 
 

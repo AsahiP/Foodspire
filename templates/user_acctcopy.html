@@ -1,0 +1,16 @@
+<!-- account settings page where user can change their information -->
+
+{% extends 'base.html' %}
+{% block title %}Questions{% endblock title %}
+
+{% block head %}<h1>Account info for {{session_user.username}}</h1>{% endblock head %}
+
+{% block body %}
+    
+    <div id="user-email-div" contenteditable="true">Email: {{session_user.email}}</div>
+    <div id="user-fname-div" contenteditable="true">First Name: {{session_user.fname}}</div>
+    <div id="user-lname-div" contenteditable="true">Last Name: {{session_user.lname}}</div>
+    <button id="edit-info-btn" type="submit">Edit Info</button>
+
+
+{% endblock body %}
