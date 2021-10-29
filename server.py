@@ -13,7 +13,7 @@ print("from flask import Flask, render_template, request, flash, session, redire
 from flask_login import LoginManager, login_required, login_user,logout_user, current_user
 from flask_bcrypt import Bcrypt
 from flask_wtf import FlaskForm
-from wtforms import StringField, passworddField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 
 # from wtforms.fields.html5 import URLField
@@ -63,7 +63,7 @@ class RegisterForm(FlaskForm):
 
     email = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
 
-    passwordd = passworddField(validators=[InputRequired(), Length(
+    passwordd = PasswordField(validators=[InputRequired(), Length(
         min=4, max=20)], render_kw={"placeholder": "passwordd"})
 
     submit = SubmitField("Register")
@@ -82,7 +82,7 @@ class LoginForm(FlaskForm):
     username = StringField(validators=[InputRequired(), Length(
         min=4, max=20)], render_kw={"placeholder": "Username"})
 
-    passwordd = passworddField(validators=[InputRequired(), Length(
+    passwordd = PasswordField(validators=[InputRequired(), Length(
         min=4, max=20)], render_kw={"placeholder": "passwordd"})
 
     submit = SubmitField("Login")
