@@ -5,10 +5,20 @@
 
 {% block body %}
 
-<form method="POST" action="/login_form">
+<form action="/register_user_form" method="POST">
+    
     {{ form.hidden_tag() }}
+    <br>
     {{ form.username() }}
+    <br>
+    {{ form.fname() }}
+    <br>
+    {{ form.lname() }}
+    <br>
+    {{ form.email() }}
+    <br>
     {{ form.password() }}
+    <br>
     {{ form.submit() }}
 </form>
 
@@ -22,6 +32,6 @@
     <p>Last name  <input type="text" name="create-lname"></p>
     <p>Email address <input type="text" name="create-email"></p>
     <p>Username  <input type="text" name="create-username"></p>
-    <p>passwordd  <input type="passwordd" name="create-passwordd"></p>
+    <p>password  <input type="password" name="create-password"></p>
     <p><input type="submit"></p>
 </form> -->

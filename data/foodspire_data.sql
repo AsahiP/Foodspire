@@ -176,7 +176,7 @@ CREATE TABLE public.users (
     lname character varying(20) NOT NULL,
     username character varying(15) NOT NULL,
     email character varying(30) NOT NULL,
-    passwordd character varying(20) NOT NULL
+    password character varying(20) NOT NULL
 );
 
 
@@ -275,7 +275,7 @@ COPY public.recipes (recipe_id, directions, fat, calories, description, protein,
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: asahipritchard
 --
 
-COPY public.users (user_id, fname, lname, username, email, passwordd) FROM stdin;
+COPY public.users (user_id, fname, lname, username, email, password) FROM stdin;
 1	Bob	Smith	BobtheBanshee	bob.s@yahoo.com	eatpizza99
 2	Terry	Cruz	TakeaCruz	Cruzing@aol.com	flowerssmellnice
 3	Ami	Kinjo	Okinawa<3	kinjo.a@hotmail.com	kikiDoggy

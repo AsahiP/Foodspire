@@ -4,12 +4,14 @@ Create Read Update Delete"""
 # from flask.templating import render_template
 from model import db, User, FavRecipe, Recipe, RecipeCategory, Category, connect_to_db
 
+import bcrypt
+
 from flask import flash
 
 """
 FUNCTIONS IN FILE, IN ORDER OF APPEARANCE:
 
-create_user(fname, lname, email, username, passwordd):
+create_user(fname, lname, email, username, password):
     Create and return a new user
 
 
@@ -43,8 +45,8 @@ get_user_by_username(username):
 get_user_by_email(email):
     return email if it exists
 
-get_passwordd(passwordd):
-    return passwordd in database to check if it is correct upon login
+get_password(password):
+    return password in database to check if it is correct upon login
 
 
 get_recipe_by_title(chosen_recipe_title):
@@ -75,11 +77,26 @@ original attempt at returning recipes from form answers. keep for testing
 """
 
 
-def create_user(fname, lname, email, username, passwordd):
-    """Create and return a new user"""
+# def create_user(fname, lname, email, username, password):
+#     """Create and return a new user"""
 
-    user = User(fname=fname, lname=lname, email=email, username=username, passwordd=passwordd)
+#     user = User(fname=fname, lname=lname, email=email, username=username, password=password)
 
+#     db.session.add(user)
+#     db.session.commit()
+
+#     return user
+
+def create_user(fname, lname, email, username, password):
+    """Create, add, & return new user."""
+    
+    password_code = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+
+    password = password_code.decode('utf-8')
+    
+    user = User(fname=fname, lname=lname, email=email, username=username, password=password)
+
+    
     db.session.add(user)
     db.session.commit()
 
@@ -167,11 +184,11 @@ def get_user_by_email(email):
 
 
 
-def get_passwordd(passwordd):
-    """return passwordd in database to check if it is correct upon login"""
+def get_password(password):
+    """return password in database to check if it is correct upon login"""
 
-    return User.query.filter(passwordd=passwordd).first()
-    # return User.query.filter_by(User.passwordd==passwordd).first()
+    return User.query.filter(password=password).first()
+    # return User.query.filter_by(User.password==password).first()
 
 
 
@@ -283,14 +300,14 @@ def update_user_email(user_id, changed_email):
     db.session.commit()
     
 
-def update_user_passwordd(user_id, changed_passwordd):
+def update_user_password(user_id, changed_password):
     """pass in user information to change in db"""
     print("%"*50)
-    print("\nexecuting %%update_user_passwordd")
+    print("\nexecuting %%update_user_password")
 
     user_obj = get_user_by_user_id(user_id)
     print(f"%%this is the user_obj: {user_obj}")
-    user_obj.passwordd = changed_passwordd
+    user_obj.password = changed_password
 
     db.session.commit()
 

@@ -69,20 +69,20 @@ $('#edit-email-btn').on('click', evt => {
 
 
 
-$('#edit-passwordd-btn').on('click', evt => {
+$('#edit-password-btn').on('click', evt => {
     evt.preventDefault()
-    console.log('ran #edit-passwordd-button')
-    $('#edit-passwordd-div').slideToggle();
+    console.log('ran #edit-password-button')
+    $('#edit-password-div').slideToggle();
 });
 
 const fnameText = document.querySelector('#fname-txt');
 const fnameTextInput = document.querySelector('#fname-text-input');
 const fnameButton = document.querySelector('#submit-edit-fname-btn')
 
-const changeFnameInput = {
+// const changeFnameInput = {
 
 
-}
+// }
 
 $('#submit-edit-fname-btn').on('click', evt => {
     evt.preventDefault();

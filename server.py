@@ -22,7 +22,6 @@ from jinja2 import StrictUndefined
 from werkzeug.utils import secure_filename
 
 
-
 app = Flask(__name__)
 # app.secret_key = "dev"
 app.config['SECRET_KEY'] = "Xyfjghr?CFI'@}%"
@@ -57,14 +56,14 @@ class RegisterForm(FlaskForm):
 
     username = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
     
-    fname = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
+    fname = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "First name"})
 
-    lname = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
+    lname = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Last name"})
 
-    email = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
+    email = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "E-mail address"})
 
-    passwordd = PasswordField(validators=[InputRequired(), Length(
-        min=4, max=20)], render_kw={"placeholder": "passwordd"})
+    password = PasswordField(validators=[InputRequired(), Length(
+        min=4, max=20)], render_kw={"placeholder": "Password"})
 
     submit = SubmitField("Register")
 
@@ -88,12 +87,33 @@ class LoginForm(FlaskForm):
     submit = SubmitField("Login")
 
 
+
+
+
 @app.route("/")
 def show_homepage():
     """Display the homepage"""
     print("*******************")
     print("route to homepage- displaying homepage")
     print("*******************")
+
+    # user_obj = session[User()]
+    # print("@^"*50)
+    # print(f"user obj stored in session: {user_obj}")
+    # print("@^"*50)
+
+    # user_obj_user_id = session[User().user_id]
+    # user_obj_fname = session[User().fname]
+    # user_obj_lname = session[User().lname]
+    # user_obj_email = session[User().email]
+    # user_obj_password = session[User().password]
+    # user_obj_username = session[User().username]
+
+    # print("@^"*50)
+    # print(f"user id stored in session: {user_obj_user_id}")
+    # print("@^"*50)
+    # print(f"user fname stored in session: {user_obj_fname}")
+
 
     return render_template("homepage.html")
 
@@ -121,77 +141,65 @@ def validate_login():
 
     form = LoginForm()
     print(form)
-    if form.validate_on_submit():
-        user_obj = crud.get_user_by_username(form.username.data)
-        
-        if user_obj:
-            print(form.password.data)
-            print(user_obj.passwordd)
 
-            if bcrypt.check_password_hash(user_obj.passwordd, form.password.data):
-                login_user(user_obj, remember=True)
+    if form.validate_on_submit():
+        print("if form.validate...")
+        user_obj = crud.get_user_by_username(form.username.data)
+        user_id = crud.get_user_by_user_id(user_obj.user_id)
+        session["user_id"] = user_id
+
+        if user_obj:
+            print("if user_obj")
+            print(form.password.data)
+            print(user_obj.password)
+            upass = form.password.data
+            print("6"*50)
+            (upass)
+            print("3"*50)
+            check = bcrypt.check_password_hash(user_obj.password, form.password.data) 
+            print(check) 
+            print("?"*50)
+            
+
+            if bcrypt.check_password_hash(user_obj.password, form.password.data):
+                print("G"*50)
+                print("if bcrypt....")
+                login_user(user_obj, remember=True) #TE
                 session["username"] = form.username.data
+                print_session= session["username"]
+                print("K"*50)
+                print(f"session username val: {print_session}")
 
             else:
+                print("bcrypt else...")
                 flash("username or password not recognized.")
+                print('return redirect /login_page')
                 return redirect('/login_page')
-        return redirect('/dashboard')
 
+        print("return redirect /dashboard")
+        return redirect(url_for('show_login_page'))
 
-
-        # db.session.add(new_user) 
-        # db.session.commit()
-        # return redirect('/login') 
-    # or return redirect(url_for("login"))
-
+    print("return render template login.html")
     return render_template('login.html', form=form)
 
-#     print("#"*30)
-#     print("route to login validation")
-#     print("#"*30)
 
-    
-#     username = request.form.get("username")
-#     print("-"*50)
-#     print(f"username:{username}")
-
-#     passworddd = request.form.get("passworddd")
-#     print("-"*50)
-#     print(f"passworddd:{passworddd}")
-    
-#     db_user = crud.get_user_by_username(username)
-#     print("-"*50)
-#     print("ran crud.get_user_by_username")
-
-
-#     if db_user: #user object exists in database
-#         print("-"*50)
-#         print("user in db")
-#         if passworddd == db_user.passworddd:
-#             print("-"*50)
-#             print("checking passworddd")
-#             session["user_id"]=db_user.user_id
-#             print (session)
-#             return redirect("/dashboard")
-#         else:
-#             print("-"*50)
-#             print("incorrect passworddd")
-#             flash("that is the incorrect passworddd")
-#             return redirect ("/loginpage")
-#     else:
-#         print("-"*50)
-#         print("user not in db")
-#         flash("Username does not exist, please create an account")
-#         # return redirect("/") #change to route that will handle registration
-#         return redirect("/loginpage")
-
-
-
-@app.route("/register_user", methods=["POST"])
+@app.route("/register_user")
 def show_user_registration():
     """display the registration page"""
     print("#"*30)
     print("route to /register_user")
+    print("#"*30)
+
+    form = RegisterForm()
+
+    return render_template("registeracct.html", form=form)
+
+
+@app.route("/register_user_form", methods=["POST"])
+def handle_user_registration():
+    """display the registration page"""
+    print("#"*30)
+    print("route to /register_user_form")
     print("#"*30)
     
     form = RegisterForm()
@@ -201,22 +209,23 @@ def show_user_registration():
 
     if check_user:
         flash("Email address already exists to another user.")
-        return redirect(url_for('register'))
+        print("return redirect url_for handle_user_registration")
+        return redirect(url_for('handle_user_registration'))
 
 
     elif form.validate_on_submit():
-        hashed_passwordd = bcrypt.generate_passwordd_hash(form.passwordd.data).decode('utf-8')
-        print(hashed_passwordd)
-        crud.create_user( 
-                        form.fname.data,
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        print(hashed_password)
+        crud.create_user(form.fname.data,
                         form.lname.data,
                         form.email.data,
                         form.username.data,
-                        form.passworddd.data)
+                        form.password.data)
 
-        return redirect(url_for('login'))
+        return redirect(url_for('show_dashboard'))
 
     return render_template('registeracct.html', form=form)
+
 
 
 @app.route('/logout', methods=['GET', 'POST'])
@@ -229,77 +238,29 @@ def logout():
     # return render_template("registeracct.html")
 
 
-
-@app.route("/createacct", methods=["GET", "POST"]) #removed "GET" and changed to method not allowed error
-def register_new_acct():
-    """store user info in db, redirect to dashboard if input is valid"""
-    print("*"*50)
-    print("route to createacct- store user info in db, go to dash if input valid")
-    print("*"*50)
-
-    
-    create_fname=request.form.get("create-fname")
-    print("-"*50)
-    print(f"fname:{create_fname}")
-    create_lname=request.form.get("create-lname")
-    print("-"*50)
-    print(f"lname:{create_lname}")
-    create_email=request.form.get("create-email")
-    print("-"*50)
-    print(f"email:{create_email}")
-    create_username=request.form.get("create-username")
-    print("-"*50)
-    print(f"username:{create_username}")
-    create_passworddd=request.form.get("create-passworddd")
-    print("-"*50)
-    print(f"passworddd:{create_passworddd}")
-
-    db_user = crud.get_user_by_username(create_username)
-    db_email = crud.get_user_by_email(create_email)
-    print("-"*50)
-    print("ran crud functions get username, get email")
-
-    if db_email:
-        flash("An account already exists for this e-mail address")
-        return redirect("/registeracct")
-    elif db_user:
-        flash("That username is taken")
-        return redirect("/registeracct")
-    else:
-        print("-"*50)
-        print("running crud create_user")
-        new_user=crud.create_user(create_fname, 
-                        create_lname, 
-                        create_email, 
-                        create_username, 
-                        create_passworddd)
-
-        session['user_id']=new_user.user_id
-        print("-"*50)
-        print("account created")
-        return redirect("/dashboard")
-
-
-
-
 @app.route("/dashboard")
 @login_required
 def show_dashboard():
     """Display user dashboard"""
     print("#"*30)
-    print("route dashboard- showing dashboard or redirecting to login")
+    print("route dashboard- showing dashboard else redirecting to login")
     print("#"*30)
     
+    #ERROR doesnt reach if statement. 
+    # jinja2.exceptions.UndefinedError: 'str object' has no attribute 'username'
+    # changed jinja to session_user- worked, but need to store object in session for refactor
+    if "username" in session:
+        print("if user...")
+        # session_user= crud.get_user_by_user_id(session["user_id"])
 
-    if "user_id" in session:
-
-        session_user= crud.get_user_by_user_id(session["user_id"])
-
+        session_user = session["username"]
+        print(session_user)
+        print("return render_template dashboard.html sessoin_user=session_user")
         return render_template("dashboard.html", session_user=session_user)
 
     else: 
         return redirect("/login")
-
+#passing a string and need an object
 
 
 @app.route("/generate_rand_recipe.json")
@@ -437,7 +398,8 @@ def get_favrecipes():
             recipe_obj = crud.get_recipe_by_title(recipe_title)
             print("-"*50)
             print(f"crud recipe obj: {recipe_obj}")
-            fav_recipe_info = crud.create_fav_recipes(session["user_id"], recipe_obj.recipe_id)
+            # fav_recipe_info = crud.create_fav_recipes(session["user_id"], recipe_obj.recipe_id)
+            crud.create_fav_recipes(session["user_id"], recipe_obj.recipe_id)
             # print("-"*50)
             # print(f"fav_recipe_info={fav_recipe_info}")
 
@@ -458,7 +420,6 @@ def get_favrecipes():
 
 
 
-
 @app.route("/account_info")
 def show_user_account():
     """show the user account information"""
@@ -467,9 +428,9 @@ def show_user_account():
     print("*"*50)
 
     session_user_obj = crud.get_user_by_user_id(session["user_id"])
+    # session_user_obj = session['user_obj']
 
     return render_template("user_acct.html", session_user_obj=session_user_obj)
-
 
 
 @app.route("/edit_account", methods=["POST"])
@@ -479,7 +440,9 @@ def edit_user_acct():
     print("routed to /edit_account")
     print("*"*50)
 
-    session_user_obj = crud.get_user_by_user_id(session["user_id"])
+    # session_user_obj = crud.get_user_by_user_id(session["user_id"])
+
+    session_user_obj = session['user_obj']
 
     if request.method == "POST":
 
@@ -510,7 +473,7 @@ def edit_user_acct():
                 result_text = "You did not enter a name"
             else:
                 print(f"new_fname: {new_fname}")
-                crud.update_user_fname(session['user_id'], new_fname)                
+                crud.update_user_fname(session_user_obj.user_id, new_fname)                
                 result_code = "Success!"
                 result_text = f"Your first name has been changed to {new_fname}"
         
@@ -553,33 +516,25 @@ def edit_user_acct():
         
 
 
-        new_passworddd = request.form.get("passworddd-text-input")
+        new_passwordd = request.form.get("passwordd-text-input")
 
-        if new_passworddd:
-            if len(new_passworddd) > 20:
-                print("started if new_passworddd")
+        if new_passwordd:
+            if len(new_passwordd) > 20:
+                print("started if new_passwordd")
                 flash("Too many characters, use less than 20" )
                 return render_template("user_acct.html", session_user_obj=session_user_obj)
                 # return redirect("/edit_account")
 
             else:
-                update_passworddd = crud.update_user_passworddd(session['user_id'], new_passworddd)
+                update_passwordd = crud.update_user_passwordd(session['user_id'], new_passwordd)
                 print("-"*50)
-                print(update_passworddd)
-                flash(f"Sucessfully updated passwordd to {new_passworddd}")
+                print(update_passwordd)
+                flash(f"Sucessfully updated password to {new_passwordd}")
 
 
 
   
     return render_template('user_acct.html', session_user_obj=session_user_obj)
-
-    #route a button to let user change info
-    #should I create a new page- would rather use event handler - display a form when button is pushed?
-    #function to delete/overwrite info
-
-# @app.route("/test_route")
-# def show_test_route():
-
 
 
 def allowed_file(filename):

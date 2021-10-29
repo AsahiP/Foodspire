@@ -21,10 +21,13 @@ class User(db.Model, UserMixin):
     lname = db.Column(db.String(20), nullable=False)
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(30), unique=True, nullable=False)
-    passwordd = db.Column(db.String(80), nullable=False)
+    password = db.Column(db.String(80), nullable=False)
 
     recipes = db.relationship('Recipe', secondary='fav_recipes', backref='users')
 
+    # add a get_id() function in order to override the default properties of get_id() under the User class in the models.py file where your database schema is defined.
+    def get_id(self):
+        return(self.user_id)
 
     def __repr__(self):
         return f'<User user_id={self.user_id} user_name={self.username}>' 

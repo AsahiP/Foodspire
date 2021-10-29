@@ -8,14 +8,14 @@
 <h1>LOGIN</h1>
 
 
-<form method="POST" action="/login_form">
+<form action="/login_form" method="POST" >
     {{ form.hidden_tag() }}
     {{ form.username() }}
     {{ form.password() }}
     {{ form.submit() }}
 </form>
 
-<a href="/registeracct">Create an account</a>
+<a href="/register_user">Create an account</a>
 
 
 {% endblock body %}
@@ -25,6 +25,6 @@
 <!-- <form action="/login" method="POST">
 
     <p>Username  <input type="text" name="username"></p>
-    <p>passwordd  <input type="passwordd" name="passwordd"></p>
+    <p>password  <input type="password" name="password"></p>
     <p><input type="submit"></p>
 </form> -->

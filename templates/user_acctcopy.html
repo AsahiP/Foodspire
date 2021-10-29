@@ -55,20 +55,20 @@
 
 
 
-    <p>Password: <div id="passwordd-txt">{{session_user_obj.passwordd}}</div>             
-        <button id="edit-passwordd-btn" type="submit">Edit</button> 
+    <p>Password: <div id="password-txt">{{session_user_obj.password}}</div>             
+        <button id="edit-password-btn" type="submit">Edit</button> 
     </p>
-    <div class="ninja" id="edit-passwordd-div"> 
+    <div class="ninja" id="edit-password-div"> 
     <form action="/edit_account" method='POST'>
 
-        <input type="text" name= "passwordd-text-input" id="passwordd-text-input" value="Input New Password">
+        <input type="text" name= "password-text-input" id="password-text-input" value="Input New Password">
 
-        <input id="submit-edit-passwordd-btn" type="submit" value="Submit">
+        <input id="submit-edit-password-btn" type="submit" value="Submit">
     </form>
     </div>
 
         
-    <p>I want to hide the passwordd until the user decides to edit</p>
+    <p>I want to hide the password until the user decides to edit</p>
 
  
     <p>upload a profile photo</p>
