@@ -1,6 +1,6 @@
 
 <!-- users "favorited" recipes from display recipes
-without form action tag, showRecipeDetails in get-recipes.js does not flash to weird json page. Same behavior as if using preventDefault() in showRecipeDetails(). 
+without form action tag, showRecipeDetails in eventss.js does not flash to weird json page. Same behavior as if using preventDefault() in showRecipeDetails(). 
 get KeyError in server though, with or without formData 
 can only get reaction from first button displayed on page
 
@@ -44,7 +44,7 @@ if I comment showRecipeDetails, it does not effect the problem-->
         
         
 <script src="http://code.jquery.com/jquery.js"></script>
-<script src="/static/get-recipe.js"></script>
+<script src="/static/events.js"></script>
 {% endblock body %}
 
 

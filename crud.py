@@ -4,6 +4,7 @@ Create Read Update Delete"""
 # from flask.templating import render_template
 from model import db, User, FavRecipe, Recipe, RecipeCategory, Category, connect_to_db
 
+from flask import flash
 
 """
 FUNCTIONS IN FILE, IN ORDER OF APPEARANCE:
@@ -42,7 +43,7 @@ get_user_by_username(username):
 get_user_by_email(email):
     return email if it exists
 
-get_password(passwordd):
+get_passwordd(passwordd):
     return passwordd in database to check if it is correct upon login
 
 
@@ -166,7 +167,7 @@ def get_user_by_email(email):
 
 
 
-def get_password(passwordd):
+def get_passwordd(passwordd):
     """return passwordd in database to check if it is correct upon login"""
 
     return User.query.filter(passwordd=passwordd).first()
@@ -240,36 +241,67 @@ def get_recipe_by_id(wanted_ids):
     return qrd_recipes_from_id_lst
 
 
-# def update_user_fname(user_fname, new_fname):
 
-    # updated_fname = User.query.filter(User.fname == user_fname).update({"fname": new_fname})
-    # # db.session.query.filter(User.fname == user_fname).update({"fname": (User.fname)})
-    # # User.query.filter(User.fname == user_fname).update({"fname": (User.fname)})
-    # db.session.commit()
 def update_user_fname(user_id, changed_fname):
-    """pass in user information to change in db"""
+    """change user fname in db, check to see if name is <10 chars"""
+    print("%"*50)
+    print("\nexecuting %%update_user_fname")
 
+    print(f"%%this is the changed_name: {changed_fname}")
     user_obj = get_user_by_user_id(user_id)
-    print(f"this is the user_obj: {user_obj}")
+    print(f"%%this is the user_obj: {user_obj}")
+
     user_obj.fname = changed_fname
     updated_fname = user_obj.fname
+    print(f"%%updated_fname: {updated_fname}")
 
     db.session.commit()
     return updated_fname
 
+
 def update_user_lname(user_id, changed_lname):
     """pass in user information to change in db"""
+    print("%"*50)
+    print("\nexecuting %%update_user_lname")
 
     user_obj = get_user_by_user_id(user_id)
-    print(f"this is the user_obj: {user_obj}")
+    print(f"%%this is the user_obj: {user_obj}")
     user_obj.lname = changed_lname
-    updated_lname = user_obj.lname
 
     db.session.commit()
 
-    return updated_lname
+
+def update_user_email(user_id, changed_email):
+    """pass in user information to change in db"""
+    print("%"*50)
+    print("\nexecuting %%update_user_email")
+
+    user_obj = get_user_by_user_id(user_id)
+    print(f"%%this is the user_obj: {user_obj}")
+    user_obj.email = changed_email
+
+    db.session.commit()
     
 
+def update_user_passwordd(user_id, changed_passwordd):
+    """pass in user information to change in db"""
+    print("%"*50)
+    print("\nexecuting %%update_user_passwordd")
+
+    user_obj = get_user_by_user_id(user_id)
+    print(f"%%this is the user_obj: {user_obj}")
+    user_obj.passwordd = changed_passwordd
+
+    db.session.commit()
+
+
+def delete_fav_recipe(fav_recipe_id):
+    """Delete reward."""
+
+    fav_recipe = FavRecipe.query.get(fav_recipe_id)
+
+    db.session.delete(fav_recipe)
+    db.session.commit()
 
 #can I make a single crud function for all the edits?
 

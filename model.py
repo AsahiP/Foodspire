@@ -1,12 +1,17 @@
-"""foodspire db tables"""
+"""DATABASE TABLES FOR FOODSPIRE APP"""
 
 from flask_sqlalchemy import SQLAlchemy
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField
+from wtforms.validators import InputRequired, Length, ValidationError
+from flask_bcrypt import Bcrypt
+from flask_login import UserMixin
 
 db = SQLAlchemy()
 
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     """Table for a user"""
 
     __tablename__ = "users"
@@ -14,9 +19,9 @@ class User(db.Model):
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     fname = db.Column(db.String(20), nullable=False)
     lname = db.Column(db.String(20), nullable=False)
-    username = db.Column(db.String(15), unique=True, nullable=False)
+    username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(30), unique=True, nullable=False)
-    passwordd = db.Column(db.String(20), nullable=False)
+    passwordd = db.Column(db.String(80), nullable=False)
 
     recipes = db.relationship('Recipe', secondary='fav_recipes', backref='users')
 
@@ -92,6 +97,8 @@ class Category(db.Model):
     ### I CAN GET RECIPE FROM recipes BECAUSE OF BACKREF
     def __repr__(self):
         return f'<Categories category_id={self.category_id} category_name={self.category_name}>'
+
+
 
 
 def connect_to_db(app):
