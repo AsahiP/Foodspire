@@ -82,8 +82,8 @@ class LoginForm(FlaskForm):
     username = StringField(validators=[InputRequired(), Length(
         min=4, max=20)], render_kw={"placeholder": "Username"})
 
-    passwordd = PasswordField(validators=[InputRequired(), Length(
-        min=4, max=20)], render_kw={"placeholder": "passwordd"})
+    password = PasswordField(validators=[InputRequired(), Length(
+        min=4, max=20)], render_kw={"placeholder": "password"})
 
     submit = SubmitField("Login")
 
@@ -103,10 +103,12 @@ def show_homepage():
 def show_login_page():
     """Display the login page"""
     print("#"*30)
-    print("route loginpage- displaying login page")
+    print("route login_page- displaying login page")
     print("#"*30)
 
-    return render_template("login.html")
+    form = LoginForm()
+
+    return render_template("login.html", form=form)
 
 
 
@@ -118,22 +120,22 @@ def validate_login():
     print("#"*30)
 
     form = LoginForm()
-
+    print(form)
     if form.validate_on_submit():
         user_obj = crud.get_user_by_username(form.username.data)
         
         if user_obj:
-            print(form.passwordd.data)
+            print(form.password.data)
             print(user_obj.passwordd)
 
-            if bcrypt.check_passwordd_hash(user_obj.passwordd, form.passwordd.data):
+            if bcrypt.check_password_hash(user_obj.passwordd, form.password.data):
                 login_user(user_obj, remember=True)
                 session["username"] = form.username.data
 
             else:
-                flash("username or passwordd not recognized.")
-                return redirect('/login')
-        return redirect(f'/dashboard')
+                flash("username or password not recognized.")
+                return redirect('/login_page')
+        return redirect('/dashboard')
 
 
 

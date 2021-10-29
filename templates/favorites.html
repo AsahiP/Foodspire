@@ -14,6 +14,7 @@ if I comment showRecipeDetails, it does not effect the problem-->
 
 {% block head %}
 <link rel="stylesheet" href="/static/stylesheet.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
 {% endblock head %}
 
 {% block body %}
@@ -55,6 +56,22 @@ if I comment showRecipeDetails, it does not effect the problem-->
         {% endfor %}
             </div>
         
+<canvas id="test-chart"></canvas>
+  <script>
+    const testChart = new Chart(
+      $('#test-chart'),
+      {
+        type: 'bar',
+        data: {
+          labels: ['does', 'this', 'work'],
+          datasets: [
+            {data: [2, 4, 8]}
+          ]
+        }
+      }
+    );
+  </script>
+{% endblock %}
         
 <script src="http://code.jquery.com/jquery.js"></script>
 <script src="/static/events.js"></script>

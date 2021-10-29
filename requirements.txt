@@ -5,6 +5,7 @@ cffi==1.15.0
 charset-normalizer==2.0.7
 click==8.0.1
 distlib==0.3.2
+dnspython==2.1.0
 filelock==3.0.12
 Flask==2.0.2
 Flask-Bcrypt==0.7.1
@@ -13,6 +14,7 @@ Flask-SQLAlchemy==2.5.1
 Flask-WTF==0.15.1
 greenlet==1.1.0
 idna==3.3
+is-disposable-email==1.0.0
 itsdangerous==2.0.1
 Jinja2==3.0.1
 MarkupSafe==2.0.1
@@ -30,3 +32,4 @@ urllib3==1.26.7
 virtualenv==20.8.0
 Werkzeug==2.0.1
 WTForms==2.3.3
+wtforms-validators==1.0.0

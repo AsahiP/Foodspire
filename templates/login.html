@@ -6,12 +6,7 @@
 
 {% block body %}
 <h1>LOGIN</h1>
-<form action="/login" method="POST">
 
-    <p>Username  <input type="text" name="username"></p>
-    <p>passwordd  <input type="passwordd" name="passwordd"></p>
-    <p><input type="submit"></p>
-</form>
 
 <form method="POST" action="/login_form">
     {{ form.hidden_tag() }}
@@ -20,9 +15,16 @@
     {{ form.submit() }}
 </form>
 
-<a href="/register_usert">Create an account</a>
+<a href="/registeracct">Create an account</a>
 
 
 {% endblock body %}
 
+<!-- {{ form.hidden_tag() }} -->
 
+<!-- <form action="/login" method="POST">
+
+    <p>Username  <input type="text" name="username"></p>
+    <p>passwordd  <input type="passwordd" name="passwordd"></p>
+    <p><input type="submit"></p>
+</form> -->
