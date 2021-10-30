@@ -18,43 +18,45 @@ if I comment showRecipeDetails, it does not effect the problem-->
 {% endblock head %}
 
 {% block body %}
-    <h1>Favorite Recipes</h1>
+  <h1>Favorite Recipes</h1>
 
-    <br>
+  <div>
     <a href=dashboard>Return to dashboard</a>
-   <br><br><a href=test_route>TEST ROUTE</a>
+    <a href=test_route>TEST ROUTE</a>
+  </div>
+  
+{% for recipe in recipe_objs_lst %}
+
+  <!-- <div class="dropdown"> -->
+
+    <input hidden type="text" name="recipe-title" value="{{recipe.recipe_title}}">
+    <div>
+      <button class="dropbtn" name="recipe-btn" id="{{recipe.recipe_id}}" type="submit" value="{{recipe.recipe_title}}">{{recipe.recipe_title}}</button>
+    </div>
     
-       
 
-        {% for recipe in recipe_objs_lst %}
+    <div class="dropdown-content hide-recipe" id="dropdown-content-id-{{recipe.recipe_id}}">
+      <p id="recipe-id-{{recipe.recipe_id}}">
+      <p>
+        <b>Ingredients</b>
+      </p>
+      {% for ingredient in recipe.ingredients_list[2:-2].split('","') %}
+        <ul>
+          <li>{{ingredient}}</li>
+        </ul>
+      {% endfor %}
+    <p>
+      <b>Directions</b>
+    </p>
+    {% for step in recipe.directions[2:-2].split('","') %}
+      <ol>
+        <li>{{step}}</li>
+      </ol>
+    {% endfor %}
+  </div>
 
-            <div class="dropdown">
-               
-                <input hidden type="text" name="recipe-title" value="{{recipe.recipe_title}}">
-               <br><button class="dropbtn" name="recipe-btn" id="{{recipe.recipe_id}}" type="submit" value="{{recipe.recipe_title}}">{{recipe.recipe_title}}</button>
-        
-            <div class="dropdown-content hide-recipe" id="dropdown-content-id-{{recipe.recipe_id}}">
-                
-                    <p id="recipe-id-{{recipe.recipe_id}}">
-                        <p><b>Ingredients</b></p>
-                        {% for ingredient in recipe.ingredients_list[2:-2].split('","') %}
-                        <ul>
-                        <li>{{ingredient}}</li>
-                        </ul>
-                        {% endfor %}
-                        
-                        <br>
-                        <p><b>Directions</b></p>
-                        {% for step in recipe.directions[2:-2].split('","') %}
-                        <ol>
-                        <li>{{step}}</li>
-                        </ol>
-                        {% endfor %}
-                
-            </div>
-            
-        {% endfor %}
-            </div>
+{% endfor %}
+  <!-- </div> -->
         
 <canvas id="test-chart"></canvas>
   <script>
@@ -71,7 +73,7 @@ if I comment showRecipeDetails, it does not effect the problem-->
       }
     );
   </script>
-{% endblock %}
+
         
 <script src="http://code.jquery.com/jquery.js"></script>
 <script src="/static/events.js"></script>

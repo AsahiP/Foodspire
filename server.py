@@ -97,23 +97,6 @@ def show_homepage():
     print("route to homepage- displaying homepage")
     print("*******************")
 
-    # user_obj = session[User()]
-    # print("@^"*50)
-    # print(f"user obj stored in session: {user_obj}")
-    # print("@^"*50)
-
-    # user_obj_user_id = session[User().user_id]
-    # user_obj_fname = session[User().fname]
-    # user_obj_lname = session[User().lname]
-    # user_obj_email = session[User().email]
-    # user_obj_password = session[User().password]
-    # user_obj_username = session[User().username]
-
-    # print("@^"*50)
-    # print(f"user id stored in session: {user_obj_user_id}")
-    # print("@^"*50)
-    # print(f"user fname stored in session: {user_obj_fname}")
-
 
     return render_template("homepage.html")
 
@@ -132,7 +115,7 @@ def show_login_page():
 
 
 
-@app.route("/login_form", methods=["GET","POST"])
+@app.route("/login_form", methods=['GET', 'POST'])
 def validate_login():
     """contains logic to validate username/pass"""
     print("#"*30)
@@ -140,14 +123,15 @@ def validate_login():
     print("#"*30)
 
     form = LoginForm()
-    print(form)
+    # import pdb; pdb.set_trace()
+ 
+    print(dir(form))
 
+    print("form.username.data", form.username.data)
     if form.validate_on_submit():
         print("if form.validate...")
-        user_obj = crud.get_user_by_username(form.username.data)
-        user_id = crud.get_user_by_user_id(user_obj.user_id)
-        session["user_id"] = user_id
-
+        user_obj= crud.get_user_by_username(form.username.data)
+        print("user_obj", user_obj)
         if user_obj:
             print("if user_obj")
             print(form.password.data)
@@ -157,8 +141,10 @@ def validate_login():
             (upass)
             print("3"*50)
             check = bcrypt.check_password_hash(user_obj.password, form.password.data) 
-            print(check) 
+            print("check:", check) 
             print("?"*50)
+            # db_user = crud.get_user_by_username(user_obj.username)
+            # session['user_obj'] = db_user
             
 
             if bcrypt.check_password_hash(user_obj.password, form.password.data):
@@ -177,9 +163,10 @@ def validate_login():
                 return redirect('/login_page')
 
         print("return redirect /dashboard")
-        return redirect(url_for('show_login_page'))
+        # return redirect(url_for('show_login_page'))
+        return redirect('/dashboard')
 
-    print("return render template login.html")
+    print("last return render template login.html")
     return render_template('login.html', form=form)
 
 
@@ -191,6 +178,7 @@ def show_user_registration():
     print("#"*30)
 
     form = RegisterForm()
+
 
     return render_template("registeracct.html", form=form)
 
@@ -216,11 +204,16 @@ def handle_user_registration():
     elif form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         print(hashed_password)
-        crud.create_user(form.fname.data,
+        new_user = crud.create_user(form.fname.data,
                         form.lname.data,
                         form.email.data,
                         form.username.data,
                         form.password.data)
+
+
+        # db_user = crud.get_user_by_username(form.username.data)
+        # db_email = crud.get_user_by_email(form.email.data)
+
 
         return redirect(url_for('show_dashboard'))
 
@@ -246,9 +239,13 @@ def show_dashboard():
     print("route dashboard- showing dashboard else redirecting to login")
     print("#"*30)
     
+    # user_obj_db = crud.get_user_by_user_id(user_obj.user_id)
+
     #ERROR doesnt reach if statement. 
     # jinja2.exceptions.UndefinedError: 'str object' has no attribute 'username'
     # changed jinja to session_user- worked, but need to store object in session for refactor
+    
+    print("session in dashboard:", session)
     if "username" in session:
         print("if user...")
         # session_user= crud.get_user_by_user_id(session["user_id"])
@@ -261,7 +258,7 @@ def show_dashboard():
     else: 
         return redirect("/login")
 #passing a string and need an object
-
+# _user_id
 
 @app.route("/generate_rand_recipe.json")
 def generate_rand_recipe_button():
@@ -399,13 +396,13 @@ def get_favrecipes():
             print("-"*50)
             print(f"crud recipe obj: {recipe_obj}")
             # fav_recipe_info = crud.create_fav_recipes(session["user_id"], recipe_obj.recipe_id)
-            crud.create_fav_recipes(session["user_id"], recipe_obj.recipe_id)
+            crud.create_fav_recipes(session["_user_id"], recipe_obj.recipe_id)
             # print("-"*50)
             # print(f"fav_recipe_info={fav_recipe_info}")
 
     print("^"*50)
     print("GET request /favorites")
-    favs = crud.get_prev_fav_recipes(session["user_id"])
+    favs = crud.get_prev_fav_recipes(session["_user_id"])
     rec_ids = []
     for fav in favs:
         rec_ids.append(fav.recipe_id)
@@ -427,10 +424,11 @@ def show_user_account():
     print("routed to /account- displaying user acct")
     print("*"*50)
 
-    session_user_obj = crud.get_user_by_user_id(session["user_id"])
-    # session_user_obj = session['user_obj']
+    session_user_obj = crud.get_user_by_user_id(session["_user_id"])
+    # session_user_obj = session['user_object']
 
     return render_template("user_acct.html", session_user_obj=session_user_obj)
+
 
 
 @app.route("/edit_account", methods=["POST"])
@@ -442,7 +440,7 @@ def edit_user_acct():
 
     # session_user_obj = crud.get_user_by_user_id(session["user_id"])
 
-    session_user_obj = session['user_obj']
+    session_user_obj = session['user_obj'] #FIXME
 
     if request.method == "POST":
 
