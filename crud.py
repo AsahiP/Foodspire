@@ -312,13 +312,23 @@ def update_user_password(user_id, changed_password):
     db.session.commit()
 
 
-def delete_fav_recipe(fav_recipe_id):
-    """Delete reward."""
+def delete_fav_recipe(fav_recipe_title):
+    """Delete fav recipe"""
+    print("%"*50)
+    print("\nexecuting %%delete_fav_recipe")
 
-    fav_recipe = FavRecipe.query.get(fav_recipe_id)
+    # fav_recipe = FavRecipe.query.get(fav_recipe_id)
+    recipe_obj = get_recipe_by_title(fav_recipe_title)
+    print(recipe_obj)
+    recipe_saved_to_favs = FavRecipe.query.filter(FavRecipe.recipe_id==recipe_obj.recipe_id).all()
+    # print(recipe_saved_to_favs)
+    # print(recipe_saved_to_favs.recipe_id)
+    
+    for recipe in recipe_saved_to_favs:
+        db.session.delete(recipe)
+        db.session.commit()
 
-    db.session.delete(fav_recipe)
-    db.session.commit()
+    pass
 
 #can I make a single crud function for all the edits?
 

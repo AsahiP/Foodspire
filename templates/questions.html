@@ -13,20 +13,7 @@ in crud get_recipes_by_preference - looped through preferences and returned reci
 {% block body %}
 <form action="/questions_answers", method="POST">
 
-    <p>Choose any food allergies:</p>
 
-        <label for="nuts">nuts</label>
-        <input type="checkbox" name="allergy" value='nuts'>
-        <br>
-        <label for="dairy">dairy</label>
-        <input type="checkbox" name="allergy" value='dairy'>
-        <br>
-        <label for="gluten">gluten</label>
-        <input type="checkbox" name="allergy" value='gluten'>
-        <br>allergy 
-        <label for="shellfish">shellfish</label>
-        <input type="checkbox" name="allergy" value='shellfish'>
-        <br>
     
     <p>Choose dietary preference:</p>
 
@@ -43,7 +30,7 @@ in crud get_recipes_by_preference - looped through preferences and returned reci
         <input type="checkbox" name="dietary-pref" value='Paleo'>
         <br>
     
-    <p>Choose a meal time:</p>
+    <p>Choose a meal type:</p>
 
         <label for="breakfast">breakfast</label>
         <input type="checkbox" name="dietary-pref" value='Breakfast'>
@@ -56,22 +43,49 @@ in crud get_recipes_by_preference - looped through preferences and returned reci
         <br>
         <label for="dessert">dessert</label>
         <input type="checkbox" name="dietary-pref" value='Dessert'>
+        <br>
+        <label for="Picnic">Picnic</label>
+        <input type="checkbox" name="dietary-pref" value='Picnic'>
+        <br>
 
 
-    <p>Additional preference:</p>
+    <p>Choose ingredients:</p>
+    <label for="Meat">Meat</label>
+    <input type="checkbox" name="dietary-pref" value='Meat'>
+    <br>
+    <label for="Chocolate">Chocolate</label>
+    <input type="checkbox" name="dietary-pref" value='Chocolate'>
+    <br>
+    <label for="Cauliflower">Cauliflower</label>
+    <input type="checkbox" name="dietary-pref" value='Cauliflower'>
+    <br>
+    <label for="Persimmon">Persimmon</label>
+    <input type="checkbox" name="dietary-pref" value='Persimmon'>
+    <br>
+    <label for="Egg">Egg</label>
+    <input type="checkbox" name="dietary-pref" value='Egg'>
+    <br>
+    <label for="Cucumber">Cucumber</label>
+    <input type="checkbox" name="dietary-pref" value='Cucumber'>
+    <br>
+
+
+    <p>Additional preferences:</p>
 
         <label for="salad">salad</label>
         <input type="checkbox" name="dietary-pref" value='Salad'>
-        <br>
-        <label for="soup">soup</label>
-        <input type="checkbox" name="dietary-pref" value='Soup'>
         <br>
         <label for="side">side dish</label>
         <input type="checkbox" name="dietary-pref" value='Side'>
         <br>
         <label for="kid-friendly">kid-friendly</label>
         <input type="checkbox" name="dietary-pref" value='Kid-Friendly'>
-
+        <br>
+        <label for="Drinks">Drinks</label>
+        <input type="checkbox" name="dietary-pref" value='Drinks'>
+        <br>
+        <label for="Smoothie">Smoothie</label>
+        <input type="checkbox" name="dietary-pref" value='Smoothie'>
         <br><br>
         <input type="submit" value="Tell Me What to Make!">
     

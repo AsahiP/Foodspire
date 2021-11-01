@@ -28,9 +28,10 @@ if I comment showRecipeDetails, it does not effect the problem-->
 {% for recipe in recipe_objs_lst %}
 
   <!-- <div class="dropdown"> -->
-
-    <input hidden type="text" name="recipe-title" value="{{recipe.recipe_title}}">
+    <form action="/delete_fav_recipe" method="POST">
     <div>
+    <input hidden type="text" name="recipe-title" value="{{recipe.recipe_title}}">
+    <input type="checkbox" name="delete-fav-recipe" value="{{recipe.recipe_title}}">
       <button class="dropbtn" name="recipe-btn" id="{{recipe.recipe_id}}" type="submit" value="{{recipe.recipe_title}}">{{recipe.recipe_title}}</button>
     </div>
     
@@ -56,6 +57,9 @@ if I comment showRecipeDetails, it does not effect the problem-->
   </div>
 
 {% endfor %}
+
+<input type="submit" value="Delete Recipes">
+</form>
   <!-- </div> -->
         
 <canvas id="test-chart"></canvas>

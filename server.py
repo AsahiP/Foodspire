@@ -7,10 +7,8 @@ from model import User, connect_to_db
 print("#"*30)
 print("from model import User, connect_to_db")
 
-from flask import Flask, render_template, request, flash, session, redirect, jsonify, url_for
-print("#"*30)
-print("from flask import Flask, render_template, request, flash, session, redirect, jsonify, url_for")
-from flask_login import LoginManager, login_required, login_user,logout_user, current_user
+from flask import Flask, render_template, request, flash, session, redirect, jsonify
+from flask_login import LoginManager, login_required, login_user,logout_user
 from flask_bcrypt import Bcrypt
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
@@ -125,7 +123,7 @@ def validate_login():
     form = LoginForm()
     # import pdb; pdb.set_trace()
  
-    print(dir(form))
+    # print(dir(form))
 
     print("form.username.data", form.username.data)
     if form.validate_on_submit():
@@ -198,7 +196,8 @@ def handle_user_registration():
     if check_user:
         flash("Email address already exists to another user.")
         print("return redirect url_for handle_user_registration")
-        return redirect(url_for('handle_user_registration'))
+        # return redirect(url_for('handle_user_registration'))
+        return redirect("/register_user_form")
 
 
     elif form.validate_on_submit():
@@ -215,7 +214,8 @@ def handle_user_registration():
         # db_email = crud.get_user_by_email(form.email.data)
 
 
-        return redirect(url_for('show_dashboard'))
+        # return redirect(url_for('show_dashboard'))
+        return redirect("/dashboard")
 
     return render_template('registeracct.html', form=form)
 
@@ -335,20 +335,6 @@ def intake_questions_answers():
     print("*"*50)
     print("running questions function")
     print("*"*50)
-
-    ##########
-    #correspond categories in db to allergy values in html
-    #store the allergy choices to a list
-    #iterate through the list
-    #if any of the allergies listed match corresponding categories
-    #do not display those recipes
-    ##########
-
-    #if recipe has category that is nut-free/egg-free would easiest way
-    #for later, come up with conditionals that retrieve data/categories correctly
-    # allergies = request.form.getlist('allergy')
-    # print("***************")
-    # print(f"allergies: {allergies}")
     
 
     lst_of_preferences = request.form.getlist("dietary-pref") #test
@@ -357,15 +343,29 @@ def intake_questions_answers():
    
     #get recipe ids exclusively for recipes containing all chosen preferences
     recipes_ids_for_chosen_prefs = crud.get_recipe_ids_based_on_prefs(lst_of_preferences) 
+    print("recipes for chosen prefs:", recipes_ids_for_chosen_prefs)
 
+    if recipes_ids_for_chosen_prefs == set():
+        flash("There are no recipes based on the choices you made.") 
+        flash("Please try to refine your search and try again.")
+        
     # get recipe objects 
     recipe_obj = crud.get_recipe_by_id(recipes_ids_for_chosen_prefs)
+    print("recipe obj:", recipe_obj)
     # print(f"\n\nrecipes_obj type = {recipe_obj}")
 
     # recipe_directions = recipe_obj.directions[2:-2]
     # recipe_ingredients = recipe_obj.ingredients_list[2:-2]
+    favs = crud.get_prev_fav_recipes(session["_user_id"])
+    print("favs:", favs)
+    # user = sessions["_user_id"]
+    # recipes_in_favs = 
+    for recipef in favs:
+        for item in recipe_obj:
+            if item == recipef:
+                item = None
 
-    return render_template("display_recipes.html", recipe_obj=recipe_obj)
+        return render_template("display_recipes.html", recipe_obj=recipe_obj)
 
 #would like to show answers to the questionnaire for user to confirm
 
@@ -410,11 +410,30 @@ def get_favrecipes():
     recipe_objs_lst = crud.get_recipe_by_id(rec_ids)
     
     print("-"*50)
-    print(f"recipe_objs_lst:{recipe_objs_lst}")
+    print(f"amt of recipes in recipe_objs_lst:{len(recipe_objs_lst)}")
 
     return render_template("favorites.html", recipe_objs_lst=recipe_objs_lst)
 
 
+@app.route("/delete_fav_recipe", methods=["POST"])
+def delete_fav_recipe():
+    """Delete a recipe from the saved favorites"""
+    print("****************")
+    print("route to delete_fav_recipe")
+    print("****************")
+
+    recipes_to_delete = request.form.getlist("delete-fav-recipe")
+    print("recipes_to_delete:", recipes_to_delete)
+
+    for recipe_title in recipes_to_delete:
+        print("recipe title:", recipe_title)
+        print("type:", type(recipe_title))
+        crud.delete_fav_recipe(recipe_title) 
+    print("redirecting to favorites")
+    # return redirect(url_for(get_favrecipes))
+    return redirect("/favorites")
+    
+    # return redirect("/favorites")
 
 
 @app.route("/account_info")
@@ -438,32 +457,27 @@ def edit_user_acct():
     print("routed to /edit_account")
     print("*"*50)
 
-    # session_user_obj = crud.get_user_by_user_id(session["user_id"])
+    session_user_obj = crud.get_user_by_user_id(session["_user_id"])
 
-    session_user_obj = session['user_obj'] #FIXME
 
     if request.method == "POST":
-
-
-        # new_fname = request.form.get("fname-text-input")
-
-        # if new_fname:
-        #     if len(new_fname) > 20:
-        #         print("started if new_fname")
-        #         flash("Too many characters, use less than 20" )
-        #         return render_template("user_acct.html", session_user_obj=session_user_obj)
-        #         # return redirect("/edit_account")
-        #     else:
-        #         print(f"new_fname: {new_fname}")
-        #         update_fname = crud.update_user_fname(session['user_id'], new_fname)
-        #         print("-"*50)
-        #         flash(f"Sucessfully updated first name to {new_fname}")
         
         new_fname = request.form.get('fname_input')
+        print("-"*50)
+        print("new_fname", new_fname)
+        new_lname = request.form.get("lname_input")
+        print("-"*50)
+        print("new_lname", new_lname)
+        new_email = request.form.get("email_input")
+        print("-"*50)
+        print("new_email", new_email)
+        new_password = request.form.get("password_input")
+        print("-"*50)
+        print("new_password", new_password)
         
-        if new_fname:
+        if new_fname!=None:
+            print("started if new_fname")
             if len(new_fname) > 20:
-                print("started if new_fname")
                 result_code = "ERROR"
                 result_text = "Max input is 20 letters. Enter a name with less than 20 letters"
             elif len(new_fname) < 1:
@@ -474,122 +488,119 @@ def edit_user_acct():
                 crud.update_user_fname(session_user_obj.user_id, new_fname)                
                 result_code = "Success!"
                 result_text = f"Your first name has been changed to {new_fname}"
-        
-        return jsonify({'code': result_code, 'msg': result_text})
-        
-
-
+                
     
-        new_lname = request.form.get("lname-text-input")
 
-        if new_lname:
+        if new_lname!=None:
             print("started if new_lname")
             if len(new_lname) > 20:
-                flash("Too many characters, use less than 20" )
-                return render_template("user_acct.html", session_user_obj=session_user_obj)
-                # return redirect("/edit_account")
+                result_code = "ERROR"
+                result_text = "Max input is 20 letters. Enter a name with less than 20 letters"
+            elif len(new_lname) < 1:
+                result_code = "ERROR"
+                result_text = "You did not enter a name"
             else:
+                print(f"new_lname: {new_lname}")
+                crud.update_user_lname(session_user_obj.user_id, new_lname)                
+                result_code = "Success!"
+                result_text = f"Your last name has been changed to {new_lname}"
                 
-                update_lname = crud.update_user_lname(session['user_id'], new_lname)
-                print("-"*50)
-                print(update_lname)
-                flash(f"Sucessfully updated last name to {new_lname}")
-
         
-
-  
-        new_email = request.form.get("email-text-input")
-
-        if new_email:
+        
+        if new_email!=None:
+            print("started if new_email")
             if len(new_email) > 30:
-                print("started if new_email")
-                flash("Too many characters, use less than 30" )
-                return render_template("user_acct.html", session_user_obj=session_user_obj)
-                # return redirect("/edit_account")
+                result_code = "ERROR"
+                result_text = "Max input is 30 characters. Enter an e-mail address with less than 30 characters"
+            elif " " in new_email:
+                result_code = "ERROR"
+                result_text= "There cannot be any spaces in your e-mail"
+            elif len(new_email) < 1:
+                result_code = "ERROR"
+                result_text = "You did not enter an e-mail address"
             else:
-                update_email = crud.update_user_email(session['user_id'], new_email)
-                print("-"*50)
-                print(update_email)
-                flash(f"Sucessfully updated email to {new_email}")
+                print(f"new_email: {new_email}")
+                crud.update_user_email(session_user_obj.user_id, new_email)                
+                result_code = "Success!"
+                result_text = f"Your e-mail address has been changed to {new_email}"
+                
         
 
-
-        new_passwordd = request.form.get("passwordd-text-input")
-
-        if new_passwordd:
-            if len(new_passwordd) > 20:
-                print("started if new_passwordd")
-                flash("Too many characters, use less than 20" )
-                return render_template("user_acct.html", session_user_obj=session_user_obj)
-                # return redirect("/edit_account")
-
+        if new_password!=None:
+            print("started if new_password")
+            if len(new_password) > 20:
+                result_code = "ERROR"
+                result_text = "Max input is 20 characters. Enter a password with less than 20 letters"
+            elif len(new_password) < 1:
+                result_code = "ERROR"
+                result_text = "You did not enter anything"
             else:
-                update_passwordd = crud.update_user_passwordd(session['user_id'], new_passwordd)
-                print("-"*50)
-                print(update_passwordd)
-                flash(f"Sucessfully updated password to {new_passwordd}")
+                print(f"new_password: {new_password}")
+                crud.update_user_password(session_user_obj.user_id, new_password)                
+                result_code = "Success!"
+                result_text = f"Your password has been sucessfully changed"
+               
 
 
-
+    return jsonify({'code': result_code, 'msg': result_text})
   
-    return render_template('user_acct.html', session_user_obj=session_user_obj)
 
 
-def allowed_file(filename):
+# def allowed_file(filename):
 
-    return'.' in filename and \
-        filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-
-
-@app.route("/image_upload", methods=["GET", "POST"])
-def upload_image():
-    print("*"*50)
-    print("routed to /image_upload- function to upload image")
-    print("*"*50)
-
-    # image_file = request.files['img']
+#     return'.' in filename and \
+#         filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-    if request.method == 'POST':
-        print("^"*50)
-        print("POST REQUEST /image_upload")
 
-        if 'file' not in request.files:
-            print("-"*50)
-            print("if file not in request.files")
-            print(f"request.files: {request.files}")
-            print(f"request.files type: {type(request.files)}")
+# @app.route("/image_upload", methods=["GET", "POST"])
+# def upload_image():
+#     print("*"*50)
+#     print("routed to /image_upload- function to upload image")
+#     print("*"*50)
 
-            flash('There is no file part')
-            return redirect("/account_info")
-            return redirect(request.url)
+#     # image_file = request.files['img']
 
-        file = request.files['file']
-        print("-"*50)
-        print(f"filename: {file.filename}")
-        if file.filename == '':
-            print("-"*50)
-            print("if file.filename")
-            print(f"file.filename: {file.filename}")
-            print(f"file.filename type: {type(file.filename)}")
-            flash('No selected file')
-            return redirect("/account_info")
-            # return redirect(request.url)
 
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD FOLDER'], filename))
-            return redirect(url_for('download_file', name=filename))
-    return '''
-    <!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
-    <form method=post enctype=multipart/form-data>
-      <input type=file name=file>
-      <input type=submit value=Upload>
-    </form>
-    '''
+#     if request.method == 'POST':
+#         print("^"*50)
+#         print("POST REQUEST /image_upload")
+
+#         if 'file' not in request.files:
+#             print("-"*50)
+#             print("if file not in request.files")
+#             print(f"request.files: {request.files}")
+#             print(f"request.files type: {type(request.files)}")
+
+#             flash('There is no file part')
+#             return redirect("/account_info")
+#             return redirect(request.url)
+
+#         file = request.files['file']
+#         print("-"*50)
+#         print(f"filename: {file.filename}")
+#         if file.filename == '':
+#             print("-"*50)
+#             print("if file.filename")
+#             print(f"file.filename: {file.filename}")
+#             print(f"file.filename type: {type(file.filename)}")
+#             flash('No selected file')
+#             return redirect("/account_info")
+#             # return redirect(request.url)
+
+#         if file and allowed_file(file.filename):
+#             filename = secure_filename(file.filename)
+#             file.save(os.path.join(app.config['UPLOAD FOLDER'], filename))
+#             return redirect(url_for('download_file', name=filename))
+#     return '''
+#     <!doctype html>
+#     <title>Upload new File</title>
+#     <h1>Upload new File</h1>
+#     <form method=post enctype=multipart/form-data>
+#       <input type=file name=file>
+#       <input type=submit value=Upload>
+#     </form>
+#     '''
 
 
 

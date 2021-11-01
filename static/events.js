@@ -55,7 +55,7 @@ $('#edit-fname-btn').on('click', evt => {
 
 $('#edit-lname-btn').on('click', evt => {
     evt.preventDefault()
-    console.log('ran #edit-fname-button')
+    console.log('ran #edit-lname-button')
     $('#edit-lname-div').slideToggle();
 });
 
@@ -75,9 +75,9 @@ $('#edit-password-btn').on('click', evt => {
     $('#edit-password-div').slideToggle();
 });
 
-const fnameText = document.querySelector('#fname-txt');
-const fnameTextInput = document.querySelector('#fname-text-input');
-const fnameButton = document.querySelector('#submit-edit-fname-btn')
+// const fnameText = document.querySelector('#fname-txt');
+// const fnameTextInput = document.querySelector('#fname-text-input');
+// const fnameButton = document.querySelector('#submit-edit-fname-btn')
 
 // const changeFnameInput = {
 
@@ -99,7 +99,35 @@ $('#submit-edit-fname-btn').on('click', evt => {
     });
 });
 
+$('#submit-edit-lname-btn').on('click', evt => {
+    evt.preventDefault();
+    console.log("edit-lname-button ENGAGE!!!!!!")
 
+    const lnameInput = {
+            lname_input: $("#lname-text-input").val()
+    }
+    console.log(lnameInput)
+    $.post('/edit_account', lnameInput, res => {
+        $('#lname-txt').html(lnameInput['lname_input']);
+        alert(res.msg);
+
+    });
+});
+
+$('#submit-edit-email-btn').on('click', evt => {
+    evt.preventDefault();
+    console.log("edit-email-button ENGAGE!!!!!!")
+
+    const emailInput = {
+            email_input: $("#email-text-input").val()
+    }
+
+    $.post('/edit_account', emailInput, res => {
+        $('#email-txt').html(emailInput['email_input']);
+        alert(res.msg);
+
+    });
+});
 
 // fnameText.innerText = fnameTextInput;
 
