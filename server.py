@@ -1,14 +1,12 @@
 """Server for an Foodspire: an app that generates recipes based on user preference"""
+print("+"*70)
+print("INITIATING SERVER")
+print("+"*70)
 
 import crud, random, os
-print("#"*30)
-print("import crud, random, os")
 from model import User, connect_to_db
-print("#"*30)
-print("from model import User, connect_to_db")
-
 from flask import Flask, render_template, request, flash, session, redirect, jsonify
-from flask_login import LoginManager, login_required, login_user,logout_user
+from flask_login import LoginManager, login_required, login_user,logout_user, current_user
 from flask_bcrypt import Bcrypt
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
@@ -17,7 +15,7 @@ from wtforms.validators import InputRequired, Length, ValidationError
 # from wtforms.fields.html5 import URLField
 
 from jinja2 import StrictUndefined
-from werkzeug.utils import secure_filename
+# from werkzeug.utils import secure_filename
 
 
 app = Flask(__name__)
@@ -30,11 +28,11 @@ bcrypt = Bcrypt(app)
 UPLOAD_FOLDER = '/static'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER #to allow image uploads
+# app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER #to allow image uploads
 
-app.add_url_rule(
-    "/uploads/<name>", endpoint="download_file", build_only=True
-)
+# app.add_url_rule(
+#     "/uploads/<name>", endpoint="download_file", build_only=True
+# )
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -46,6 +44,11 @@ def load_business_user(id):
     return User.query.get(id)
 
 
+
+####################################################
+## CLASSES FOR FLASK LOGIN
+##
+####################################################
 
 
 
@@ -86,26 +89,29 @@ class LoginForm(FlaskForm):
 
 
 
-
-
 @app.route("/")
 def show_homepage():
     """Display the homepage"""
-    print("*******************")
-    print("route to homepage- displaying homepage")
-    print("*******************")
+    print("+"*70)
+    print("route to / - displaying homepage")
+    print("+"*70)
 
 
-    return render_template("homepage.html")
+    return render_template("index.html")
+
+####################################################
+## LOGIN AND USER REGISTRATION
+##
+####################################################
 
 
 
 @app.route("/login_page")
 def show_login_page():
     """Display the login page"""
-    print("#"*30)
+    print("+"*70)
     print("route login_page- displaying login page")
-    print("#"*30)
+    print("+"*70)
 
     form = LoginForm()
 
@@ -113,17 +119,18 @@ def show_login_page():
 
 
 
+
 @app.route("/login_form", methods=['GET', 'POST'])
 def validate_login():
     """contains logic to validate username/pass"""
-    print("#"*30)
+    print("+"*70)
     print("route /login_form- validate username/password")
-    print("#"*30)
+    print("+"*70)
+
+    # if current_user.is_authenticated:
 
     form = LoginForm()
     # import pdb; pdb.set_trace()
- 
-    # print(dir(form))
 
     print("form.username.data", form.username.data)
     if form.validate_on_submit():
@@ -131,24 +138,20 @@ def validate_login():
         user_obj= crud.get_user_by_username(form.username.data)
         print("user_obj", user_obj)
         if user_obj:
-            print("if user_obj")
-            print(form.password.data)
-            print(user_obj.password)
-            upass = form.password.data
+            print("if user_obj...")
+            print("form.password.data", form.password.data)
+            print("user_obj password", user_obj.password)
             print("6"*50)
-            (upass)
             print("3"*50)
             check = bcrypt.check_password_hash(user_obj.password, form.password.data) 
             print("check:", check) 
             print("?"*50)
-            # db_user = crud.get_user_by_username(user_obj.username)
-            # session['user_obj'] = db_user
             
 
             if bcrypt.check_password_hash(user_obj.password, form.password.data):
                 print("G"*50)
                 print("if bcrypt....")
-                login_user(user_obj, remember=True) #TE
+                login_user(user_obj, remember=True) #
                 session["username"] = form.username.data
                 print_session= session["username"]
                 print("K"*50)
@@ -168,12 +171,13 @@ def validate_login():
     return render_template('login.html', form=form)
 
 
+
 @app.route("/register_user")
 def show_user_registration():
     """display the registration page"""
-    print("#"*30)
-    print("route to /register_user")
-    print("#"*30)
+    print("+"*70)
+    print("route /register_user- validate username/password")
+    print("+"*70)
 
     form = RegisterForm()
 
@@ -181,12 +185,13 @@ def show_user_registration():
     return render_template("registeracct.html", form=form)
 
 
+
 @app.route("/register_user_form", methods=["POST"])
 def handle_user_registration():
-    """display the registration page"""
-    print("#"*30)
-    print("route to /register_user_form")
-    print("#"*30)
+    """process user registration inputs"""
+    print("+"*70)
+    print("route to /register_user_form -process user registration inputs")
+    print("+"*70)
     
     form = RegisterForm()
     email = form.email.data
@@ -196,7 +201,6 @@ def handle_user_registration():
     if check_user:
         flash("Email address already exists to another user.")
         print("return redirect url_for handle_user_registration")
-        # return redirect(url_for('handle_user_registration'))
         return redirect("/register_user_form")
 
 
@@ -209,11 +213,6 @@ def handle_user_registration():
                         form.username.data,
                         form.password.data)
 
-
-        # db_user = crud.get_user_by_username(form.username.data)
-        # db_email = crud.get_user_by_email(form.email.data)
-
-
         # return redirect(url_for('show_dashboard'))
         return redirect("/dashboard")
 
@@ -224,47 +223,50 @@ def handle_user_registration():
 @app.route('/logout', methods=['GET', 'POST'])
 @login_required
 def logout():
+    """logout user"""
+    print("+"*70)
+    print("route /logout- logout user, redirect /login")
+    print("+"*70)
     logout_user()
-    return redirect("/login")
+    return redirect("/")
 
 
     # return render_template("registeracct.html")
+
+##############################################
+## DASHBOARD/ DASHBOARD PROCESSES
+##
+##############################################
 
 
 @app.route("/dashboard")
 @login_required
 def show_dashboard():
     """Display user dashboard"""
-    print("#"*30)
-    print("route dashboard- showing dashboard else redirecting to login")
-    print("#"*30)
-    
-    # user_obj_db = crud.get_user_by_user_id(user_obj.user_id)
+    print("+"*70)
+    print("route /dashboard- showing dashboard if user in session, else redirecting to login")
+    print("+"*70)
 
-    #ERROR doesnt reach if statement. 
-    # jinja2.exceptions.UndefinedError: 'str object' has no attribute 'username'
-    # changed jinja to session_user- worked, but need to store object in session for refactor
-    
+    print("-"*50)
     print("session in dashboard:", session)
     if "username" in session:
-        print("if user...")
         # session_user= crud.get_user_by_user_id(session["user_id"])
-
         session_user = session["username"]
-        print(session_user)
-        print("return render_template dashboard.html sessoin_user=session_user")
+        print("-"*50)
+        print("session_user:", session_user)
         return render_template("dashboard.html", session_user=session_user)
 
     else: 
         return redirect("/login")
-#passing a string and need an object
+
 # _user_id
 
 @app.route("/generate_rand_recipe.json")
 def generate_rand_recipe_button():
-    print("#"*30)
+    """process generating recipe from recipe button"""
+    print("+"*70)
     print("route /generate_rand_recipe.json")
-    print("#"*30)
+    print("+"*70)
 
     rand_num = random.randint(0,20111)
     rand_lst = []
@@ -273,14 +275,11 @@ def generate_rand_recipe_button():
     rand_recipe = crud.get_recipe_by_id(rand_lst)[0] #needs list passed in, (rand_lst)[0] to get int
 
     title= rand_recipe.recipe_title
-    print("&"*30)
-    print("title", title)
-    ingredients= rand_recipe.ingredients_list[2:-2] #remove chars at beginning and end of list
+    ingredients= rand_recipe.ingredients_list[2:-2] 
     directions= rand_recipe.directions[2:-2]
 
 
     ingredients = ingredients.split('","') #returns back a list
-    # ingredients = ingredients.replace('","', "\n")
     directions = directions.split('","')
     
     recipe_dict = {
@@ -289,18 +288,15 @@ def generate_rand_recipe_button():
         "directions": directions
     }
     
-    print("$"*30)
-    print(recipe_dict)
     return jsonify(recipe_dict)
-
 
 
 
 app.route("/dashboard_rand_button", methods=["POST"])
 def use_fav_button():
-    print("*"*50)
+    print("+"*70)
     print("route dashboard_rand_button- logic to pick recipe when click dashboard button")
-    print("*"*50)
+    print("+"*70)
 
     rand_num = random.randint(0,20111)
     rand_lst = []
@@ -317,13 +313,17 @@ def use_fav_button():
             return redirect("/dashboard")
    
 
+##############################################
+## QUESTIONNAIRE/ QUESTIONNAIRE PROCESSES
+##
+##############################################
 
 @app.route("/questions")
 def show_questions():
     """display the questions page"""
-    print("*"*50)
+    ("+"*70)
     print("routing to questions- show questions page")
-    print("*"*50)
+    ("+"*70)
 
     return render_template("questions.html") 
 
@@ -332,18 +332,20 @@ def show_questions():
 @app.route("/questions_answers", methods=["POST"])
 def intake_questions_answers():
     """organizing questions from questions.html info to select recipes from db"""
-    print("*"*50)
+    ("+"*70)
     print("running questions function")
-    print("*"*50)
+    ("+"*70)
     
 
     lst_of_preferences = request.form.getlist("dietary-pref") #test
-    print(f"\n\nlst_of_preferences = {lst_of_preferences}")
+    print("-"*50)
+    print(f"lst_of_preferences = {lst_of_preferences}")
 
    
     #get recipe ids exclusively for recipes containing all chosen preferences
     recipes_ids_for_chosen_prefs = crud.get_recipe_ids_based_on_prefs(lst_of_preferences) 
-    print("recipes for chosen prefs:", recipes_ids_for_chosen_prefs)
+    print("-"*50)
+    print("length of recipes for chosen prefs:", len(recipes_ids_for_chosen_prefs))
 
     if recipes_ids_for_chosen_prefs == set():
         flash("There are no recipes based on the choices you made.") 
@@ -351,32 +353,34 @@ def intake_questions_answers():
         
     # get recipe objects 
     recipe_obj = crud.get_recipe_by_id(recipes_ids_for_chosen_prefs)
-    print("recipe obj:", recipe_obj)
+    print("-"*50)
+    print("length of recipe obj:", len(recipe_obj))
     # print(f"\n\nrecipes_obj type = {recipe_obj}")
 
     # recipe_directions = recipe_obj.directions[2:-2]
     # recipe_ingredients = recipe_obj.ingredients_list[2:-2]
-    favs = crud.get_prev_fav_recipes(session["_user_id"])
-    print("favs:", favs)
-    # user = sessions["_user_id"]
-    # recipes_in_favs = 
-    for recipef in favs:
-        for item in recipe_obj:
-            if item == recipef:
-                item = None
+    # favs = crud.get_prev_fav_recipes(session["_user_id"])
+    # recipes_not_in_favs = []
+    # for recipe in favs:
+    #     for item in recipe_obj:
+    #         if item == recipe:
+    #             recipes_not_in_favs.append(item)
+                
 
-        return render_template("display_recipes.html", recipe_obj=recipe_obj)
+        # return render_template("display_recipes.html", recipes_not_in_favs=recipes_not_in_favs)
+    return render_template("display_recipes.html", recipe_obj=recipe_obj)
 
-#would like to show answers to the questionnaire for user to confirm
-
+##############################################
+## FAVORITES/ FAVORITES PROCESSES
+##
+##############################################
 
 
 @app.route("/favorites", methods=["GET", "POST"])
 def get_favrecipes():
-    """Display favorite recipes/store recipes in db fav_recipes"""
-    print("****************")
-    print("route to favorites- logic storing chosen recipes, displaying previously stored")
-    print("****************")
+    ("+"*70)
+    print("route to /favorites- logic storing chosen recipes, displaying previously stored recipes")
+    ("+"*70)
 
 
     if request.method == "POST":
@@ -389,16 +393,11 @@ def get_favrecipes():
 
         #loop storing chosen recipes in db fav_recipes
         for recipe_title in chosen_recipe_titles:
-            # print("*"*20)
-            # print("recipe is type:", type(recipe_title))
-            # print("starting for loop")
             recipe_obj = crud.get_recipe_by_title(recipe_title)
             print("-"*50)
             print(f"crud recipe obj: {recipe_obj}")
-            # fav_recipe_info = crud.create_fav_recipes(session["user_id"], recipe_obj.recipe_id)
             crud.create_fav_recipes(session["_user_id"], recipe_obj.recipe_id)
-            # print("-"*50)
-            # print(f"fav_recipe_info={fav_recipe_info}")
+
 
     print("^"*50)
     print("GET request /favorites")
@@ -415,33 +414,39 @@ def get_favrecipes():
     return render_template("favorites.html", recipe_objs_lst=recipe_objs_lst)
 
 
+
 @app.route("/delete_fav_recipe", methods=["POST"])
 def delete_fav_recipe():
     """Delete a recipe from the saved favorites"""
-    print("****************")
-    print("route to delete_fav_recipe")
-    print("****************")
+    print("+"*70)
+    print("route /delete_fav_recipe- validate username/password")
+    print("+"*70)
 
     recipes_to_delete = request.form.getlist("delete-fav-recipe")
+    print("-"*50)
     print("recipes_to_delete:", recipes_to_delete)
 
     for recipe_title in recipes_to_delete:
-        print("recipe title:", recipe_title)
-        print("type:", type(recipe_title))
         crud.delete_fav_recipe(recipe_title) 
-    print("redirecting to favorites")
     # return redirect(url_for(get_favrecipes))
     return redirect("/favorites")
     
     # return redirect("/favorites")
 
 
+
+##############################################
+## USER ACCOUNT/ USER ACCOUNT PROCESSES
+##
+##############################################
+
+
 @app.route("/account_info")
 def show_user_account():
     """show the user account information"""
-    print("*"*50)
+    ("+"*70)
     print("routed to /account- displaying user acct")
-    print("*"*50)
+    ("+"*70)
 
     session_user_obj = crud.get_user_by_user_id(session["_user_id"])
     # session_user_obj = session['user_object']
@@ -453,9 +458,9 @@ def show_user_account():
 @app.route("/edit_account", methods=["POST"])
 def edit_user_acct():
     """logic to allow user to edit their information in the db"""
-    print("*"*50)
+    ("+"*70)
     print("routed to /edit_account")
-    print("*"*50)
+    ("+"*70)
 
     session_user_obj = crud.get_user_by_user_id(session["_user_id"])
 
@@ -475,6 +480,7 @@ def edit_user_acct():
         print("-"*50)
         print("new_password", new_password)
         
+
         if new_fname!=None:
             print("started if new_fname")
             if len(new_fname) > 20:
@@ -484,6 +490,7 @@ def edit_user_acct():
                 result_code = "ERROR"
                 result_text = "You did not enter a name"
             else:
+                print("-"*50)
                 print(f"new_fname: {new_fname}")
                 crud.update_user_fname(session_user_obj.user_id, new_fname)                
                 result_code = "Success!"
@@ -500,6 +507,7 @@ def edit_user_acct():
                 result_code = "ERROR"
                 result_text = "You did not enter a name"
             else:
+                print("-"*50)
                 print(f"new_lname: {new_lname}")
                 crud.update_user_lname(session_user_obj.user_id, new_lname)                
                 result_code = "Success!"
@@ -519,10 +527,12 @@ def edit_user_acct():
                 result_code = "ERROR"
                 result_text = "You did not enter an e-mail address"
             else:
+                print("-"*50)
                 print(f"new_email: {new_email}")
                 crud.update_user_email(session_user_obj.user_id, new_email)                
                 result_code = "Success!"
                 result_text = f"Your e-mail address has been changed to {new_email}"
+                
                 
         
 
@@ -535,6 +545,7 @@ def edit_user_acct():
                 result_code = "ERROR"
                 result_text = "You did not enter anything"
             else:
+                print("-"*50)
                 print(f"new_password: {new_password}")
                 crud.update_user_password(session_user_obj.user_id, new_password)                
                 result_code = "Success!"
@@ -545,6 +556,7 @@ def edit_user_acct():
     return jsonify({'code': result_code, 'msg': result_text})
   
 
+####UPLOAD PHOTO: UNFINISHED
 
 # def allowed_file(filename):
 
@@ -555,9 +567,9 @@ def edit_user_acct():
 
 # @app.route("/image_upload", methods=["GET", "POST"])
 # def upload_image():
-#     print("*"*50)
+#     ("+"*70)
 #     print("routed to /image_upload- function to upload image")
-#     print("*"*50)
+#     ("+"*70)
 
 #     # image_file = request.files['img']
 

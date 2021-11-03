@@ -4,6 +4,79 @@
   display: none;
 }
 
+.show-me:hover + .ninja {
+  display: block;
+  color: purple;
+}
+#background-video {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
+h1 {
+  text-align: center;
+    text-shadow: 2px 2px 3px black;
+    font-size: 50px;
+    color: #524546;
+    text-align: center;
+    font: Trebuchet;
+    font-style: italic;
+}
+
+.index-txt{
+  padding: 10px 0px 0px 0px;
+}
+
+/* pink */
+/* #c59093 */  
+/* #edead0; */
+/* #86baa1; */
+/* h1 {
+  text-shadow: 2px 2px 3px black;
+  font-size: 80px;
+  color: #524546;
+  text-align: center;
+
+} */
+
+a {
+  color: #ef432a;
+}
+
+#box-text{
+  background-color: rgb(247, 247, 247, .75);
+}
+
+.center {
+  margin: auto;
+  width: 50%;
+  /* border: 3px solid green; */
+  /* border-radius: 25px; */
+  padding: 50px;
+}
+
+.index-box-text{
+  text-align:center;
+  height: 400px;
+  /* padding: 30px;
+  border: 100px;
+  margin: 30px; */
+  /* margin-bottom: 0px; */
+
+}
+
+.negative-border{
+  outline: solid 2px#ffffff;
+  outline-offset: -30px;
+}
+
 .dropbtn {
     background-color: #ffffff;
     color: rgb(0, 0, 0);
@@ -40,5 +113,4 @@
 .dropdown:hover .droptitle {background-color: #961aaf;}
 
 .show {display:block;}
-
 
