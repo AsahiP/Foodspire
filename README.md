@@ -1,6 +1,6 @@
 <p align="center">
 <img src="foodspire_index.png" alt="index of Foodspire Webapp"
-	title="Homepage for Foodspire" width="630" height="450" />
+	title="Homepage for Foodspire" width="650" height="450" />
 </p>
 
 
