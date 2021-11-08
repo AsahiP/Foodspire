@@ -9,7 +9,7 @@
 	title="Homepage for Foodspire" width="400" height="250" />
 
 <img src="foodspire_questionnaire.png" alt="Questionnaire of Foodspire Webapp"
-	title="Preferences Questionnaire for Foodspire" width="400" height="250" />
+	title="Preferences Questionnaire for Foodspire" width="250" height="400" />
 
 
 
