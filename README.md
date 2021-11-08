@@ -29,10 +29,10 @@
 Foodspire is a full-stack web application intended to help the user find recipes based on a handful of culinary prefences. Using check-box questionnaire, the database containing recipe information returns recipes that align with all of those preferences. The user has the ability to save any recipes for later references. 
 
 <img src="foodspire_questionnaire.png" alt="Questionnaire from Foodspire Webapp"
-	title="Preferences Questionnaire for Foodspire" width="250" height="360" style="float: left"/>
+	title="Preferences Questionnaire for Foodspire" width="250" height="360" />
 
 <img src="foodspire_fav_example.png" alt="Snippet of Favorite Recipes from Foodspire Webapp"
-	title="Favorite Recipe" width="250" height="360" style="float: right"/>
+	title="Favorite Recipe" width="250" height="360"/>
 
 
 #### Technologies used:
