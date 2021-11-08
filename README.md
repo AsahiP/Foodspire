@@ -1,4 +1,9 @@
-![index of foodspire website](foodspire_index.png)
+img[src*="#index"]{
+    width: 150px;
+    height: 100ps;
+}
+
+![index of foodspire website](foodspire_index.png#index "The homepage for Foodspire")
 
 
 
