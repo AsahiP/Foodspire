@@ -1,18 +1,7 @@
-<!-- img[src*="#index"]{
-    width: 150px;
-    height: 100ps;
-}
-
-![index of foodspire website](foodspire_index.png#index "The homepage for Foodspire") -->
-
 <img src="foodspire_index.png" alt="index of Foodspire Webapp"
 	title="Homepage for Foodspire" width="400" height="250" />
 
-<img src="foodspire_questionnaire.png" alt="Questionnaire of Foodspire Webapp"
-	title="Preferences Questionnaire for Foodspire" width="250" height="360" />
 
-<img src="foodspire_fav_example.png" alt="Snippet of Favorite Recipes from Foodspire Webapp"
-	title="Favorite Recipe" width="250" height="360"/>
 
 # Foodspire
 
@@ -31,6 +20,9 @@ Foodspire is a full-stack web application intended to help the user find recipes
 
 <img src="foodspire_questionnaire.png" alt="Questionnaire from Foodspire Webapp"
 	title="Preferences Questionnaire for Foodspire" width="265" height="360" />
+
+<img src="foodspire_fav_example.png" alt="Snippet of Favorite Recipes from Foodspire Webapp"
+	title="Favorite Recipe" width="250" height="360"/>
 
 
 
