@@ -41,16 +41,6 @@ The Preferences Questionnaire and the Favorite Recipes page
 
 
 
-
-
-
-
-
-
-
-
-
-
 ### INSTALLATION INSTRUCTIONS
 
 1. This app has come with two files of .json data located in the /data directory.
