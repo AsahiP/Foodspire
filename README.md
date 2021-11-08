@@ -1,4 +1,4 @@
-! [index of foodspire website] (foodspire_index.png)
+![index of foodspire website](foodspire_index.png)
 
 
 
