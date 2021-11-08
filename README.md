@@ -6,7 +6,7 @@
 ![index of foodspire website](foodspire_index.png#index "The homepage for Foodspire") -->
 
 <img src="foodspire_index.png" alt="index of Foodspire Webapp"
-	title="Homepage for Foodspire" width="150" height="100" />
+	title="Homepage for Foodspire" width="300" height="600" />
 
 
 
