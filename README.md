@@ -1,6 +1,6 @@
 <p align="center">
 <img src="foodspire_index.png" alt="index of Foodspire Webapp"
-	title="Homepage for Foodspire" width="530" height="350" />
+	title="Homepage for Foodspire" width="630" height="450" />
 </p>
 
 
@@ -11,8 +11,7 @@
 
 1. Overview
 2. Installation Instructions
-3. Site Navigation
-4. Key learning points
+3. Key learning points
 
 
 
