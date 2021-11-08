@@ -5,7 +5,8 @@
 
 
 
-# Foodspire
+# :-: Foodspire
+
 
 ## Table Of Contents
 
@@ -127,7 +128,12 @@ To quit the database, press Ctrl-C
 
 1. Be aware how information is formatted when using a dataset
         I had spent more time than I would have liked to experimenting with object type conversion 
-        because of how the information was stored in my dataset.
+        because of how the information was stored in my dataset. As well looking thoroughly over the 
+        data to ensure that the data I need is organized in a usable way. This sounds like common sense,
+        but the app's creation was initialized with food allergies in mind. Though I saw recipes were categorized with some allergy categories, there were other allergy categories that were more complex to sort and use. 
+        For example, some allergies listed "Peanut allergies" but I would have to go through
+        the entire recipe list to ensure there wasn't any other nut exposure in the ingredients or 
+        instructions in order to fulfill the "nut allergy" preference.
 
 
 2. Learning how to plan for a coding project such as this
@@ -142,7 +148,7 @@ To quit the database, press Ctrl-C
         AJAX to work, there were many features I had forgone in order to complete as much of my
         project as I could in the given time. 
 
-4. Detail my methods and approaches to certain problems in the future
+4. Detail my methods of approaching problems in the future
         I did note bugs and what code fixed it, though I didn't do much to summarize the
         my process. I feel this would be helpful information for any creative blocks
         in the future.
