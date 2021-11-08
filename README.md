@@ -58,17 +58,17 @@ The Preferences Questionnaire and the Favorite Recipes page
 
 
 You have one of two options for the first step:
-By default the app is set to use "full_recipes.json". To use it, unzip full_recipes.json.zip. 
-Make sure that the unzipped file is in the project-foodspire/data directory.
+    By default the app is set to use "full_recipes.json". To use it, unzip full_recipes.json.zip. 
+    Make sure that the unzipped file is in the project-foodspire/data directory.
 
-To use the smaller file, you need to change a piece of code within the seed.py file (located in the project-foodspire directory). 
-Scroll to line 28 in seed.py. It should read:
+    To use the smaller file, you need to change a piece of code within the seed.py file (located in the project-foodspire directory). 
+    Scroll to line 28 in seed.py. It should read:
         with open('data/full_recipes.json') as f:
     Within the parentheses, change all of the code to 
         'five_test_recipes.json'
-This will change the default data to the data in five_test_recipes.json.
-Save the file to submit the change.
-Note: This can be done with any .json file you would like to use, provided the format is the same to the json files provided (a list of dictionaries)
+    This will change the default data to the data in five_test_recipes.json.
+    Save the file to submit the change.
+    Note: This can be done with any .json file you would like to use, provided the format is the same to the json files provided (a list of dictionaries)
 
 
 
