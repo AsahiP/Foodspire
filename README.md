@@ -48,6 +48,7 @@ The Preferences Questionnaire and the Favorite Recipes page
 
 
 <br/>
+
 ### INSTALLATION INSTRUCTIONS
 
 1. This app has come with two files of .json data located in the /data directory.
@@ -120,6 +121,7 @@ To quit the database, press Ctrl-C
 
 
 </br>
+
 ### KEY LEARNING POINTS
 
 1. Be aware how information is formatted when using a dataset
