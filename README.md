@@ -32,17 +32,15 @@ Foodspire is a full-stack web application intended to help the user find recipes
     - Kaggle API dataset
 
 
-<p float="left">
-<img src="foodspire_questionnaire.png" alt="Questionnaire from Foodspire Webapp"
-	title="Preferences Questionnaire for Foodspire" width="265" height="360"/>\
-<br> The questionnaire to sort user preferences
-</p>
 
-<p float="right">
+<img src="foodspire_questionnaire.png" alt="Questionnaire from Foodspire Webapp"
+	title="Preferences Questionnaire for Foodspire" width="265" height="360"/> <img src="foodspire_fav_example.png" alt="Snippet of Favorite Recipes from Foodspire Webapp"
+	title="Favorite Recipe" width="500" height="360"/>
+
+
 <img src="foodspire_fav_example.png" alt="Snippet of Favorite Recipes from Foodspire Webapp"
-	title="Favorite Recipe" width="500" height="360"/>\
-<br> The Favorite Recipes page
-</p>
+	title="Favorite Recipe" width="500" height="360"/>
+
 
 
 
