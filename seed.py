@@ -26,7 +26,7 @@ crud.create_user('Mona', 'Bones', 'iamadog@aol.com', 'immona', 'bones4me')
 crud.create_user('Testfname', 'Testlname', 'test@test.com', 'TestUser', 'TestPass!')
 
 
-with open('data/full_recipes.json') as f:
+with open('secret/full_recipes.json') as f:
     recipe_data = json.loads(f.read())
 #debug history for full_recipes.json in /secret/debug.txt
 

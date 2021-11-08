@@ -35,15 +35,6 @@ $('#wildcard-recipe-button').on('click', showRandRecipe);
 
 
 
-// $('#show-me-recipes-btn').on('click', evt => {
-//     // evt.preventDefault();
-//     console.log("executing alertNoRecipes");
-//     $.post('/recipe_answers_display', res => {
-//         alert(res.msg);
-
-//     });
-
-// });
 function alertNoRecipes(evt) {
     evt.preventDefault();
     console.log("executing alertNoRecipes");
@@ -68,23 +59,7 @@ $('.dropbtn').on('click', evt => {
         $(`#dropdown-content-id-${evt.target.id}`).slideToggle(); 
 
 });
-// .stop.slidToggle()
-// conditional if open open slide, if closed, closed slide
-// $('.dropbutton').on('click', evt => {
-//     evt.preventDefault()  
-//     console.log("the evt:")
-//     console.log(evt);
-//     const htmlData = {
-//         "recipe-title": evt.target.value
-//     }
-//     console.log(htmlData);
-                                
 
-//         console.log($(`#${evt.target.id}`));
-//         console.log(evt.target.id);
-//         $(`#dropdown-content-id-${evt.target.id}`).slideToggle(); 
-
-// });
 
 
 $('#edit-fname-btn').on('click', evt => {
