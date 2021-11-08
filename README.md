@@ -75,10 +75,10 @@ You have one of two options for the first step:
 
 
 2. Set up a virtual environment
-   <br/> *2a. Open the terminal and desired directory to run the apps server in. In the terminal type:
-   <br/> *2b. virtualenv env
-    <br/> *2c. source env/bin/activate
-    <br/> *2d. pip3 install -r requirements.txt
+   <br/> 2a. Open the terminal and desired directory to run the apps server in. In the terminal type:
+   <br/> 2b. virtualenv env
+    <br/>2c. source env/bin/activate
+    <br/>2d. pip3 install -r requirements.txt
     You should see an indicator to the left or your command line that displays you are 
     in the virtual environment (ie. (env))
     To exit the virtual environment, use keys Ctrl + C 
