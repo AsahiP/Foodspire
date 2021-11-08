@@ -1,5 +1,5 @@
-<center><img src="foodspire_index.png" alt="index of Foodspire Webapp"
-	title="Homepage for Foodspire" width="530" height="350" /></center>
+<img src="foodspire_index.png" alt="index of Foodspire Webapp"
+	title="Homepage for Foodspire" width="530" height="350" />
 
 
 
