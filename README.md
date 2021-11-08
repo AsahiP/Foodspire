@@ -8,6 +8,9 @@
 <img src="foodspire_index.png" alt="index of Foodspire Webapp"
 	title="Homepage for Foodspire" width="400" height="250" />
 
+<img src="foodspire_questionnaire.png" alt="Questionnaire of Foodspire Webapp"
+	title="Preferences Questionnaire for Foodspire" width="400" height="250" />
+
 
 
 # Foodspire
