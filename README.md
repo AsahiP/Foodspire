@@ -1,5 +1,5 @@
 <p align="center">
-<img src="foodspire_index.png" alt="index of Foodspire Webapp"
+<img src="/static/images/foodspire_index.png" alt="index of Foodspire Webapp"
 	title="Homepage for Foodspire" width="690" height="450" />
 </p>
 
@@ -33,7 +33,7 @@ Foodspire is a full-stack web application intended to help the user find recipes
 
 
 
-<img src="foodspire_questionnaire.png" alt="Questionnaire from Foodspire Webapp"
+<img src="/static/images/foodspire_questionnaire.png" alt="Questionnaire from Foodspire Webapp"
 	title="Preferences Questionnaire for Foodspire" width="275" height="360"/> <img src="/static/images/foodspire_fav_example.png" alt="Snippet of Favorite Recipes from Foodspire Webapp"
 	title="Favorite Recipe" width="500" height="360"/>
 
