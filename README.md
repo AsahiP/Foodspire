@@ -75,7 +75,7 @@ You have one of two options for the first step:
 
 
 2. Set up a virtual environment
-    *2a. Open the terminal and desired directory to run the apps server in. In the terminal type:
+   <br/> *2a. Open the terminal and desired directory to run the apps server in. In the terminal type:
         *2b. virtualenv env
         *2c. source env/bin/activate
         *2d. pip3 install -r requirements.txt
