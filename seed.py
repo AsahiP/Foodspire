@@ -23,6 +23,7 @@ print("*********")
 print("created db from model")
 
 crud.create_user('Mona', 'Bones', 'iamadog@aol.com', 'immona', 'bones4me')
+crud.create_user('Testfname', 'Testlname', 'test@test.com', 'TestUser', 'TestPass!')
 
 
 with open('data/full_recipes.json') as f:
@@ -44,14 +45,6 @@ for recipe in recipe_data:
 
     for category in categories:
         categories_in_db.add(category)
-
-
-# attempt to fix the 'categories key does not exist error'
-# categories_in_db=set()
-# for i in range(0, len(recipe_data)):
-#     categories=recipe_data[i]['categories']
-#     for category in categories:
-#         categories_in_db.add(category)
 
 
 

@@ -1,26 +1,8 @@
 <!-- displaying the home page with link to login/create an acct -->
 {% extends 'base.html' %}
-{% block title %}{% endblock title %}
+{% block title %}Index{% endblock title %}
 
 {% block head %}
-<style>
-
-#login-button{
-  background-color: #c0c0c0; /* Green */
-  border: none;
-  border-radius: 15px;
-  box-shadow: 2px 2px 2px black;
-  color: #f9f6ee;
-  padding: 10px 15px;
-  text-align: center;
-  text-shadow: 1px 1px 1px #524546;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  font: Trebuchet MS;
-}
-
-</style>
 {% endblock head %}
 
 {% block body %}
@@ -28,22 +10,27 @@
 
 
 <video id="background-video" autoplay loop muted>
-    <source src="static/Colorfulsaladbowl.mp4" type="video/mp4">
-  </video>
+  <source src="static/Colorfulsaladbowl.mp4" type="video/mp4">
+</video>
 
-  <div class="index-box-text center negative-border" id="box-text">
-    <h1><b><i>Foodspire</i></b></h1>
+<div class="index-box-text center negative-border" id="box-text">
 
-<p id="index-txt" style="padding: 0px 0px 0px 0px;"><b>Not sure what to make for dinner tonight? Or the potluck next weekend?</b></p>
+  <h1 style="font-family: Frank Ruhl Libre,Georgia,serif;"><b><i>Foodspire</i></b></h1>
 
-<p style="padding: 10px 0px 0px 0px;"><b>Don't worry -we've got you covered.</b></p>
+    <p id="index-txt" style="padding: 0px 0px 0px 0px;">
+      <b>Need some ideas for dinner tonight? Or the potluck next weekend?
+    </p>
+    <br>
+    <p style="padding: 10px 0px 0px 0px;">
+      Don't worry -we've got you covered.
+      </b>
+    </p>
 
-<form action="/login_page">
-    <input type="submit" name="login-button" id="login-button" value="Login/Create Account">
-</form>
+  <form action="/login_page">
+    <input type="submit" name="light-grn-button" class="btn grnbutton recipe-jump-button" value="Login">
+  </form>
 
 </div>
-<br>
 
 
 {% endblock body %}

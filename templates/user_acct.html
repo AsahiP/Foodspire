@@ -1,85 +1,92 @@
 <!-- account settings page where user can change their information -->
 
 {% extends 'base.html' %}
-{% block title %}Questions{% endblock title %}
+{% block title %}{% endblock title %}
 
 {% block head %}
 <link rel="stylesheet" href="/static/stylesheet.css">
-<h1>Account info for {{session_user_obj.username}}</h1>
 
 {% endblock head %}
 
 {% block body %}
+    <ul class="nav-bar">
+        <li class="nav-bar"><a href="/logout">Logout</a></li>
+        <li class="nav-bar"><a href="/account_info">Account</a></li>
+        <li class="nav-bar"><a href="/questions">Questionnaire</a></li>
+        <li class="nav-bar"><a href="/favorites">Favorites</a></li>
+        <li class="nav-bar"><a href="/dashboard">Dashboard</a></li>
+        <li class="nav-bar" style="float:left"><a class="active" href="/">Foodspire</a></li>
+    </ul>
 
-    <p>Username: {{session_user_obj.username}}</td> 
-    <p><a href="/dashboard">Back to the Dashboard</a></p>
+        <h1 style="text-shadow: 2px 2px 3px rgb(122, 118, 118);">Account Information</h1>
 
-
-    <p>First Name: <div id="fname-txt">{{session_user_obj.fname}}</div>             
-        <button id="edit-fname-btn" type="submit">Edit</button> 
-    </p>
-    <div class="ninja" id="edit-fname-div"> 
-        <input type="text" name= "fname-text-input" id="fname-text-input" value="Input New Name">
-
-        <input id="submit-edit-fname-btn" type="submit" value="Submit">
-    </div>
-
-
-    <p>Last Name: <div id="lname-txt">{{session_user_obj.lname}}</div>             
-        <button id="edit-lname-btn" type="submit">Edit</button> 
-    </p>
-    <div class="ninja" id="edit-lname-div"> 
-    <form action="/edit_account" method='POST'>
-
-        <input type="text" name= "lname-text-input" id="lname-text-input" value="Input New Name">
-
-        <input id="submit-edit-lname-btn" type="submit" value="Submit">
-    </form>
-    </div>
-
-
-    <p>Email: <div id="email-txt">{{session_user_obj.email}}</div>             
-        <button id="edit-email-btn" type="submit">Edit</button> 
-    </p>
-    <div class="ninja" id="edit-email-div"> 
-    <form action="/edit_account" method='POST'>
-
-        <input type="text" name= "email-text-input" id="email-text-input" value="Input New Email">
-
-        <input id="submit-edit-email-btn" type="submit" value="Submit">
-    </form>
-    </div>
+        <p>Username: {{session_user_obj.username}}</td> 
 
 
 
-    <p>Password: <div id="password-txt">*************</div>             
-        <button id="edit-password-btn" type="submit">Edit</button> 
-    </p>
-    <div class="ninja" id="edit-password-div"> 
-    <form action="/edit_account" method='POST'>
+        <p>First Name: <div id="fname-txt">{{session_user_obj.fname}}</div>             
+            <button id="edit-fname-btn" type="submit">Edit</button> 
+        </p>
 
-        <input type="text" name= "password-text-input" id="password-text-input" value="Input New Password">
+        <div class="ninja" id="edit-fname-div"> 
 
-        <input id="submit-edit-password-btn" type="submit" value="Submit">
-    </form>
-    </div>
+            <input type="text" name= "fname-text-input" id="fname-text-input" value="Input New Name">
 
+            <input id="submit-edit-fname-btn" type="submit" value="Submit">
+
+        </div>
+
+
+        <p>Last Name: <div id="lname-txt">{{session_user_obj.lname}}</div>             
+            <button id="edit-lname-btn" type="submit">Edit</button> 
+        </p>
         
-    <p>I want to hide the password until the user decides to edit</p>
+        <div class="ninja" id="edit-lname-div"> 
 
- 
-    <p>upload a profile photo</p>
+            <form action="/edit_account" method='POST'>
 
-    <form action="/image_upload" method="POST">
-        <label for="img">Select image:</label>
-        <input type="file" id="img" name="img" accept="image/*">
-        <input type="submit">
-      </form>
+                <input type="text" name= "lname-text-input" id="lname-text-input" value="Input New Name">
 
-      <script src="http://code.jquery.com/jquery.js"></script>
-<script src="/static/events.js"></script>
+                <input id="submit-edit-lname-btn" type="submit" value="Submit">
+            </form>
+
+        </div>
+
+
+        <p>Email: <div id="email-txt">{{session_user_obj.email}}</div>             
+            <button id="edit-email-btn" type="submit">Edit</button> 
+        </p>
+        <div class="ninja" id="edit-email-div"> 
+
+            <form action="/edit_account" method='POST'>
+
+                <input type="text" name= "email-text-input" id="email-text-input" value="Input New Email">
+
+                <input id="submit-edit-email-btn" type="submit" value="Submit">
+            </form>
+
+        </div>
+
+
+
+        <p>Password: <div id="password-txt">*************</div>             
+            <button id="edit-password-btn" type="submit">Edit</button> 
+        </p>
+
+        <div class="ninja" id="edit-password-div"> 
+
+            <form action="/edit_account" method='POST'>
+
+                <input type="text" name= "password-text-input" id="password-text-input" value="Input New Password">
+
+                <input id="submit-edit-password-btn" type="submit" value="Submit">
+            </form>
+
+    </div>
+
+    
+
+
 {% endblock body %}
 
 
-<!-- possible crud function when able to pass data
-from sqlalchemy import update -->

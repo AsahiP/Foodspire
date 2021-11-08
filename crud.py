@@ -180,7 +180,7 @@ def get_recipe_ids_based_on_prefs(lst_of_prefs):
     final_result = set()
 
     for category in category_obj_lst:
-        if category != None:
+        if category != None: # conditional in case nothing is returned
             recipe_category_set = set()
             recipe_category_lst = RecipeCategory.query.filter(RecipeCategory.category_id == category.category_id).all() #limit for testing
 
@@ -190,7 +190,7 @@ def get_recipe_ids_based_on_prefs(lst_of_prefs):
             lst_of_recipe_category_sets.append(recipe_category_set)
         
         else:
-            lst_of_recipe_category_sets.append(set())
+            lst_of_recipe_category_sets.append(set())# avoids None value
     
     if lst_of_recipe_category_sets != []:
         final_result = lst_of_recipe_category_sets[0]

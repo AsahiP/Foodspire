@@ -5,27 +5,53 @@
 
 // only returns/displays last response (directions)
 function showRandRecipe(evt) {
+    evt.preventDefault();
     console.log("executing showRandRecipe");
 
     $.get('/generate_rand_recipe.json', response => {
         console.log("executing $.get('/generate_rand_recipe.json' ")
 
-        $('#recipe-button-title').html(response.title);
+        $('#wildcard-button-title').html(response.title);
         console.log(`recipe title = ${response.title}`)
 
+
         for (const ingredient of response.ingredients){
-            $('#recipe-button-ingredients').append(`<li>${ingredient}</li>`);
+            $('#wildcard-button-ingredients').append(`<li>${ingredient}</li>`);
         }
         
         for (const direction of response.directions){
-            $('#recipe-button-directions').append(`<li>${direction}</li>`);
+            $('#wildcard-button-directions').append(`<li>${direction}</li>`);
             }
+        
+        $('#add-to-fav-btn').html(`<form action="/add_wildcard_to_fav" method="POST">
+        <button class="btn grnbutton recipe-jump-button" id="add-to-fav-btn" type="submit">Add To Recipe Book</button>
+      </form> `);
+        
 
     });
 }
 
-$('#rand-recipe-button').on('click', showRandRecipe);
+$('#wildcard-recipe-button').on('click', showRandRecipe);
 
+
+
+// $('#show-me-recipes-btn').on('click', evt => {
+//     // evt.preventDefault();
+//     console.log("executing alertNoRecipes");
+//     $.post('/recipe_answers_display', res => {
+//         alert(res.msg);
+
+//     });
+
+// });
+function alertNoRecipes(evt) {
+    evt.preventDefault();
+    console.log("executing alertNoRecipes");
+    $.post('/recipe_answers_msg', res => {
+        alert(res.msg);
+
+    });
+}
 
 
 $('.dropbtn').on('click', evt => {
@@ -34,19 +60,36 @@ $('.dropbtn').on('click', evt => {
     const htmlData = {
         "recipe-title": evt.target.value
     }
-    console.log(htmlData)
+    console.log(htmlData);
                                 
 
-        console.log($(`#${evt.target.id}`))
-        console.log(evt.target.id)
+        console.log($(`#${evt.target.id}`));
+        console.log(evt.target.id);
         $(`#dropdown-content-id-${evt.target.id}`).slideToggle(); 
 
 });
+// .stop.slidToggle()
+// conditional if open open slide, if closed, closed slide
+// $('.dropbutton').on('click', evt => {
+//     evt.preventDefault()  
+//     console.log("the evt:")
+//     console.log(evt);
+//     const htmlData = {
+//         "recipe-title": evt.target.value
+//     }
+//     console.log(htmlData);
+                                
+
+//         console.log($(`#${evt.target.id}`));
+//         console.log(evt.target.id);
+//         $(`#dropdown-content-id-${evt.target.id}`).slideToggle(); 
+
+// });
 
 
 $('#edit-fname-btn').on('click', evt => {
     evt.preventDefault()
-    console.log('ran #edit-fname-button')
+    console.log('ran #edit-fname-button');
     $('#edit-fname-div').slideToggle();
 
 });
@@ -54,39 +97,31 @@ $('#edit-fname-btn').on('click', evt => {
 
 
 $('#edit-lname-btn').on('click', evt => {
-    evt.preventDefault()
-    console.log('ran #edit-lname-button')
+    evt.preventDefault();
+    console.log('ran #edit-lname-button');
     $('#edit-lname-div').slideToggle();
 });
 
 
 
 $('#edit-email-btn').on('click', evt => {
-    evt.preventDefault()
-    console.log('ran #edit-email-button')
+    evt.preventDefault();
+    console.log('ran #edit-email-button');
     $('#edit-email-div').slideToggle();
 });
 
 
 
 $('#edit-password-btn').on('click', evt => {
-    evt.preventDefault()
-    console.log('ran #edit-password-button')
+    evt.preventDefault();
+    console.log('ran #edit-password-button');
     $('#edit-password-div').slideToggle();
 });
 
-// const fnameText = document.querySelector('#fname-txt');
-// const fnameTextInput = document.querySelector('#fname-text-input');
-// const fnameButton = document.querySelector('#submit-edit-fname-btn')
-
-// const changeFnameInput = {
-
-
-// }
 
 $('#submit-edit-fname-btn').on('click', evt => {
     evt.preventDefault();
-    console.log("edit-fname-button ENGAGE!!!!!!")
+    console.log("edit-fname-button ENGAGE!!!!!!");
 
     const fnameInput = {
             fname_input: $("#fname-text-input").val()
@@ -99,14 +134,15 @@ $('#submit-edit-fname-btn').on('click', evt => {
     });
 });
 
+
 $('#submit-edit-lname-btn').on('click', evt => {
     evt.preventDefault();
-    console.log("edit-lname-button ENGAGE!!!!!!")
+    console.log("edit-lname-button ENGAGE!!!!!!");
 
     const lnameInput = {
             lname_input: $("#lname-text-input").val()
     }
-    console.log(lnameInput)
+    console.log(lnameInput);
     $.post('/edit_account', lnameInput, res => {
         $('#lname-txt').html(lnameInput['lname_input']);
         alert(res.msg);
@@ -114,9 +150,10 @@ $('#submit-edit-lname-btn').on('click', evt => {
     });
 });
 
+
 $('#submit-edit-email-btn').on('click', evt => {
     evt.preventDefault();
-    console.log("edit-email-button ENGAGE!!!!!!")
+    console.log("edit-email-button ENGAGE!!!!!!");
 
     const emailInput = {
             email_input: $("#email-text-input").val()
@@ -129,16 +166,29 @@ $('#submit-edit-email-btn').on('click', evt => {
     });
 });
 
+
 $('#submit-edit-password-btn').on('click', evt => {
     evt.preventDefault();
-    console.log("edit-lname-button ENGAGE!!!!!!")
+    console.log("edit-lname-button ENGAGE!!!!!!");
 
     const passwordInput = {
             password_input: $("#password-text-input").val()
     }
-    console.log(passwordInput)
+
+    console.log(passwordInput);
     $.post('/edit_account', passwordInput, res => {
         alert(res.msg);
 
     });
 });
+
+
+
+// element.addEventListener("click", myFunction);
+
+// submitbtn = document.getElementById("submitbtn");
+
+// function myFunction() {
+//     if (submitbtn
+//   alert ("Hello World!");
+// }

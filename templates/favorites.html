@@ -1,68 +1,103 @@
 
-<!-- users "favorited" recipes from display recipes
-without form action tag, showRecipeDetails in eventss.js does not flash to weird json page. Same behavior as if using preventDefault() in showRecipeDetails(). 
-get KeyError in server though, with or without formData 
-can only get reaction from first button displayed on page
-
-evt.preventDefault also gives a KeyError
-
-CSS makes no difference
-
-if I comment showRecipeDetails, it does not effect the problem-->
+<!-- users "favorited" recipes-->
 {% extends 'base.html' %}
-{% block title %} Favorites{% endblock title %}
+{% block title %}Favorites{% endblock title %}
 
 {% block head %}
 <link rel="stylesheet" href="/static/stylesheet.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+
+<style>
+  p{
+    font-size: 25px;
+    font-style: bold;
+  }
+
+#photo{
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+}
+</style>
 {% endblock head %}
 
 {% block body %}
-  <h1>Favorite Recipes</h1>
 
-  <div>
-    <a href=dashboard>Return to dashboard</a>
-    <a href=test_route>TEST ROUTE</a>
-  </div>
+<ul class="nav-bar">
+  <li class="nav-bar"><a href="/logout">Logout</a></li>
+  <li class="nav-bar"><a href="/account_info">Account</a></li>
+  <li class="nav-bar"><a href="/questions">Questionnaire</a></li>
+  <li class="nav-bar"><a href="/dashboard">Dashboard</a></li>
+  <li class="nav-bar" style="float:left"><a class="active" href="/">Foodspire</a></li>
+</ul>
+
+<div style="background-color: rgb(247, 247, 247, .7);">
+
+  <h1>Favorite Recipes</h1>
+  <center>
+    <p>Click on the recipe name to reveal the recipe details</p>
+    <p>To delete any recipes, select the desired recipes by
+      <br>checking the box to the left of the recipe name. then 
+      <br>clicking the "Delete Recipes" button.
+    </p>
+  </center>
+
+
+  <img id="photo" src="/static/images/recipebook.jpeg">
+
+  <form action="/delete_fav_recipe" method="POST">
+    <input class="btn grnbutton recipe-jump-button" style="position: fixed; margin-left: 800px;" type="submit" value="Delete Recipes">
   
 {% for recipe in recipe_objs_lst %}
-
-  <!-- <div class="dropdown"> -->
-    <form action="/delete_fav_recipe" method="POST">
-    <div>
+    
+      
     <input hidden type="text" name="recipe-title" value="{{recipe.recipe_title}}">
+
     <input type="checkbox" name="delete-fav-recipe" value="{{recipe.recipe_title}}">
-      <button class="dropbtn" name="recipe-btn" id="{{recipe.recipe_id}}" type="submit" value="{{recipe.recipe_title}}">{{recipe.recipe_title}}</button>
-    </div>
+
+      <button class="dropbtn light-grn-button" name="recipe-btn" id="{{recipe.recipe_id}}" type="submit" value="{{recipe.recipe_title}}">{{recipe.recipe_title}}</button>
+      <br>
+      <br>
+    
     
 
     <div class="dropdown-content hide-recipe" id="dropdown-content-id-{{recipe.recipe_id}}">
-      <p id="recipe-id-{{recipe.recipe_id}}">
-      <p>
-        <b>Ingredients</b>
-      </p>
+
+        <p id="recipe-id-{{recipe.recipe_id}}">
+        <p>
+          <b>Ingredients</b>
+        </p>
+
       {% for ingredient in recipe.ingredients_list[2:-2].split('","') %}
         <ul>
           <li>{{ingredient}}</li>
         </ul>
       {% endfor %}
-    <p>
-      <b>Directions</b>
-    </p>
-    {% for step in recipe.directions[2:-2].split('","') %}
-      <ol>
-        <li>{{step}}</li>
+
+        <p>
+          <b>Directions</b>
+        </p>
+
+        <ol>
+      {% for step in recipe.directions[2:-2].split('","') %}
+          <li>{{step}}</li>
+      {% endfor %}
       </ol>
-    {% endfor %}
-  </div>
+
+    </div>
 
 {% endfor %}
 
-<input type="submit" value="Delete Recipes">
-</form>
-        
-<script src="http://code.jquery.com/jquery.js"></script>
-<script src="/static/events.js"></script>
+  </form>
+  
+</div>
+
 {% endblock body %}
 
 

@@ -1,37 +1,60 @@
 {% extends 'base.html' %}
-{% block title %}{% endblock title %}
+{% block title %}Create Account{% endblock title %}
 
-{% block head %}<h1>CREATE AN ACCOUNT</h1>{% endblock head %}
+{% block head %}
+
+<style>
+
+#login-div {
+    display:block;
+    background: #FAF9F6;
+    margin: auto;
+    /* position: absolute; */
+    text-align:center;
+    outline: solid 2px #ffd977;
+    outline-offset: -30px;
+    padding: 80px;
+}
+
+body{
+    background-image: url('/static/images/food1.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+</style>
+
+{% endblock head %}
 
 {% block body %}
+<div id="login-div">
 
-<form action="/register_user_form" method="POST">
-    
-    {{ form.hidden_tag() }}
-    <br>
-    {{ form.username() }}
-    <br>
-    {{ form.fname() }}
-    <br>
-    {{ form.lname() }}
-    <br>
-    {{ form.email() }}
-    <br>
-    {{ form.password() }}
-    <br>
-    {{ form.submit() }}
-</form>
+    <h1>CREATE AN ACCOUNT</h1>
 
+    <form action="/register_user_form" method="POST">
+        
+        {{ regform.hidden_tag() }}
+        <br>
+        {{ regform.username() }}
+        <br>
+        {{ regform.fname() }}
+        <br>
+        {{ regform.lname() }}
+        <br>
+        {{ regform.email() }}
+        <br>
+        {{ regform.password() }}
+        <br>
+        <!-- {{ regform.submit }} -->
+
+        <center>
+            <button class="btn grnbutton recipe-jump-button">Create an Account</button>
+            <br>
+    </form>
+
+    <a href="/login_page">Return To Login</a>
+        </center>
+</div>
 
 {% endblock body %}
 
-
-<!-- <form action="/createacct" method="POST">
-
-    <p>First name  <input type="text" name="create-fname"></p>
-    <p>Last name  <input type="text" name="create-lname"></p>
-    <p>Email address <input type="text" name="create-email"></p>
-    <p>Username  <input type="text" name="create-username"></p>
-    <p>password  <input type="password" name="create-password"></p>
-    <p><input type="submit"></p>
-</form> -->

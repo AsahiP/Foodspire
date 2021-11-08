@@ -5,30 +5,6 @@
 <style>
 
 
-ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-color: #333;
-}
-
-li {
-  float: right;
-}
-
-li a {
-  display: block;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-}
-
-/* Change the link color to #111 (black) on hover */
-li a:hover {
-  background-color: #111;
-}
 
 #rand-recipe-button {
   background-color: #a1a1a1; /* Green */
@@ -73,107 +49,141 @@ background-color: #a1a1a1; /* Green */
     outline-offset: -20px;
 }
 
-#div-text{
-    margin: 40px 20px;
-    padding: 60px 20px;
-    border-style: solid;
-    border-width: 2px;
-    border-color: white;
-}
 
 #float-child{
     flex: 1;
-    border: 2px solid yellow;
+    /* border: 2px solid yellow; */
     margin-right: 5px;
     margin-left:5px;
     text-align:center;
-    font-weight: bold;
+    /* font-weight: bold; */
+    height: 150px;
+    padding-bottom: 50px;
+    font-family: 'Gill Sans', sans-serif;
     /* text-shadow: 2px 2px 2px black; */
 
 }
 
 #float-parent{
     display: flex;
-    border: 5px solid green;
+    /* border: 5px solid green; */
     margin: 0px 25px 30px 20px;
     
 }
 
 body{
-    background-image: url('/static/dashbackground2.jpeg');
+    background-image: url('/static/images/emptyplate.jpg');
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+
+p {
+  font-size: 30px;
+  color: black;
+  /* font-style: bold; */
+  text-shadow: 1px 1px 1px #edead0;
+}
+
+.scroll {
+            display: block;
+            border: 0px solid red;
+            padding: 5px;
+            margin-top: 5px;
+            width: 100%;
+            height: 100px;
+            overflow-y: auto;
+        }
 
 </style>
 {% endblock head %}
 
 {% block body %}
 <body>
-  <ul>
-    <li><a href="/account_info">Account</a></li>
-    <li><a href="/logout">Logout</a></li>
-    <li style="float:left"><a class="active" href="#about">Foodspire</a></li>
+
+  <ul class="nav-bar">
+    <li class="nav-bar"><a href="/logout">Logout</a></li>
+    <li class="nav-bar"><a href="/account_info">Account</a></li>
+    <li class="nav-bar"><a href="/questions">Questionnaire</a></li>
+    <li class="nav-bar"><a href="/favorites">Favorites</a></li>
+    <li class="nav-bar" style="float:left"><a class="active" href="/">Foodspire</a></li>
   </ul>
 
 
 
+
     <marquee behavior="scroll" direction="left" loop="infinite">
-        <img src="/static/food3.jpeg" width="185" height="200">
-        <img src="/static/food2.jpeg" width="185" height="200">
-        <img src="/static/food1.jpeg" width="185" height="200">
-        <img src="/static/food4.jpeg" width="185" height="200">
-        <img src="/static/food6.jpeg" width="185" height="200">
-        <img src="/static/food7.jpeg" width="185" height="200">
-        <img src="/static/food8.jpeg" width="185" height="200">
-        <img src="/static/food9.jpeg" width="185" height="200">
-        <img src="/static/food10.jpeg" width="185" height="200">
-        <img src="/static/food12.jpeg" width="185" height="200">
-        <img src="/static/food13.jpeg" width="185" height="200">
-        <img src="/static/food14.jpeg" width="185" height="200">
-        <img src="/static/food15.jpeg" width="185" height="200">
-        <img src="/static/food16.jpeg" width="185" height="200">
-        <img src="/static/food17.jpeg" width="185" height="200">
+        <img src="/static/images/food3.jpeg" width="185" height="200">
+        <img src="/static/images/food2.jpeg" width="185" height="200">
+        <img src="/static/images/food1.jpeg" width="185" height="200">
+        <img src="/static/images/food4.jpeg" width="185" height="200">
+        <img src="/static/images/food6.jpeg" width="185" height="200">
+        <img src="/static/images/food7.jpeg" width="185" height="200">
+        <img src="/static/images/food8.jpeg" width="185" height="200">
+        <img src="/static/images/food9.jpeg" width="185" height="200">
+        <img src="/static/images/food10.jpeg" width="185" height="200">
+        <img src="/static/images/food12.jpeg" width="185" height="200">
+        <img src="/static/images/food13.jpeg" width="185" height="200">
+        <img src="/static/images/food14.jpeg" width="185" height="200">
+        <img src="/static/images/food15.jpeg" width="185" height="200">
+        <img src="/static/images/food16.jpeg" width="185" height="200">
+        <img src="/static/images/food17.jpeg" width="185" height="200">
     
     </marquee>
 
     <div id="opaque-div">
-        <h1 style="padding-top:30px;">Welcome to your dashboard {{session_user}}</h1>
+
+          <h1 style="padding:20px 20px 0px 20px;">Welcome to your dashboard {{session_user}}</h1>
 
         <div id="float-parent">
+
             <div id="float-child" style="float:right;">
-                <p>Fill out a questionnaire to see what kind of recipes</p>
-                <p>best suit what you are looking for</p>
 
-                <form action="/questions">
-                    <input type="submit" name="questionnaire-button" id="navigation-button" value="What recipe would you like?">
-                </form>
+              <form action="/questions">
+                <input type="submit" name="questionnaire-button" class="btn grnbutton recipe-jump-button" value="What recipe would you like?">
+              </form>
+                <p>Fill out a questionnaire to see what 
 
+                <br>kind of recipes best suit what you are looking for</p>
             </div>
 
-            <div id="float-child" style="float:left;" >
-                <p>Take a look at your saved recipes</p>
 
-                <form action="/favorites">
-                    <input type="submit" name="favorite-button" id="navigation-button" value="Favorites">
-                </form>
+            <div id="float-child" style="float:right;">
 
-            </div> 
+              <form action="/generate_rand_recipe.json">
+                <input type="submit" id="wildcard-recipe-button" name="questionnaire-button" class="btn grnbutton recipe-jump-button" value="Wildcard recipe!">
+              </form>
+             
+
+              
+                <div class="scroll">
+
+                    <p id="wildcard-button-title"></p>
+                    <ul id="wildcard-button-ingredients"></ul>
+                    <ol id="wildcard-button-directions"></ol>
+                   
+                    <p id="add-to-fav-btn"></p>
+                 
+                    
+
+                </div>
+            </div>
+
         </div>
-    </div>
+      </div>
 
     <marquee behavior="scroll" direction="right" loop="infinite">
-    <img src="/static/food18.jpeg" width="185" height="200">
-    <img src="/static/food19.jpeg" width="185" height="200">
-    <img src="/static/food20.jpeg" width="185" height="200">
-    <img src="/static/food21.jpeg" width="185" height="200">
-    <img src="/static/food22.jpeg" width="185" height="200">
-    <img src="/static/food24.jpeg" width="185" height="200">
-    <img src="/static/food25.jpeg" width="185" height="200">
-    <img src="/static/food29.jpeg" width="185" height="200">
-    <img src="/static/food30.jpeg" width="185" height="200">
-    <img src="/static/food31.jpeg" width="185" height="200">
-    <img src="/static/food32.jpeg" width="185" height="200">
+    <img src="/static/images/food18.jpeg" width="185" height="200">
+    <img src="/static/images/food19.jpeg" width="185" height="200">
+    <img src="/static/images/food20.jpeg" width="185" height="200">
+    <img src="/static/images/food21.jpeg" width="185" height="200">
+    <img src="/static/images/food22.jpeg" width="185" height="200">
+    <img src="/static/images/food24.jpeg" width="185" height="200">
+    <img src="/static/images/food25.jpeg" width="185" height="200">
+    <img src="/static/images/food29.jpeg" width="185" height="200">
+    <img src="/static/images/food30.jpeg" width="185" height="200">
+    <img src="/static/images/food31.jpeg" width="185" height="200">
+    <img src="/static/images/food32.jpeg" width="185" height="200">
 
 
     </marquee>
@@ -182,47 +192,6 @@ body{
 {% endblock body %}
 
 
-<!-- <form action="/questions">
-    <input type="submit" name="questionnaire-button" id="questionnaire-button" value="What recipe would you like?">
-    </form> -->
-    
-
-<!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/">Foodspire</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-item nav-link active" href="/questions">Questionnaire<span class="sr-only">(current)</span></a>
-        <a class="nav-item nav-link" href="/favorites">Favorites</a>
-        <a class="nav-item nav-link" href="/account_info">Account</a>
-       
-      </div>
-    </div>
-  </nav> -->
-<!-- 
-  <br>
-  <button id="rand-recipe-button">Random Button</button>
-  <input type="submit" id="rand-recipe-button" value="Get a random recipe">
-
-  <b><p id="recipe-button-title"></p></b>
-  <ul id="recipe-button-ingredients"></ul>
-  <ol id="recipe-button-directions"></ol> -->
-
-
-<!-- 
-  <div id="float-child" style="float:right;">
-    <p>Fill out a questionnaire to see what kind of recipes</p>
-    <p>best suit what you are looking for</p>
-    <form action="/questions">
-        <input type="submit" name="questionnaire-button" id="navigation-button" value="What recipe would you like?">
-    </form>
-</div>
-
-<div id="float-child" style="float:left;" >
-    <p>Take a look at your saved recipes</p>
-    <form action="/favorites">
-        <input type="submit" name="favorite-button" id="navigation-button" value="Favorites">
-    </form>
-</div> -->
+<!-- <form action="/add_wildcard_to_fav" method="POST">
+  <button class="btn grnbutton recipe-jump-button" id="add-to-fav-btn" type="submit">Add To Recipe Book</button>
+</form> -->

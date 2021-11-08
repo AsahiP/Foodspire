@@ -2,87 +2,155 @@
 {% extends 'base.html' %}
 {% block title %}Questions{% endblock title %}
 
-{% block head %}<h1>Questions!!!!!!!!!</h1>{% endblock head %}
+{% block head %}
+<style>
+
+
+p {
+  font-style: bold;
+}
+
+#parent-div {
+    background-color: #FFD977;
+    margin: 0 auto; 
+    width:700px;
+}
+
+#baby-div { 
+  background-color: #FAF9F6;
+    margin: 0 auto; 
+    width:400px;
+}
+#photo{
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+}
+</style>
+
+{% endblock head %}
 
 {% block body %}
-<form action="/questions_answers", method="POST">
 
+<body style="background-color: white">
+  
+
+    <ul class="nav-bar">
+      <li class="nav-bar"><a href="/logout">Logout</a></li>
+      <li class="nav-bar"><a href="/account_info">Account</a></li>
+      <li class="nav-bar"><a href="/favorites">Favorites</a></li>
+      <li class="nav-bar"><a href="/dashboard">Dashboard</a></li>
+      <li class="nav-bar" style="float:left"><a class="active" href="/">Foodspire</a></li>
+    </ul>
+
+
+    <img id="photo" src="/static/images/recipebook5.jpg">
 
     
-    <p>Choose dietary preference:</p>
+    <div id="parent-div" style="font-family: Gill Sans, sans-serif; text-align: center; font-size: 20px;">
 
-        <label for="vegetarian">vegetarian</label>
-        <input type="checkbox" name="dietary-pref" value='Vegetarian'>
-        <br>
-        <label for="vegan">vegan</label>
-        <input type="checkbox" name="dietary-pref" value='Vegan'>
-        <br>
-        <label for="pescatarian">pescatarian</label>
-        <input type="checkbox" name="dietary-pref" value='Pescatarian'>
-        <br>
-        <label for="paleo">paleo</label>
-        <input type="checkbox" name="dietary-pref" value='Paleo'>
-        <br>
-    
-    <p>Choose a meal type:</p>
+      <div id="baby-div">
 
-        <label for="breakfast">breakfast</label>
-        <input type="checkbox" name="dietary-pref" value='Breakfast'>
-        <br>
-        <label for="lunch">lunch</label>
-        <input type="checkbox" name="dietary-pref" value='Lunch'>
-        <br>
-        <label for="dinner">dinner</label>
-        <input type="checkbox" name="dietary-pref" value='Dinner'>
-        <br>
-        <label for="dessert">dessert</label>
-        <input type="checkbox" name="dietary-pref" value='Dessert'>
-        <br>
-        <label for="Picnic">Picnic</label>
-        <input type="checkbox" name="dietary-pref" value='Picnic'>
-        <br>
+        <h1 style="text-shadow: 2px 2px 3px rgb(122, 118, 118);">Questionnaire</h1>
+      
+          <p>Tip: choose up to three options. 
+            <br>
+            All of your preferences are taken into account. 
+            <br>
+            The more preferences you choose, the less likely you are to find a recipe you want.
+          </p>
 
+          <p>Choose dietary preference:</p>
+          <form action="/recipe_answers", method="POST">
+          
+            <label for="vegetarian">Vegetarian</label>
+            <input type="checkbox" name="dietary-pref" value='Vegetarian'>
+            <br>
+            <label for="vegan">Vegan</label>
+            <input type="checkbox" name="dietary-pref" value='Vegan'>
+            <br>
+            <label for="pescatarian">Pescatarian</label>
+            <input type="checkbox" name="dietary-pref" value='Pescatarian'>
+            <br>
+            <label for="paleo">Paleo</label>
+            <input type="checkbox" name="dietary-pref" value='Paleo'>
+            <br>
 
-    <p>Choose ingredients:</p>
-    <label for="Meat">Meat</label>
-    <input type="checkbox" name="dietary-pref" value='Meat'>
-    <br>
-    <label for="Chocolate">Chocolate</label>
-    <input type="checkbox" name="dietary-pref" value='Chocolate'>
-    <br>
-    <label for="Cauliflower">Cauliflower</label>
-    <input type="checkbox" name="dietary-pref" value='Cauliflower'>
-    <br>
-    <label for="Persimmon">Persimmon</label>
-    <input type="checkbox" name="dietary-pref" value='Persimmon'>
-    <br>
-    <label for="Egg">Egg</label>
-    <input type="checkbox" name="dietary-pref" value='Egg'>
-    <br>
-    <label for="Cucumber">Cucumber</label>
-    <input type="checkbox" name="dietary-pref" value='Cucumber'>
-    <br>
+          <p>Choose a meal type:</p>
+
+            <label for="breakfast">Breakfast</label>
+            <input type="checkbox" name="dietary-pref" value='Breakfast'>
+            <br>
+            <label for="lunch">Lunch</label>
+            <input type="checkbox" name="dietary-pref" value='Lunch'>
+            <br>
+            <label for="dinner">Dinner</label>
+            <input type="checkbox" name="dietary-pref" value='Dinner'>
+            <br>
+            <label for="dessert">Dessert</label>
+            <input type="checkbox" name="dietary-pref" value='Dessert'>
+            <br>
+            <label for="Picnic">Picnic</label>
+            <input type="checkbox" name="dietary-pref" value='Picnic'>
+            <br>
 
 
-    <p>Additional preferences:</p>
+          <p>Choose ingredients:</p>
 
-        <label for="salad">salad</label>
-        <input type="checkbox" name="dietary-pref" value='Salad'>
-        <br>
-        <label for="side">side dish</label>
-        <input type="checkbox" name="dietary-pref" value='Side'>
-        <br>
-        <label for="kid-friendly">kid-friendly</label>
-        <input type="checkbox" name="dietary-pref" value='Kid-Friendly'>
-        <br>
-        <label for="Drinks">Drinks</label>
-        <input type="checkbox" name="dietary-pref" value='Drinks'>
-        <br>
-        <label for="Smoothie">Smoothie</label>
-        <input type="checkbox" name="dietary-pref" value='Smoothie'>
-        <br><br>
-        <input type="submit" value="Tell Me What to Make!">
-    
-</form>
+            <label for="Meat">Meat</label>
+            <input type="checkbox" name="dietary-pref" value='Meat'>
+            <br>
+            <label for="Chocolate">Chocolate</label>
+            <input type="checkbox" name="dietary-pref" value='Chocolate'>
+            <br>
+            <label for="Cauliflower">Cauliflower</label>
+            <input type="checkbox" name="dietary-pref" value='Cauliflower'>
+            <br>
+            <label for="Persimmon">Persimmon</label>
+            <input type="checkbox" name="dietary-pref" value='Persimmon'>
+            <br>
+            <label for="Egg">Egg</label>
+            <input type="checkbox" name="dietary-pref" value='Egg'>
+            <br>
+            <label for="Cucumber">Cucumber</label>
+            <input type="checkbox" name="dietary-pref" value='Cucumber'>
+            <br>
+
+
+          <p>Additional preferences:</p>
+
+            <label for="salad">Salad</label>
+            <input type="checkbox" name="dietary-pref" value='Salad'>
+            <br>
+            <label for="side">Side Dish</label>
+            <input type="checkbox" name="dietary-pref" value='Side'>
+            <br>
+            <label for="kid-friendly">Kid-friendly</label>
+            <input type="checkbox" name="dietary-pref" value='Kid-Friendly'>
+            <br>
+            <label for="Drinks">Drinks</label>
+            <input type="checkbox" name="dietary-pref" value='Drinks'>
+            <br>
+            <label for="Smoothie">Smoothie</label>
+            <input type="checkbox" name="dietary-pref" value='Smoothie'>
+            <br><br>
+        
+          <input type="submit" id="show-me-recipes-btn" name="light-grn-button" class="btn grnbutton recipe-jump-button" value="Show me some recipes!">
+        </form>
+
+      </div>
+      
+    </div>
+
+  </form>
+</body>
 
 {% endblock body %}
+
+<!-- <input type="submit" value="Tell Me What to Make!"> -->

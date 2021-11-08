@@ -2,29 +2,58 @@
 
 {% extends 'base.html' %}
 {% block title %}Account Login/Create{% endblock title %}
-{% block head %}{% endblock head %}
+{% block head %}
+
+<style>
+
+#login-div {
+    display:block;
+    background: #FAF9F6;
+    margin: auto;
+    /* position: absolute; */
+    text-align:center;
+    outline: solid 2px #ffd977;
+    outline-offset: -30px;
+    padding: 80px;
+}
+
+body{
+    background-image: url('/static/images/food1.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+</style>
+
+{% endblock head %}
 
 {% block body %}
-<h1>LOGIN</h1>
 
+<div id="login-div">
 
-<form action="/login_form" method="POST">
-    {{ form.hidden_tag() }}
-    {{ form.username() }}
-    {{ form.password() }}
-    {{ form.submit() }}
-</form>
+    <h1>LOGIN TO YOUR ACCOUNT</h1>
 
-<a href="/register_user">Create an account</a>
+    <form action="/login_form" method="POST">
+
+        {{ form.hidden_tag() }}
+        {{ form.username() }}
+        <br>
+        {{ form.password() }}
+        <br>
+        <button class="btn grnbutton recipe-jump-button">Login</button>
+
+    </form>
+    <br>
+    <br>
+    <form action="/register_user">
+       
+        <center>
+            <button class="btn grnbutton recipe-jump-button">Create an Account</button>
+        </center>
+    
+    </form>
+</div>
 
 
 {% endblock body %}
 
-<!-- {{ form.hidden_tag() }} -->
-
-<!-- <form action="/login" method="POST">
-
-    <p>Username  <input type="text" name="username"></p>
-    <p>password  <input type="password" name="password"></p>
-    <p><input type="submit"></p>
-</form> -->
