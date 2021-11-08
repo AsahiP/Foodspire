@@ -76,9 +76,9 @@ You have one of two options for the first step:
 
 2. Set up a virtual environment
    <br/> *2a. Open the terminal and desired directory to run the apps server in. In the terminal type:
-        *2b. virtualenv env
-        *2c. source env/bin/activate
-        *2d. pip3 install -r requirements.txt
+   <br/> *2b. virtualenv env
+    <br/> *2c. source env/bin/activate
+    <br/> *2d. pip3 install -r requirements.txt
     You should see an indicator to the left or your command line that displays you are 
     in the virtual environment (ie. (env))
     To exit the virtual environment, use keys Ctrl + C 
@@ -101,9 +101,9 @@ You have one of two options for the first step:
 
 
 6. Enter either of these into the address bar:
-    *6a. The URL localhost:5000
+    <br/> 6a. The URL localhost:5000
 
-    *6b. The port number displayed in the terminal when you run the server 
+    <br/> 6b. The port number displayed in the terminal when you run the server 
     in the previous step. It would look similar to this:
         Running on http://127/0/0/1:5000/ 
 
