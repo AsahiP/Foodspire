@@ -15,7 +15,7 @@
 3. Key learning points
 
 
-
+</br>
 ### OVERVIEW
 
 Foodspire is a full-stack web application intended to help the user find recipes based on a handful of culinary prefences. Using check-box questionnaire, the database containing recipe information returns recipes that align with all of those preferences. The user has the ability to save any recipes for later references. 
@@ -47,7 +47,7 @@ The Preferences Questionnaire and the Favorite Recipes page
 
 
 
-
+<br/>
 ### INSTALLATION INSTRUCTIONS
 
 1. This app has come with two files of .json data located in the /data directory.
@@ -119,7 +119,7 @@ can quit the server and run the command in the same terminal.
 To quit the database, press Ctrl-C
 
 
-
+</br>
 ### KEY LEARNING POINTS
 
 1. Be aware how information is formatted when using a dataset
