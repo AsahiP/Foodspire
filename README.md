@@ -1,11 +1,12 @@
-img[src*="#index"]{
+<!-- img[src*="#index"]{
     width: 150px;
     height: 100ps;
 }
 
-![index of foodspire website](foodspire_index.png#index "The homepage for Foodspire")
+![index of foodspire website](foodspire_index.png#index "The homepage for Foodspire") -->
 
-
+<img src="/media/2018/08/kitten.jpg" alt="index of Foodspire Webapp"
+	title="Homepage for Foodspire" width="150" height="100" />
 
 
 
