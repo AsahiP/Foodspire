@@ -20,6 +20,18 @@
 
 Foodspire is a full-stack web application intended to help the user find recipes based on a handful of culinary prefences. Using check-box questionnaire, the database containing recipe information returns recipes that align with all of those preferences. The user has the ability to save any recipes for later references. 
 
+#### Technologies used:
+    - Javascript
+    - jQuery
+    - AJAX
+    - Python
+    - Flask
+    - Jinja2
+    - HTML5
+    - CSS  
+    - Kaggle API dataset
+
+
 #### The questionnaire to sort user preferences
 <img align="left" src="foodspire_questionnaire.png" alt="Questionnaire from Foodspire Webapp"
 	title="Preferences Questionnaire for Foodspire" width="265" height="360"/>
@@ -32,16 +44,7 @@ Foodspire is a full-stack web application intended to help the user find recipes
 
 
 
-#### Technologies used:
-    - Javascript
-    - jQuery
-    - AJAX
-    - Python
-    - Flask
-    - Jinja2
-    - HTML5
-    - CSS  
-    - Kaggle API dataset
+
 
 
 
