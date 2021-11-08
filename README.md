@@ -5,7 +5,7 @@
 
 
 
-<center><h1>Foodspire</h1></center>
+<h1 align="center">Foodspire</h1>
 
 
 ## Table Of Contents
