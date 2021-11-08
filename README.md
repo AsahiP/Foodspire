@@ -34,7 +34,7 @@ Foodspire is a full-stack web application intended to help the user find recipes
 
 
 <img src="foodspire_questionnaire.png" alt="Questionnaire from Foodspire Webapp"
-	title="Preferences Questionnaire for Foodspire" width="270" height="360"/> <img src="foodspire_fav_example.png" alt="Snippet of Favorite Recipes from Foodspire Webapp"
+	title="Preferences Questionnaire for Foodspire" width="275" height="360"/> <img src="foodspire_fav_example.png" alt="Snippet of Favorite Recipes from Foodspire Webapp"
 	title="Favorite Recipe" width="500" height="360"/>
 
 The Preferences Questionnaire and the Favorite Recipes page
