@@ -5,7 +5,7 @@
 
 
 
-# :-: Foodspire
+<center><h1>Foodspire</h1></center>
 
 
 ## Table Of Contents
