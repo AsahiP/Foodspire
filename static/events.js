@@ -3,7 +3,7 @@
 
 'use strict';
 
-// only returns/displays last response (directions)
+
 function showRandRecipe(evt) {
     evt.preventDefault();
     console.log("executing showRandRecipe");
@@ -11,13 +11,15 @@ function showRandRecipe(evt) {
     $.get('/generate_rand_recipe.json', response => {
         console.log("executing $.get('/generate_rand_recipe.json' ")
 
+        
         $('#wildcard-button-title').html(response.title);
         console.log(`recipe title = ${response.title}`)
 
-
+       
         for (const ingredient of response.ingredients){
             $('#wildcard-button-ingredients').append(`<li>${ingredient}</li>`);
         }
+        
         
         for (const direction of response.directions){
             $('#wildcard-button-directions').append(`<li>${direction}</li>`);
@@ -27,7 +29,7 @@ function showRandRecipe(evt) {
         <button class="btn grnbutton recipe-jump-button" id="add-to-fav-btn" type="submit">Add To Recipe Book</button>
       </form> `);
         
-
+        
     });
 }
 
