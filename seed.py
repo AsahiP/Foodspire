@@ -2,7 +2,7 @@
 
 import os
 import json
-import requests
+# import requests
 
 import crud 
 import model 
@@ -22,11 +22,14 @@ model.db.create_all()
 print("*********")
 print("created db from model")
 
-crud.create_user('Mona', 'Bones', 'iamadog@aol.com', 'immona', 'bones4me')
-crud.create_user('Testfname', 'Testlname', 'test@test.com', 'TestUser', 'TestPass!')
+crud.create_user('Mona', 'Bones', 'iamadog@aol.com', 'immona', 'bones4me') #create a test user
+crud.create_user('Testfname', 'Testlname', 'test@test.com', 'TestUser', 'TestPass!') #create a test user
+
+#test user for creating an account:
+# test2, test22, test222, test2@test.com, Test22
 
 
-with open('secret/full_recipes.json') as f:
+with open('secret/five_test_recipes.json') as f:
     recipe_data = json.loads(f.read())
 #debug history for full_recipes.json in /secret/debug.txt
 

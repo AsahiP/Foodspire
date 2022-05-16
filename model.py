@@ -21,7 +21,7 @@ class User(db.Model, UserMixin):
 
     recipes = db.relationship('Recipe', secondary='fav_recipes', backref='users')
 
-    # add a get_id() function in order to override the default properties of get_id() under the User class in the models.py file where your database schema is defined.
+    # add a get_id() function in order to override the default properties of get_id() under the User class in the models.py file where database schema is defined.
     def get_id(self):
         return(self.user_id)
 

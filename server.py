@@ -56,26 +56,60 @@ def load_business_user(id):
 class RegisterForm(FlaskForm):
     """Register user form."""
 
+    
+    print("execute class RegisterForm(FlaskForm")
+    
+    
     username = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
+
+    
+    print("111")
+    
     
     fname = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "First name"})
 
+    
+    print("222")
+    
+
     lname = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Last name"})
+
+    
+    print("333")
+    
 
     email = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "E-mail address"})
 
+    
+    print("444")
+    
+
     password = PasswordField(validators=[InputRequired(), Length(
         min=4, max=20)], render_kw={"placeholder": "Password"})
+    
+    
+    print("555")
+    
 
     submit = SubmitField("Register")
 
+    
+    print("666")
+    
 
     def validate_username(self, username):
         existing_username_obj = User.query.filter_by(username=username.data).first()
+    
+        
+        print("777")
+        
+
 
         if existing_username_obj:
             raise ValidationError(
                 "That username already exists. Please choose a different one.")
+
+        
 
 
 class LoginForm(FlaskForm):
@@ -181,7 +215,15 @@ def show_user_registration():
     print("route /register_user- validate username/password")
     print("+"*70)
 
+    
+    print("before regform")
+    
+    
     regform = RegisterForm()
+
+    
+    print("after regform")
+    
 
 
     return render_template("registeracct.html", regform=regform)
@@ -189,7 +231,7 @@ def show_user_registration():
 
 
 
-@app.route("/register_user_form", methods=["POST"])
+@app.route("/register_user_form", methods=["POST", "GET"])
 @login_required
 def handle_user_registration():
     """process user registration inputs"""
@@ -202,14 +244,25 @@ def handle_user_registration():
 
     check_user = crud.get_user_by_email(email) 
     if request.method=="POST":
+        
+        print("if request.method == POST ")
+        
 
         if check_user:
+            
+            print("if check_user")
+            
+
             flash("Email address already exists to another user.")
             print("return redirect url_for handle_user_registration")
             return redirect("/register_user")
 
 
         elif regform.validate_on_submit():
+            
+            print("elif regform.validate_on_submit()")
+            
+
             hashed_password = bcrypt.generate_password_hash(regform.password.data).decode('utf-8')
             print(hashed_password)
             new_user = crud.create_user(regform.fname.data,
@@ -221,8 +274,17 @@ def handle_user_registration():
             print("session username:", session['username'])
             print ("redirected to dash...")
 
+            
+            print("redirect(url_for('show_dashboard'))")
+            
+            
             return redirect(url_for('show_dashboard'))
             # return redirect("/dashboard")
+
+    
+    
+    print("return render_template('registeracct.html', regform=regform)")
+    
 
     return render_template('registeracct.html', regform=regform)
 
@@ -289,11 +351,11 @@ def generate_rand_recipe_button():
     directions= rand_recipe.directions[2:-2]
 
 
-    ingredients = ingredients.split('","') #returns back a list
+    ingredients = ingredients.split('","') #returns a list
     directions = directions.split('","')
 
     session['rand_recipe'] = rand_recipe.recipe_title
-    # print("S"*50)
+    # 
     # print(session['rand_recipe'])
     # session['recipe_dict']
     recipe_dict = {
