@@ -209,14 +209,13 @@ def get_recipe_by_id(wanted_ids):
 
 
     qrd_recipes_from_id_lst = []
-    print("1818181811818181818181181818118181811818")
+
     for id in list(wanted_ids):
         qrd_recipes_from_id = Recipe.query.filter_by(recipe_id=id).first()
-        print("achieved qrd_recipes_from_id")
-        print(f"\nqrd_recipes_from_id:   {qrd_recipes_from_id}") 
+        # print("achieved qrd_recipes_from_id")
+        # print(f"\nqrd_recipes_from_id:   {qrd_recipes_from_id}") 
         qrd_recipes_from_id_lst.append(qrd_recipes_from_id)
-    print("\n","%"*50)
-    print("get_recipe_by_id return statement")
+
     print(qrd_recipes_from_id_lst)
     return qrd_recipes_from_id_lst
 

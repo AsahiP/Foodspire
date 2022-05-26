@@ -13,16 +13,29 @@ function showRandRecipe(evt) {
 
         
         $('#wildcard-button-title').html(response.title);
-        console.log(`recipe title = ${response.title}`)
+        console.log(`recipe title = ${response.title}`);
 
-       
+    //    how to append and change html?????
+        // const html = [];
+        // for (const ingredient of response.ingredients){
+        //     $('#wildcard-button-ingredients').append(`<li>${ingredient}</li>`);
+        //     // $('#wildcard-button-ingredients').html(`<li>${ingredient}</li>`); lists last ingredient
+        //     console.log(`recipe ingredients = ${response.ingredients}`)
+        // }
+        const recipe_ingredient_text = [];
         for (const ingredient of response.ingredients){
-            $('#wildcard-button-ingredients').append(`<li>${ingredient}</li>`);
+
+            recipe_ingredient_text.push(`<li>${ingredient}</li>`);
+            $('#wildcard-button-ingredients').html(recipe_ingredient_text);
+            // $('#wildcard-button-ingredients').html(`<li>${ingredient}</li>`); lists last ingredient
+            console.log(`recipe ingredients = ${response.ingredients}`)
         }
-        
-        
+
+        const recipe_direction_text = [];
         for (const direction of response.directions){
-            $('#wildcard-button-directions').append(`<li>${direction}</li>`);
+            recipe_direction_text.push(`<li>${direction}</li>`);
+            $('#wildcard-button-directions').html(recipe_direction_text);
+            console.log(`recipe directions = ${response.directions}`)
             }
         
         $('#add-to-fav-btn').html(`<form action="/add_wildcard_to_fav" method="POST">
