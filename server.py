@@ -63,47 +63,30 @@ class RegisterForm(FlaskForm):
     username = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
 
     
-    print("111")
-    
     
     fname = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "First name"})
 
-    
-    print("222")
-    
+
 
     lname = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Last name"})
 
-    
-    print("333")
-    
+
 
     email = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "E-mail address"})
 
-    
-    print("444")
     
 
     password = PasswordField(validators=[InputRequired(), Length(
         min=4, max=20)], render_kw={"placeholder": "Password"})
     
-    
-    print("555")
-    
+
 
     submit = SubmitField("Register")
-
-    
-    print("666")
     
 
     def validate_username(self, username):
         existing_username_obj = User.query.filter_by(username=username.data).first()
-    
         
-        print("777")
-        
-
 
         if existing_username_obj:
             raise ValidationError(
@@ -149,7 +132,7 @@ def show_login_page():
     print("+"*70)
 
     form = LoginForm()
-
+    
     return render_template("login.html", form=form)
 
 
@@ -216,14 +199,9 @@ def show_user_registration():
     print("+"*70)
 
     
-    print("before regform")
-    
     
     regform = RegisterForm()
 
-    
-    print("after regform")
-    
 
 
     return render_template("registeracct.html", regform=regform)
@@ -344,8 +322,10 @@ def generate_rand_recipe_button():
     rand_lst = []
 
     rand_lst.append(rand_num) #would refactoring be creating another crud that doesnt need list?
+    print("+"*70)
+    print(rand_lst)
     rand_recipe = crud.get_recipe_by_id(rand_lst)[0] #needs list passed in, (rand_lst)[0] to get int
-
+    
     title= rand_recipe.recipe_title
     ingredients= rand_recipe.ingredients_list[2:-2] 
     directions= rand_recipe.directions[2:-2]
@@ -355,7 +335,7 @@ def generate_rand_recipe_button():
     directions = directions.split('","')
 
     session['rand_recipe'] = rand_recipe.recipe_title
-    # 
+    
     # print(session['rand_recipe'])
     # session['recipe_dict']
     recipe_dict = {
@@ -452,11 +432,11 @@ def get_favrecipes():
 
 
     if request.method == "POST":
-        print("^"*50)
-        print("POST request /favorites")
+        # print("^"*50)
+        # print("POST request /favorites")
         chosen_recipe_titles = request.form.getlist("chosen-recipe-title")
-        print("-"*50)
-        print("values (checked boxes) stored in list from html")
+        # print("-"*50)
+        # print("values (checked boxes) stored in list from html")
         print(chosen_recipe_titles)
 
         #loop storing chosen recipes in db fav_recipes
@@ -479,6 +459,7 @@ def get_favrecipes():
     print("-"*50)
     print(f"amt of recipes in recipe_objs_lst:{len(recipe_objs_lst)}")
 
+  
     return render_template("favorites.html", recipe_objs_lst=recipe_objs_lst)
 
 

@@ -104,8 +104,8 @@ def connect_to_db(app):
     """Connect the database to our Flask app."""
 
     app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///foodspire" #configure app: point to db
-    app.config["SQLALCHEMY_ECHO"] = False # lets you know what sequel is running behind scenes
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False # omit warning, depricating soon
+    app.config["SQLALCHEMY_ECHO"] = False # lets you know what sql is running behind scenes
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False # omit warning, depriciating soon
     db.app = app # start/initialize app
     db.init_app(app)
     print("Connected to db!")

@@ -28,9 +28,16 @@ crud.create_user('Testfname', 'Testlname', 'test@test.com', 'TestUser', 'TestPas
 #test user for creating an account:
 # test2, test22, test222, test2@test.com, Test22
 
+###uncomment when seeding five_test_recipes.json, comment out
+###following open()
+# with open('data/five_test_recipes.json') as f:
+#     recipe_data = json.loads(f.read())
 
-with open('secret/five_test_recipes.json') as f:
+###uncomment when seeding full_recipes.json, comment out
+###previous open()
+with open('data/full_recipes.json') as f:
     recipe_data = json.loads(f.read())
+
 #debug history for full_recipes.json in /secret/debug.txt
 
 print("*********")
