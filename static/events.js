@@ -58,6 +58,38 @@ function alertNoRecipes(evt) {
 
     });
 }
+//  HEREHERHEHERHEHREHREHREHREHREHREHREHREHREHREHRERHE
+// trying to create alert message for bad login info
+
+// function alertLoginInfoNoGood(evt) {
+//     evt.preventDefault();
+//     console.log("executing alertLoginInfoNoGood");
+//     $.post('/login_form'), res => {
+//         alert(res.bad_login_msg);
+//     }
+
+// }
+
+// $("#login-button").on('click', alertLoginInfoNoGood)
+// BAD LOGIN
+// $('#login_button').on('click', evt => {
+//     evt.preventDefault();
+//     console.log("bad login text ENGAGE!!!!!!");
+    
+//     // const wrongLoginInput = {
+//     //     wrong_input: $("#")
+//     // }
+//     $.post('/login_form', res => {
+//         alert(res.msg);
+//     });
+// });
+
+function alertBadLogin(evt){
+    evt.preventDefault();
+    console.log("executing alert for bad login")
+    $.post('/login_form'), res => {
+        alert(res.bad_login_msg)}
+}
 
 
 $('.dropbtn').on('click', evt => {
@@ -171,6 +203,8 @@ $('#submit-edit-password-btn').on('click', evt => {
 
     });
 });
+
+
 
 
 

@@ -138,7 +138,7 @@ def show_login_page():
 
 
 
-@app.route("/login_form", methods=['GET', 'POST'])
+@app.route("/login_form", methods=['GET', "POST"])
 def validate_login():
     """contains logic to validate username/pass"""
     print("+"*70)
@@ -149,12 +149,16 @@ def validate_login():
 
     form = LoginForm()
     # import pdb; pdb.set_trace()
-
+    
     print("form.username.data", form.username.data)
+
+    # if request.method == "POST":
+        #FIXEME: this logic is skipped completely... first if statement honored
     if form.validate_on_submit():
         print("if form.validate...")
         user_obj= crud.get_user_by_username(form.username.data)
         print("user_obj", user_obj)
+
         if user_obj:
             print("if user_obj...")
             print("form.password.data", form.password.data)
@@ -175,18 +179,55 @@ def validate_login():
                 print("K"*50)
                 print(f"session username val: {print_session}")
 
-            else:
-                print("bcrypt else...")
-                flash("username or password not recognized.")
-                print('return redirect /login_page')
-                return redirect('/login_page')
+                print("redirect /dashboard")
+                # return redirect(url_for('show_login_page'))
+            
+                return redirect('/dashboard')
 
-        print("return redirect /dashboard")
-        # return redirect(url_for('show_login_page'))
-        return redirect('/dashboard')
+            # else:
+            #     print("bcrypt else...")
+            #     flash("username or password not recognized.")
+            #     print('return redirect /login_page')
+            #     return redirect('/login_page')
+        if user_obj == None:
+            bad_login_dict = {          
+                "code": "Username or password incorrect"
+                }
 
-    print("last return render template login.html")
-    return render_template('login.html', form=form)
+
+            return jsonify(bad_login_dict)
+            # there needs to be separate logic for the jasonify and the redirection
+            # console says redirecting to the last if statment, doesn't aknowledged first if statement, WAIT
+            #doesnt need to acknowledge, if input isn't valid it will be immediately directed that statement
+            # NEW THOUGHT: I cannot access the input for the login form to complete the click even in events.js 
+            # bc of the jinja. 
+
+        
+        # print("bcrypt else...")
+        # flash("username or password not recognized.")
+        # print('return redirect /login_page')
+    # return redirect('/bad_login')
+    # redirect('/bad_login')
+        # bad_login_code = "bad login"
+        # bad_login_message = "Username or password incorrect"
+        # return jsonify({'bad_login_code': bad_login_code, 'bad_login_msg': bad_login_message})
+        print('return redirect /login_page')
+        return redirect('/login_page')
+
+
+    # return render_template('login.html', form=form)
+
+# ###### test different route
+# @app.route('/bad_login', methods=["POST"])
+# def inform_bad_login_attempt():
+    
+#     # form = LoginForm()
+#     bad_login_dict = {
+#     "code": "Username or password incorrect"
+#     }
+    
+    
+#     return jsonify(bad_login_dict)
 
 
 
@@ -260,7 +301,7 @@ def handle_user_registration():
             # return redirect("/dashboard")
 
     
-    
+    print('189'* 10)
     print("return render_template('registeracct.html', regform=regform)")
     
 
@@ -494,9 +535,9 @@ def delete_fav_recipe():
 @login_required
 def show_user_account():
     """show the user account information"""
-    ("+"*70)
-    print("routed to /account- displaying user acct")
-    ("+"*70)
+    print("+"*70)
+    print("routed to /account_info- displaying user acct")
+    print("+"*70)
 
     session_user_obj = crud.get_user_by_user_id(session["_user_id"])
     # session_user_obj = session['user_object']
