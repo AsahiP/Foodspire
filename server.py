@@ -1,7 +1,5 @@
 """Server for an Foodspire: an app that generates recipes based on user preference"""
-print("+"*70)
-print("INITIATING SERVER")
-print("+"*70)
+
 
 import crud, random, os
 from model import User, connect_to_db
@@ -55,39 +53,25 @@ def load_business_user(id):
 
 class RegisterForm(FlaskForm):
     """Register user form."""
-
-    
-    print("execute class RegisterForm(FlaskForm")
-    
     
     username = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
-
-    
     
     fname = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "First name"})
 
-
-
     lname = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Last name"})
 
-
-
     email = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "E-mail address"})
-
-    
 
     password = PasswordField(validators=[InputRequired(), Length(
         min=4, max=20)], render_kw={"placeholder": "Password"})
     
-
-
     submit = SubmitField("Register")
     
 
     def validate_username(self, username):
+
         existing_username_obj = User.query.filter_by(username=username.data).first()
         
-
         if existing_username_obj:
             raise ValidationError(
                 "That username already exists. Please choose a different one.")
@@ -110,12 +94,10 @@ class LoginForm(FlaskForm):
 @app.route("/")
 def show_homepage():
     """Display the homepage"""
-    print("+"*70)
-    print("route to / - displaying homepage")
-    print("+"*70)
 
 
     return render_template("index.html")
+
 
 ####################################################
 ## LOGIN AND USER REGISTRATION
@@ -127,9 +109,6 @@ def show_homepage():
 @app.route("/login_page")
 def show_login_page():
     """Display the login page"""
-    print("+"*70)
-    print("route login_page- displaying login page")
-    print("+"*70)
 
     form = LoginForm()
     
@@ -141,54 +120,25 @@ def show_login_page():
 @app.route("/login_form", methods=['GET', "POST"])
 def validate_login():
     """contains logic to validate username/pass"""
-    print("+"*70)
-    print("route /login_form- validate username/password")
-    print("+"*70)
-
-    # if current_user.is_authenticated:
 
     form = LoginForm()
-    # import pdb; pdb.set_trace()
-    
-    print("form.username.data", form.username.data)
 
-    # if request.method == "POST":
-        #FIXEME: this logic is skipped completely... first if statement honored
+
     if form.validate_on_submit():
-        print("if form.validate...")
         user_obj= crud.get_user_by_username(form.username.data)
-        print("user_obj", user_obj)
 
         if user_obj:
-            print("if user_obj...")
-            print("form.password.data", form.password.data)
-            print("user_obj password", user_obj.password)
-            print("6"*50)
-            print("3"*50)
             check = bcrypt.check_password_hash(user_obj.password, form.password.data) 
-            print("check:", check) 
-            print("?"*50)
+
             
 
             if bcrypt.check_password_hash(user_obj.password, form.password.data):
-                print("G"*50)
-                print("if bcrypt....")
                 login_user(user_obj, remember=True) #
                 session["username"] = form.username.data
                 print_session= session["username"]
-                print("K"*50)
-                print(f"session username val: {print_session}")
-
-                print("redirect /dashboard")
-                # return redirect(url_for('show_login_page'))
             
                 return redirect('/dashboard')
 
-            # else:
-            #     print("bcrypt else...")
-            #     flash("username or password not recognized.")
-            #     print('return redirect /login_page')
-            #     return redirect('/login_page')
         if user_obj == None:
             bad_login_dict = {          
                 "code": "Username or password incorrect"
@@ -196,38 +146,8 @@ def validate_login():
 
 
             return jsonify(bad_login_dict)
-            # there needs to be separate logic for the jasonify and the redirection
-            # console says redirecting to the last if statment, doesn't aknowledged first if statement, WAIT
-            #doesnt need to acknowledge, if input isn't valid it will be immediately directed that statement
-            # NEW THOUGHT: I cannot access the input for the login form to complete the click even in events.js 
-            # bc of the jinja. 
 
-        
-        # print("bcrypt else...")
-        # flash("username or password not recognized.")
-        # print('return redirect /login_page')
-    # return redirect('/bad_login')
-    # redirect('/bad_login')
-        # bad_login_code = "bad login"
-        # bad_login_message = "Username or password incorrect"
-        # return jsonify({'bad_login_code': bad_login_code, 'bad_login_msg': bad_login_message})
-        print('return redirect /login_page')
         return redirect('/login_page')
-
-
-    # return render_template('login.html', form=form)
-
-# ###### test different route
-# @app.route('/bad_login', methods=["POST"])
-# def inform_bad_login_attempt():
-    
-#     # form = LoginForm()
-#     bad_login_dict = {
-#     "code": "Username or password incorrect"
-#     }
-    
-    
-#     return jsonify(bad_login_dict)
 
 
 
@@ -235,15 +155,8 @@ def validate_login():
 @app.route("/register_user")
 def show_user_registration():
     """display the registration page"""
-    print("+"*70)
-    print("route /register_user- validate username/password")
-    print("+"*70)
-
-    
     
     regform = RegisterForm()
-
-
 
     return render_template("registeracct.html", regform=regform)
 
@@ -254,56 +167,28 @@ def show_user_registration():
 @login_required
 def handle_user_registration():
     """process user registration inputs"""
-    print("+"*70)
-    print("route to /register_user_form -process user registration inputs")
-    print("+"*70)
     
     regform = RegisterForm()
     email = regform.email.data
 
     check_user = crud.get_user_by_email(email) 
+
     if request.method=="POST":
-        
-        print("if request.method == POST ")
-        
 
         if check_user:
-            
-            print("if check_user")
-            
-
             flash("Email address already exists to another user.")
-            print("return redirect url_for handle_user_registration")
             return redirect("/register_user")
 
-
         elif regform.validate_on_submit():
-            
-            print("elif regform.validate_on_submit()")
-            
-
             hashed_password = bcrypt.generate_password_hash(regform.password.data).decode('utf-8')
-            print(hashed_password)
             new_user = crud.create_user(regform.fname.data,
                             regform.lname.data,
                             regform.email.data,
                             regform.username.data,
                             regform.password.data)
             session['username']=new_user.username
-            print("session username:", session['username'])
-            print ("redirected to dash...")
-
-            
-            print("redirect(url_for('show_dashboard'))")
-            
             
             return redirect(url_for('show_dashboard'))
-            # return redirect("/dashboard")
-
-    
-    print('189'* 10)
-    print("return render_template('registeracct.html', regform=regform)")
-    
 
     return render_template('registeracct.html', regform=regform)
 
@@ -314,14 +199,10 @@ def handle_user_registration():
 @login_required
 def logout():
     """logout user"""
-    print("+"*70)
-    print("route /logout- logout user, redirect /login")
-    print("+"*70)
+
     logout_user()
     return redirect("/")
 
-
-    # return render_template("registeracct.html")
 
 ##############################################
 ## DASHBOARD/ DASHBOARD PROCESSES
@@ -333,17 +214,10 @@ def logout():
 @login_required
 def show_dashboard():
     """Display user dashboard"""
-    print("+"*70)
-    print("route /dashboard- showing dashboard if user in session, else redirecting to login")
-    print("+"*70)
 
-    print("-"*50)
-    print("session in dashboard:", session)
     if "username" in session:
         # session_user= crud.get_user_by_user_id(session["user_id"])
         session_user = session["username"]
-        print("-"*50)
-        print("session_user:", session_user)
         return render_template("dashboard.html", session_user=session_user)
 
     else: 
@@ -355,17 +229,13 @@ def show_dashboard():
 @app.route("/generate_rand_recipe.json")
 def generate_rand_recipe_button():
     """process generating recipe from recipe button"""
-    print("+"*70)
-    print("route /generate_rand_recipe.json- generate recipe for wildcard button")
-    print("+"*70)
 
     rand_num = random.randint(0,20111)
     rand_lst = []
 
-    rand_lst.append(rand_num) #would refactoring be creating another crud that doesnt need list?
-    print("+"*70)
-    print(rand_lst)
-    rand_recipe = crud.get_recipe_by_id(rand_lst)[0] #needs list passed in, (rand_lst)[0] to get int
+    rand_lst.append(rand_num) 
+
+    rand_recipe = crud.get_recipe_by_id(rand_lst)[0] 
     
     title= rand_recipe.recipe_title
     ingredients= rand_recipe.ingredients_list[2:-2] 
@@ -377,29 +247,19 @@ def generate_rand_recipe_button():
 
     session['rand_recipe'] = rand_recipe.recipe_title
     
-    # print(session['rand_recipe'])
-    # session['recipe_dict']
     recipe_dict = {
         "title": title,
         "ingredients": ingredients,
         "directions": directions
     }
- 
-    # j_dict = jsonify(recipe_dict)
-    # print(f"jsonified recipe_dict: {j_dict}")
 
     return jsonify(recipe_dict)
 
 
 @app.route("/add_wildcard_to_fav", methods=["POST"])
 def add_wildcard_to_fav():
-    print("+"*70)
-    print("route /add_wildcard_to_fav - add wildcard recipe to db")
-    print("+"*70)
 
     wildcard_recipe = session['rand_recipe']
-    print("%"*50)
-    print(wildcard_recipe)
 
     wildcard_recipe_obj= crud.get_recipe_by_title(wildcard_recipe)
     crud.create_fav_recipes(session['_user_id'], wildcard_recipe_obj.recipe_id)
@@ -416,9 +276,6 @@ def add_wildcard_to_fav():
 @login_required
 def show_questions():
     """display the questions page"""
-    ("+"*70)
-    print("routing to questions- show questions page")
-    ("+"*70)
 
     return render_template("questions.html") 
 
@@ -427,21 +284,12 @@ def show_questions():
 @login_required
 def intake_recipe_answers():
     """organizing questions from questions.html info to select recipes from db"""
-    print("+"*70)
-    print("route/recipe_answers- organizing answers to select db recipes")
-    print("+"*70)
     
 
     lst_of_preferences = request.form.getlist("dietary-pref") #test
-    print("-"*50)
-    print(f"lst_of_preferences = {len(lst_of_preferences)}")
-
    
     #get recipe ids exclusively for recipes containing all chosen preferences
     recipes_ids_for_chosen_prefs = crud.get_recipe_ids_based_on_prefs(lst_of_preferences) 
-    print(recipes_ids_for_chosen_prefs)
-    print("-"*50)
-    print("length of recipes_ids_for_chosen_prefs:", len(recipes_ids_for_chosen_prefs))
     recipe_objs = crud.get_recipe_by_id(recipes_ids_for_chosen_prefs)
     
     if len(recipes_ids_for_chosen_prefs) == 0:
@@ -450,12 +298,6 @@ def intake_recipe_answers():
     
 
     return render_template("display_recipes.html", recipe_objs=recipe_objs)
-
-
-
-
-    
-
 
 
 ##############################################
@@ -467,39 +309,21 @@ def intake_recipe_answers():
 @app.route("/favorites", methods=["GET", "POST"])
 @login_required
 def get_favrecipes():
-    ("+"*70)
-    print("route to /favorites- logic storing chosen recipes, displaying previously stored recipes")
-    ("+"*70)
-
 
     if request.method == "POST":
-        # print("^"*50)
-        # print("POST request /favorites")
         chosen_recipe_titles = request.form.getlist("chosen-recipe-title")
-        # print("-"*50)
-        # print("values (checked boxes) stored in list from html")
-        print(chosen_recipe_titles)
 
         #loop storing chosen recipes in db fav_recipes
         for recipe_title in chosen_recipe_titles:
             recipe_obj = crud.get_recipe_by_title(recipe_title)
-            print("-"*50)
-            print(f"crud recipe obj: {recipe_obj}")
             crud.create_fav_recipes(session["_user_id"], recipe_obj.recipe_id)
 
-
-    print("^"*50)
-    print("GET request /favorites")
     favs = crud.get_prev_fav_recipes(session["_user_id"])
     rec_ids = []
     for fav in favs:
         rec_ids.append(fav.recipe_id)
 
     recipe_objs_lst = crud.get_recipe_by_id(rec_ids)
-    
-    print("-"*50)
-    print(f"amt of recipes in recipe_objs_lst:{len(recipe_objs_lst)}")
-
   
     return render_template("favorites.html", recipe_objs_lst=recipe_objs_lst)
 
@@ -508,22 +332,14 @@ def get_favrecipes():
 @app.route("/delete_fav_recipe", methods=["POST"])
 def delete_fav_recipe():
     """Delete a recipe from the saved favorites"""
-    print("+"*70)
-    print("route /delete_fav_recipe- validate username/password")
-    print("+"*70)
+
 
     recipes_to_delete = request.form.getlist("delete-fav-recipe")
-    print("-"*50)
-    print("recipes_to_delete:", recipes_to_delete)
 
     for recipe_title in recipes_to_delete:
         crud.delete_fav_recipe(recipe_title) 
-    # return redirect(url_for(get_favrecipes))
     return redirect("/favorites")
     
-    # return redirect("/favorites")
-
-
 
 ##############################################
 ## USER ACCOUNT/ USER ACCOUNT PROCESSES
@@ -535,12 +351,8 @@ def delete_fav_recipe():
 @login_required
 def show_user_account():
     """show the user account information"""
-    print("+"*70)
-    print("routed to /account_info- displaying user acct")
-    print("+"*70)
 
     session_user_obj = crud.get_user_by_user_id(session["_user_id"])
-    # session_user_obj = session['user_object']
 
     return render_template("user_acct.html", session_user_obj=session_user_obj)
 
@@ -550,9 +362,6 @@ def show_user_account():
 @login_required
 def edit_user_acct():
     """logic to allow user to edit their information in the db"""
-    ("+"*70)
-    print("routed to /edit_account")
-    ("+"*70)
 
     session_user_obj = crud.get_user_by_user_id(session["_user_id"])
 
@@ -560,21 +369,11 @@ def edit_user_acct():
     if request.method == "POST":
         
         new_fname = request.form.get('fname_input')
-        print("-"*50)
-        print("new_fname", new_fname)
         new_lname = request.form.get("lname_input")
-        print("-"*50)
-        print("new_lname", new_lname)
         new_email = request.form.get("email_input")
-        print("-"*50)
-        print("new_email", new_email)
         new_password = request.form.get("password_input")
-        print("-"*50)
-        print("new_password", new_password)
-        
 
         if new_fname!=None:
-            print("started if new_fname")
             if len(new_fname) > 20:
                 result_code = "ERROR"
                 result_text = "Max input is 20 letters. Enter a name with less than 20 letters"
@@ -582,16 +381,11 @@ def edit_user_acct():
                 result_code = "ERROR"
                 result_text = "You did not enter a name"
             else:
-                print("-"*50)
-                print(f"new_fname: {new_fname}")
                 crud.update_user_fname(session_user_obj.user_id, new_fname)                
                 result_code = "Success!"
                 result_text = f"Your first name has been changed to {new_fname}"
-                
     
-
         if new_lname!=None:
-            print("started if new_lname")
             if len(new_lname) > 20:
                 result_code = "ERROR"
                 result_text = "Max input is 20 letters. Enter a name with less than 20 letters"
@@ -599,8 +393,6 @@ def edit_user_acct():
                 result_code = "ERROR"
                 result_text = "You did not enter a name"
             else:
-                print("-"*50)
-                print(f"new_lname: {new_lname}")
                 crud.update_user_lname(session_user_obj.user_id, new_lname)                
                 result_code = "Success!"
                 result_text = f"Your last name has been changed to {new_lname}"
@@ -608,7 +400,6 @@ def edit_user_acct():
         
         
         if new_email!=None:
-            print("started if new_email")
             if len(new_email) > 30:
                 result_code = "ERROR"
                 result_text = "Max input is 30 characters. Enter an e-mail address with less than 30 characters"
@@ -619,8 +410,6 @@ def edit_user_acct():
                 result_code = "ERROR"
                 result_text = "You did not enter an e-mail address"
             else:
-                print("-"*50)
-                print(f"new_email: {new_email}")
                 crud.update_user_email(session_user_obj.user_id, new_email)                
                 result_code = "Success!"
                 result_text = f"Your e-mail address has been changed to {new_email}"
@@ -629,7 +418,6 @@ def edit_user_acct():
         
 
         if new_password!=None:
-            print("started if new_password")
             if len(new_password) > 20:
                 result_code = "ERROR"
                 result_text = "Max input is 20 characters. Enter a password with less than 20 letters"
@@ -637,12 +425,10 @@ def edit_user_acct():
                 result_code = "ERROR"
                 result_text = "You did not enter anything"
             else:
-                print("-"*50)
-                print(f"new_password: {new_password}")
                 crud.update_user_password(session_user_obj.user_id, new_password)                
                 result_code = "Success!"
                 result_text = f"Your password has been sucessfully changed"
-               
+    
 
 
     return jsonify({'code': result_code, 'msg': result_text})
